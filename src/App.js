@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
-import Main from './Pages/Main';
-import Home from './Pages/Home';
-import PublicRoutes from './Routes/PublicRoutes';
+
+import Home from "./pages/Home";
+import PublicRoutes from "./Routes/PublicRoutes";
+import RootLayout from "./layouts/RootLayout";
 
 function App() {
   return (
@@ -10,8 +11,8 @@ function App() {
       <div>
         <Routes>
           {/* Public routes */}
-          <Route path="/" element={<Main/>}>
-            <Route index element={<Home/>} />
+          <Route path="/" element={<RootLayout />}>
+            <Route index element={<Home />} />
             {PublicRoutes.map(({ path, Component }, index) => (
               <Route key={index} path={path} element={<Component />} />
             ))}

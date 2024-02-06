@@ -1,7 +1,5 @@
-import Home from "../Pages/Home";
+import Home from "../pages/Home";
 
-const PublicRoutes =[
-    {path:"",Component:Home}
-]
+const PublicRoutes = [{ path: "", Component: Home }];
 
 export default PublicRoutes;

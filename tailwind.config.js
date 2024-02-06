@@ -1,8 +1,21 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{html,js}"],
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#80b435",
+      },
+      fontFamily: {
+        rubic: ["Rubik", "sans-serif"],
+        oswald: ["Oswald", "sans-serif"],
+        openSans: ["Open Sans", "sans-serif"],
+      },
+      boxShadow: {
+        custom: "0 10px 20px -5px rgba(0, 0, 0, 0.25)",
+      },
+    },
   },
   plugins: [],
-}
+};
