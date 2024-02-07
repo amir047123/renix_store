@@ -16,7 +16,7 @@ const Footer = () => {
       <footer className="w-full text-emerald-200">
         <div className="pt-16 pb-12 text-sm border-b border-emerald-600 bg-[#252932]">
           <div className="container  mx-auto">
-            <div className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-8 lg:grid-cols-12">
               <nav
                 className="col-span-2 md:col-span-4 lg:col-span-3"
                 aria-labelledby="footer-header"
