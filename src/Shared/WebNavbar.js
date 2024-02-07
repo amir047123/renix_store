@@ -25,20 +25,78 @@ const WebNavbar = () => {
     {
       title: "fruits",
       href: "/category/fruits",
+      subCategory: [
+        {
+          title: "sub fruit",
+          href: "/category/sub",
+          nestedCategory: [
+            { title: "nested fruit 77", href: "/category/fruits" },
+            { title: "nested fruit 89", href: "/category/fruits" },
+          ],
+        },
+        {
+          title: "sub fruit 2",
+          href: "/category/fruits",
+          nestedCategory: [
+            { title: "nested fruit 55", href: "/category/fruits" },
+            { title: "nested fruit 56", href: "/category/fruits" },
+          ],
+        },
+        {
+          title: "sub fruit 7",
+          href: "/category/fruits",
+          nestedCategory: [
+            { title: "nested fruit 78", href: "/category/fruits" },
+            { title: "nested fruit 65", href: "/category/fruits" },
+          ],
+        },
+        {
+          title: "sub fruit 3",
+          href: "/category/fruits",
+          nestedCategory: [
+            { title: "nested fruit14", href: "/category/fruits" },
+            { title: "nested fruit 45", href: "/category/fruits" },
+          ],
+        },
+        {
+          title: "sub fruit 4",
+          href: "/category/fruits",
+          nestedCategory: [
+            { title: "nested fruit ", href: "/category/fruits" },
+            { title: "nested fruit 22", href: "/category/fruits" },
+          ],
+        },
+        {
+          title: "sub fruit 5",
+          href: "/category/fruits",
+          nestedCategory: [
+            { title: "nested fruit 1", href: "/category/" },
+            { title: "nested fruit 2", href: "/category/fruits" },
+          ],
+        },
+      ],
     },
 
     {
       title: "salad",
       href: "/category/salad",
+      // subCategory: [
+      //   { title: "salad", href: "/category/salad" },
+      //   { title: "salad", href: "/category/salad" },
+      //   { title: "salad", href: "/category/salad" },
+      //   { title: "salad", href: "/category/salad" },
+      //   { title: "salad", href: "/category/salad" },
+      //   { title: "salad", href: "/category/salad" },
+      // ],
     },
     {
       title: "Juice",
       href: "/category/juice",
     },
-    {
-      title: "Contact us",
-      href: "/contact-us",
-    },
+    // {
+    //   title: "Contact us",
+    //   href: "/contact-us",
+    // },
   ];
   return (
     <header className="fixed w-full">
@@ -63,7 +121,7 @@ const WebNavbar = () => {
         </div>
 
         {/* Navbar */}
-        <nav className="bg-white  px-[30px] flex items-center justify-between">
+        <nav className="bg-white relative px-[30px] flex items-center justify-between">
           <div className="flex items-center ">
             <div className=" pr-6 border-r h-20 flex items-center border-solid border-[#eaeaea] mr-[18px]">
               <img src="/assets/header/logo.png" alt="" />
@@ -72,7 +130,7 @@ const WebNavbar = () => {
               {menuItems.map((item) => (
                 <li
                   key={item.title}
-                  className="font-rubic font-medium uppercase text-sm "
+                  className="font-rubic  font-medium uppercase text-sm  group"
                 >
                   <NavLink
                     to={item.href}
@@ -84,6 +142,45 @@ const WebNavbar = () => {
                   >
                     {item.title}
                   </NavLink>
+                  {/* Sub menu mega menu */}
+
+                  {item?.subCategory && (
+                    <ul
+                      style={{
+                        background: 'url("/assets/header/banner.jpg") white',
+                        backgroundPosition: "right ",
+                        backgroundRepeat: "no-repeat",
+                        transform: "rotateX(90deg)",
+                      }}
+                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat space-y-6 grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6"
+                    >
+                      {item?.subCategory.map((subca) => (
+                        <li className="pb-2" key={subca.title}>
+                          <Link
+                            className="text-textColor font-medium hover:text-primary hover:ml-3 duration-500 transition-all mb-3 inline-block uppercase text-sm tracking-[0.5px] "
+                            to={subca.href}
+                          >
+                            {subca.title}
+                          </Link>
+                          {/* nested category list */}
+                          {subca?.nestedCategory && (
+                            <ul className="space-y-2">
+                              {subca?.nestedCategory.map((nestedCate) => (
+                                <li key={nestedCate.title}>
+                                  <Link
+                                    className="text-[#7a7a7a] font-normal hover:text-primary hover:ml-3 duration-500 transition-all  text-xs "
+                                    to={nestedCate.href}
+                                  >
+                                    {nestedCate.title}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>

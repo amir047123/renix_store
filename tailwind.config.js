@@ -6,6 +6,7 @@ export default {
     extend: {
       colors: {
         primary: "#80b435",
+        textColor: "#131e2c",
       },
       fontFamily: {
         rubic: ["Rubik", "sans-serif"],
