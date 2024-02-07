@@ -191,8 +191,12 @@ const WebNavbar = () => {
             </div>
             <Link
               to={""}
-              className="border-x border-solid leading-[80px] flex items-center h-20 border-[#eaeaea] px-6"
+              className="border-x border-solid leading-[80px] flex items-center relative h-20 border-[#eaeaea] px-6"
             >
+              <span class="absolute -top-2 items-center justify-center gap-1 rounded-full bg-emerald-500 px-1.5 text-sm text-white">
+                7
+              </span>
+
               <IoIosBasket size={24} />
             </Link>
             <div className="pl-6 group leading-[80px] h-20 flex items-center relative">
