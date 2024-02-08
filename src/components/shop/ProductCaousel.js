@@ -25,17 +25,17 @@ const ProductCaousel = () => {
         {arr.map((slider) => (
           <SwiperSlide>
             <div
-              className="py-[40%]  px-5 flex flex-col items-center justify-center bg-no-repeat bg-cover w-full"
+              className="2xl:py-[40%] py-[30%]  px-5 flex flex-col items-center justify-center bg-no-repeat bg-cover w-full"
               style={{
                 background: "url('/assets/products/slide1.jpg')",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
               }}
             >
-              <h3 className="text-[26px] text-white uppercase font-oswald">
+              <h3 className="xl:text-[26px] text-xl text-white uppercase font-oswald">
                 FRUIT SHOP
               </h3>
-              <h2 className="text-[40px] font-medium text-white uppercase font-oswald">
+              <h2 className="xl:text-[40px] text-3xl font-medium text-white uppercase font-oswald">
                 UP TO 50% OFF
               </h2>
               <p className="text-center text-white font-openSans my-3">

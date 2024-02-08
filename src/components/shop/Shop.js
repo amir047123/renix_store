@@ -16,10 +16,10 @@ const Shop = () => {
 
   return (
     <section className="mt-8">
-      <div className="container ">
+      <div className="container sm:px-5 2xl:px-0  ">
         <div className="grid grid-cols-12 gap-6">
           {/* left side content */}
-          <div className="col-span-3 ">
+          <div className=" col-span-full md:col-span-4 lg:col-span-3 md:order-1 order-2 ">
             {/* product filter */}
 
             <div className="bg-white shadow-md">
@@ -46,7 +46,7 @@ const Shop = () => {
               <h2 className="border-l-2  text-[#292929] border-solid border-l-primary py-[15px] px-5 font-medium uppercase font-oswald text-xl border-b border-b-[#eaeaea] ">
                 TOP RATED PRODUCTS
               </h2>
-              <div className="px-6 mt-4">
+              <div className="px-3 lg:px-6 mt-4">
                 {arr.map((topProduct, index) => (
                   <TopRelatedProducts key={index} />
                 ))}
@@ -54,7 +54,7 @@ const Shop = () => {
             </div>
           </div>
           {/* all product */}
-          <div className="col-span-9 bg-white shadow-md">
+          <div className=" md:col-span-8 lg:col-span-9 md:order-2 order-1 col-span-full bg-white shadow-md">
             {/* Banner slider */}
             <BannerSlider />
             {/* Product lists */}
@@ -84,11 +84,11 @@ const Shop = () => {
                   </div>
                 </div>
 
-                <div className="pr-5">
+                <div className="md:pr-5">
                   <select
                     name="orderby"
                     aria-label="Shop order"
-                    className="border border-solid border-borderColor px-4 py-3 rounded-full outline-0"
+                    className="border border-solid border-borderColor px-3 md:px-4 py-2 md:py-3 rounded-full outline-0"
                   >
                     <option value="menu_order" selected="selected">
                       Default sorting

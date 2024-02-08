@@ -5,7 +5,7 @@ import { TiVendorAndroid } from "react-icons/ti";
 const FreeShipping = () => {
   return (
     <div className="py-[50px] bg-[#f5f5f5]">
-      <div className="md:container shadow-md bg-white border border-solid border-gray-300 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 ">
+      <div className="xl:container shadow-md bg-white border border-solid border-gray-300 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 ">
         {/* shipping */}
         <div className="py-[25px] px-[30px] border-b md:border-r border-solid border-[#eaeaea] text-center">
           <div className="border-2 inline-table border-dotted border-primary rounded-full w-6 md:w-10 md:h-10 h-6 mx-auto p-2.5 md:p-5">
@@ -43,7 +43,7 @@ const FreeShipping = () => {
           </p>
         </div>
         {/* download app */}
-        <div className="bg-primary md:py-[25px] py-4 px-5 md:px-[30px] col-span-full lg:col-span-1">
+        <div className="bg-primary 2xl:py-[25px] py-4 px-5 2xl:px-[30px] col-span-full lg:col-span-1">
           <button className="bg-white flex items-center justify-center w-3/4 mx-auto md:w-full p-3 md:p-5 rounded-full text-primary font-medium font-rubic tracking-[0.5px] uppercase my-[10px]">
             <FaApple size={25} className="mr-2" /> Download
           </button>
