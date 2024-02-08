@@ -12,7 +12,7 @@ const PageHeader = () => {
   return (
     <section
       style={{ background: 'url("/assets/header/pageBanner.jpg")' }}
-      className="bg-no-repeat bg-cover bg-center pt-52 md:pt-60 lg:pt-96 pb-8 text-center"
+      className="bg-no-repeat bg-cover bg-center pt-52 md:pt-60 lg:pt-48 pb-8 text-center"
     >
       <div className="container text-white">
         <nav
