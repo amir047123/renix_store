@@ -8,6 +8,8 @@ export default {
         primary: "#80b435",
         secondary: "#ed6663",
         textColor: "#131e2c",
+        blackColor: "#292929",
+        borderColor: "#eaeaea ",
       },
       fontFamily: {
         rubic: ["Rubik", "sans-serif"],
