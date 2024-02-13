@@ -1,4 +1,4 @@
-import Home from "../pages/Home";
+import Home from "../Pages/Home";
 
 const PublicRoutes = [{ path: "", Component: Home }];
 
