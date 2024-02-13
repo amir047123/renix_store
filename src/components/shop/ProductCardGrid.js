@@ -15,7 +15,7 @@ const ProductCardGrid = () => {
         </div>
 
         <h2 className="font-rubic  text-[#292929] font-medium px-6 lg:px-0">
-          <Link to={""}>Fresh Organic Mustard Leaves</Link>
+          <Link to={"/product/123"}>Fresh Organic Mustard Leaves</Link>
         </h2>
         <Rating
           fullSymbol={<IoIosStar className="text-primary" />}

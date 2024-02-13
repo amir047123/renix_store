@@ -15,7 +15,7 @@ const BannerSlider = () => {
   const handleNavigationShow = (show) => {
     setIsHovered(show);
   };
-  let arr = [1];
+  let arr = [1, 2, 3];
   return (
     <div>
       <Swiper
