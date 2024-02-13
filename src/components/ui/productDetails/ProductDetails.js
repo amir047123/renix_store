@@ -17,8 +17,10 @@ import { CiHeart } from "react-icons/ci";
 import AdditionalInfo from "./AdditionalInfo";
 import Reviews from "./Reviews";
 import Description from "./Description";
+import ProductCardGrid from "../../shop/ProductCardGrid";
 const ProductDetails = () => {
   const [activeTab, setActiveTab] = useState(1);
+  const relatedProducts = [1, 2, 3, 4, 5];
 
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
@@ -186,6 +188,17 @@ const ProductDetails = () => {
           {activeTab === 1 && <Description />}
           {activeTab === 2 && <AdditionalInfo />}
           {activeTab === 3 && <Reviews />}
+        </div>
+      </div>
+      {/* Related products */}
+      <div className="bg-white p-5 shadow-custom">
+        <h2 className="font-oswald font-bold text-[#292929] uppercase text-[26px] py-5 border-b border-borderColor">
+          RELATED PRODUCTS
+        </h2>
+        <div className="grid gird-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          {relatedProducts?.map((product) => (
+            <ProductCardGrid key={product} />
+          ))}
         </div>
       </div>
     </div>
