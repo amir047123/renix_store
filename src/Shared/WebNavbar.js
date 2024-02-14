@@ -278,14 +278,14 @@ const WebNavbar = () => {
               {/* my carts menu */}
               <div className="absolute top-full -right-[30px] bg-white w-[270px] border-t-[3px] border-solid border-primary px-5  py-4 opacity-0 invisible group-hover:visible group-hover:opacity-100 duration-200 transform scale-0 group-hover:scale-100 rotate-0 shadow-custom">
                 <ul className="flex flex-col gap-[6px] uppercase text-xs font-rubic font-medium">
-                  <li className="border-b border-solid border-[#eaeaea] py-[14px]">
-                    <Link>MY ACCOUNT</Link>
+                  <li className="border-b border-solid border-[#eaeaea] py-[14px] uppercase">
+                    <Link to={"/my-account"}>MY ACCOUNT</Link>
                   </li>
-                  <li className="border-b border-solid border-[#eaeaea] py-[14px]">
-                    <Link>WISHLIST</Link>
+                  <li className="border-b border-solid border-[#eaeaea] uppercase py-[14px]">
+                    <Link to={"/wishlist"}>WISHLIST</Link>
                   </li>
-                  <li className="py-[14px]">
-                    <Link>CHECKOUT</Link>
+                  <li className="py-[14px] uppercase">
+                    <Link to={"/checkout"}>CHECKOUT</Link>
                   </li>
                 </ul>
               </div>

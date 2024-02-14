@@ -2,14 +2,28 @@ import { Link } from "react-router-dom";
 import PageHeader from "../components/ui/PageHeader";
 import { RiDeleteBinLine } from "react-icons/ri";
 const CartPage = () => {
-  const cartsProduct = true;
+  const cartsProduct = [1];
   return (
     <div className="bg-[#f5f5f5]  overflow-hidden">
       <PageHeader title="Cart" />
       <div className=" mx-auto max-lg:overflow-x-auto w-full">
         <div className="pt-12 container">
           <div className="bg-white p-5 shadow-custom max-lg:min-w-[900px]">
-            {cartsProduct ? (
+            {cartsProduct.length === 0 ? (
+              <>
+                <div>
+                  <p className="font-rubic text-sm text-[#333] mb-6">
+                    Your cart is currently empty.
+                  </p>
+                  <Link
+                    to={"/"}
+                    className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm "
+                  >
+                    Return to shop
+                  </Link>
+                </div>
+              </>
+            ) : (
               <>
                 <div className="grid grid-cols-12 border-b border-borderColor pb-3 place-items-center font-rubic font-medium text-sm uppercase text-[#222]">
                   <div className="invisible col-span-1">image</div>
@@ -110,20 +124,6 @@ const CartPage = () => {
                       Proceed to checkout
                     </Link>
                   </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div>
-                  <p className="font-rubic text-sm text-[#333] mb-6">
-                    Your cart is currently empty.
-                  </p>
-                  <Link
-                    to={"/"}
-                    className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm "
-                  >
-                    Return to shop
-                  </Link>
                 </div>
               </>
             )}
