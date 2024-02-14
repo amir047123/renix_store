@@ -256,9 +256,12 @@ const WebNavbar = () => {
                       >
                         View cart
                       </Link>
-                      <button className="bg-primary text-white px-4 py-3 rounded-full transition-all duration-300 hover:bg-black font-rubic font-medium uppercase text-sm">
+                      <Link
+                        to={"/checkout"}
+                        className="bg-primary text-white px-4 py-3 rounded-full transition-all duration-300 hover:bg-black font-rubic font-medium uppercase text-sm"
+                      >
                         Checkout
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 ) : (
