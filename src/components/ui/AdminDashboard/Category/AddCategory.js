@@ -112,7 +112,7 @@ icon:"",
           type="file"
         />
         </div>
-        <img className="w-14 rounded-md" src={banner} alt="Banner img"></img>
+        <img className="w-14 rounded-md" src={banner} alt="banner"></img>
       </div>
 
 
