@@ -4,9 +4,13 @@ import PageHeader from "../components/ui/PageHeader";
 const CheckOutPage = () => {
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState("bank");
   const handleCreateUserOnchange = (e) => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);
+  };
+  const handlePaymentOnChange = (event) => {
+    setSelectedPayment(event.target.id);
   };
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
@@ -48,7 +52,7 @@ const CheckOutPage = () => {
           <div>
             <form className="text-sm text-[#666] font-openSans ">
               {/* Informations */}
-              <div className="grid grid-cols-2 gap-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
                   <h2 className="font-rubic font-medium text-primary my-5">
                     BILLING DETAILS
@@ -131,7 +135,7 @@ const CheckOutPage = () => {
                     />
 
                     <input
-                      className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
+                      className="w-full mt-3 py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                       type="text"
                       placeholder="Apartment, suite, unit, etc. (optional)"
                       name="apartment"
@@ -316,10 +320,64 @@ const CheckOutPage = () => {
                   </div>
                 </div>
                 {/* Payment method */}
-                <div></div>
+                <div className="mt-6">
+                  <div>
+                    <div className="relative">
+                      <input
+                        onChange={handlePaymentOnChange}
+                        type="radio"
+                        name="payment"
+                        id="bank"
+                        checked={selectedPayment === "bank"}
+                      />
+                      <label className="mb-2 inline-block ml-2" htmlFor="bank">
+                        Direct bank transfer
+                      </label>
+                      <p
+                        className={` transition-all duration-200 ${
+                          selectedPayment === "bank"
+                            ? "pt-1 pb-5 max-h-96 "
+                            : "py-0 invisible max-h-0"
+                        }`}
+                      >
+                        Make your payment directly into our bank account. Please
+                        use your Order ID as the payment reference. Your order
+                        will not be shipped until the funds have cleared in our
+                        account.
+                      </p>
+                    </div>
+                    <div className="">
+                      <input
+                        type="radio"
+                        name="payment"
+                        id="cash"
+                        onChange={handlePaymentOnChange}
+                        checked={selectedPayment === "cash"}
+                      />
+                      <label className="mb-2 inline-block ml-2" htmlFor="cash">
+                        Cash on delivery
+                      </label>
+                      <p
+                        className={` transition-all duration-200 ${
+                          selectedPayment === "cash"
+                            ? "pt-1 pb-5 max-h-96 "
+                            : "py-0 invisible max-h-0"
+                        }`}
+                      >
+                        Pay with cash upon delivery.
+                      </p>
+                    </div>
+                    {/* <p>Selected Payment Option: {selectedPayment}</p> */}
+                  </div>
+                  <p className="mt-5">
+                    Your personal data will be used to process your order,
+                    support your experience throughout this website, and for
+                    other purposes described in our privacy policy.
+                  </p>
+                </div>
                 {/* button order */}
                 <div>
-                  <button className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-8">
+                  <button className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-8">
                     Place order
                   </button>
                 </div>
