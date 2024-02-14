@@ -205,7 +205,7 @@ const WebNavbar = () => {
             {/* Cart icons */}
             <div className="relative group">
               <Link
-                to={""}
+                to={"/cart"}
                 className="border-x border-solid leading-[80px] flex items-center relative h-20 border-[#eaeaea] px-6"
               >
                 <span class="absolute -top-2 items-center justify-center gap-1 rounded-full bg-emerald-500 px-1.5 text-sm text-white">
@@ -250,9 +250,12 @@ const WebNavbar = () => {
                     ))}
                     {/* Buttons */}
                     <div className="flex justify-center items-center gap-3 mt-5 ">
-                      <button className="bg-primary text-white px-4 py-3 rounded-full transition-all duration-300 hover:bg-black font-rubic font-medium uppercase text-sm">
+                      <Link
+                        to={"/cart"}
+                        className="bg-primary text-white px-4 py-3 rounded-full transition-all duration-300 hover:bg-black font-rubic font-medium uppercase text-sm"
+                      >
                         View cart
-                      </button>
+                      </Link>
                       <button className="bg-primary text-white px-4 py-3 rounded-full transition-all duration-300 hover:bg-black font-rubic font-medium uppercase text-sm">
                         Checkout
                       </button>
