@@ -208,7 +208,7 @@ const WebNavbar = () => {
                 to={"/cart"}
                 className="border-x border-solid leading-[80px] flex items-center relative h-20 border-[#eaeaea] px-6"
               >
-                <span class="absolute -top-2 items-center justify-center gap-1 rounded-full bg-emerald-500 px-1.5 text-sm text-white">
+                <span className="absolute -top-2 items-center justify-center gap-1 rounded-full bg-emerald-500 px-1.5 text-sm text-white">
                   7
                 </span>
 
