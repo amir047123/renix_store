@@ -1,23 +1,22 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
 
-<<<<<<< HEAD
-import PublicRoutes from "./Routes/PublicRoutes";
-import RootLayout from "./layouts/RootLayout";
-import Home from "./Pages/Home";
-import Dashboard from "./components/ui/AdminDashboard/Dashboard";
-import AdminRoutes from "./Routes/AdminRoutes";
-import AdminDashboard from "./layouts/AdminDashboard";
-=======
-import Home from "./pages/Home";
-import { PublicRoutes, UserRoutes } from "./Routes/PublicRoutes";
+import { PublicRoutes } from "./Routes/PublicRoutes";
 import RootLayout from "./layouts/RootLayout";
 import UserDashboardLayout from "./layouts/UserDashboardLayout";
-import MyAccount from "./pages/MyAccount";
->>>>>>> 207affb06653cfbafe85a14b31356b153f87dfea
+import AdminRoutes from "./Routes/AdminRoutes";
+import AdminDashboard from "./layouts/AdminDashboard";
+import Dashboard from "./components/ui/AdminDashboard/Dashboard";
+import MyAccount from "./Pages/MyAccount";
+import Home from "./Pages/Home";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import { UserRoutes } from "./Routes/UserRoutes";
+import MyContext from "./Context/MyContext";
 
 function App() {
   return (
+    <MyContext.Provider >
     <Router>
       <div>
         <Routes>
@@ -43,8 +42,11 @@ function App() {
           ))}
         </Route>
         </Routes>
+        <ToastContainer />
+
       </div>
     </Router>
+    </MyContext.Provider>
   );
 }
 

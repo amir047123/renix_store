@@ -3,9 +3,12 @@ import Rating from "react-rating";
 import { IoIosStar } from "react-icons/io";
 import { FaRegStar } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-const TopRelatedProducts = () => {
+const TopRelatedProducts = ({product}) => {
+
+  const discountedPrice = product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
+
   return (
-    <Link to={""} className="border-b border-solid border-borderColor">
+    <Link to={`/productDetails/${product?._id}`} className="border-b border-solid border-borderColor">
       <div className="flex items-center gap-3 pb-3 mb-3 border-b border-solid border-borderColor">
         <img
           className="border border-solid border-borderColor"
@@ -14,7 +17,7 @@ const TopRelatedProducts = () => {
         />
         <div>
           <h4 className="font-openSans text-sm text-[#898989]">
-            Fresh Red Seedless
+            {product?.name}
           </h4>
           <Rating
             fullSymbol={<IoIosStar className="text-primary" />}
@@ -23,7 +26,7 @@ const TopRelatedProducts = () => {
             readonly
           />
           <p className="font-medium font-rubic text-sm">
-            <span className="line-through">£9.00</span> £6.00
+            <span className="line-through">৳ {product?.onePiecePrice}</span> ৳ {discountedPrice}
           </p>
         </div>
       </div>

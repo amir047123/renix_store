@@ -5,7 +5,15 @@ import { IoIosStar } from "react-icons/io";
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 
-const ProductListsView = () => {
+const ProductListsView = ({product}) => {
+  const discountedPrice = product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
+  function truncate(text, limit) {
+    if (!text) return "";
+    const words = text.split(" ");
+    const truncated = words.slice(0, limit).join(" ");
+    return truncated + (words.length > limit ? "..." : "");
+  }
+  
   return (
     <div className="flex px-5 lg:px-0 flex-col lg:flex-row items-center gap-8 pr-2 lg:pr-20 border-b border-solid border-borderColor pb-4 mb-4">
       <div className="basis-[28%]">
@@ -18,7 +26,7 @@ const ProductListsView = () => {
       <div className="flex-1">
         <div>
           <h2 className="font-rubic text-[#292929] font-medium">
-            <Link to={""}>Fresh Organic Mustard Leaves</Link>
+            <Link to={`/productDetails/${product?._id}`}>{product?.name}</Link>
           </h2>
           <div className="flex  gap-4 items-center mt-1">
             <Rating
@@ -34,14 +42,10 @@ const ProductListsView = () => {
               add your Review
             </p>
           </div>
-          <p className="py-5">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
-            reprehenderit magnam rerum in ullam praesentium ab officiis minima
-            tempore, sit maxime, est, nesciunt iste temporibus. Neque, dolorem
-            ut! Dolor, hic?
-          </p>
+          <p className="py-5" dangerouslySetInnerHTML={{ __html: product?.description ? truncate(product.description, 20) : "" }}></p>
+
           <p className="font-medium font-rubic text-sm">
-            <span className="line-through">£9.00</span> £6.00
+            <span className="line-through">৳ {product?.onePiecePrice}</span>  ৳ {discountedPrice}
           </p>
           <div className="mt-6 flex flex-col md:flex-row items-center gap-4">
             <button className="flex items-center gap-3 text-white hover:bg-[#131e2c] bg-primary px-5 py-3 font-medium font-rubic uppercase duration-200 text-sm rounded-full">

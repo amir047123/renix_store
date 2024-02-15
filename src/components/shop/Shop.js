@@ -6,14 +6,36 @@ import ProductCaousel from "./ProductCaousel";
 import TopRelatedProducts from "./TopRelatedProducts";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import ProductCardGrid from "./ProductCardGrid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductListsView from "./ProductListsView";
+import Loading from "../../shared/Loading";
 
 const Shop = () => {
   const allCategory = categoryData;
   const [isGrid, setIsGrid] = useState(true);
   let arr = [1, 2, 3, 4, 5, 6];
 
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    try {
+      fetch(
+        `http://localhost:5000/api/v1/product/getProducts`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data?.data);
+          setLoading(false);
+        });
+    } catch (err) {
+      setLoading(false);
+      // return <div>{err}</div>;
+    }
+  }, []);
+ if (loading) {
+    return <Loading />;
+  }
   return (
     <section className="mt-8">
       <div className="container sm:px-5 2xl:px-0  ">
@@ -47,10 +69,11 @@ const Shop = () => {
                 TOP RATED PRODUCTS
               </h2>
               <div className="px-3 lg:px-6 mt-4">
-                {arr.map((topProduct, index) => (
-                  <TopRelatedProducts key={index} />
-                ))}
-              </div>
+  {data?.slice(0, 10).map((product, index) => (
+    <TopRelatedProducts key={index} product={product} />
+  ))}
+</div>
+
             </div>
           </div>
           {/* all product */}
@@ -106,14 +129,14 @@ const Shop = () => {
 
               {isGrid ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
-                  {arr.map((product, index) => (
-                    <ProductCardGrid key={index} />
+                  {data?.map((product, index) => (
+                    <ProductCardGrid key={index} product={product} />
                   ))}
                 </div>
               ) : (
                 <div className=" py-4">
-                  {arr.map((product, index) => (
-                    <ProductListsView key={index} />
+                  {data?.map((product, index) => (
+                    <ProductListsView key={index} product={product}/>
                   ))}
                 </div>
               )}

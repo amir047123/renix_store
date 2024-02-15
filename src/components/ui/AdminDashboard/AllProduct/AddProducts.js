@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { singleImageUpload } from "../../../../Hooks/ImageUpload";
 
-const GenericCategories = ["AllopathicL", "Herbal", "Airobotics", "Unani"];
+const GenericCategories = ["Allopathic", "Herbal", "Airobotics", "Unani"];
 
 const AddProducts = () => {
   const [img, setImg] = useState("");
@@ -15,6 +15,7 @@ const AddProducts = () => {
   const [description, setDescription] = useState("");
   const editor2 = useRef(null);
   const [category, setCategory] = useState([]);
+  const [tags, setTags] = useState([""]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,15 +23,15 @@ const AddProducts = () => {
     medicineType: "tablet",
     genericName: "",
     category: "",
-    strength:"",
-    discount:0,
-    stock:0,
-    companyName:"",
-    oneCartoon:0,
-    oneBox:0,
-    oneStrip:0,
-    onePiecePrice:0,
-
+    strength: "",
+    discount: 0,
+    stock: 0,
+    companyName: "",
+    oneCartoon: 0,
+    oneBox: 0,
+    oneStrip: 0,
+    onePiecePrice: 0,
+    canonicalUrl: "",
   });
 
   useEffect(() => {
@@ -39,7 +40,6 @@ const AddProducts = () => {
       .then((data) => setCategory(data?.data));
   }, []);
 
-  // set data in state
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -47,7 +47,14 @@ const AddProducts = () => {
     });
   };
 
-  const data = { ...formData, description, dosageForm, img };
+  const handleCheckboxChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.checked,
+    });
+  };
+
+  const data = { ...formData, description, dosageForm, img, tags };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -58,32 +65,51 @@ const AddProducts = () => {
         data
       );
       toast.success("Medicine data posted!");
-      // console.log("POST request successful:", response);
       setFormData({
         name: "",
         genericCategory: "",
         medicineType: "tablet",
         genericName: "",
         category: "",
-        strength:"",
-        discount:0,
-        stock:0,
-        companyName:"",
-        oneCartoon:0,
-        oneBox:0,
-        oneStrip:0,
-        onePiecePrice:0,
-      })
+        strength: "",
+        discount: 0,
+        stock: 0,
+        companyName: "",
+        oneCartoon: 0,
+        oneBox: 0,
+        oneStrip: 0,
+        onePiecePrice: 0,
+        canonicalUrl: "",
+      });
+      setTags([""]);
     } catch (error) {
       console.error("Error making POST request:", error);
     }
   };
+
   const handleChangeUploadImage = async (event) => {
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append("image", image);
     singleImageUpload(formData, setImg);
   };
+
+  const handleTagsChange = (index, e) => {
+    const newTags = [...tags];
+    newTags[index] = e.target.value;
+    setTags(newTags);
+  };
+
+  const handleAddTagField = () => {
+    setTags([...tags, ""]);
+  };
+
+  const handleRemoveTagField = (index) => {
+    const newTags = [...tags];
+    newTags.splice(index, 1);
+    setTags(newTags);
+  };
+
   return (
     <div>
       <div class=" ">
@@ -120,8 +146,28 @@ const AddProducts = () => {
         </div>
 
        
-
         {/* price  */}
+
+        <div className="mb-1">
+          <label
+            htmlFor="canonical-url"
+            className="block mb-2 text-[13px] font-normal text-gray-900"
+          >
+            Canonical URL
+          </label>
+          <input
+            type="text"
+            id="canonical-url"
+            name="canonicalUrl"
+            value={formData.canonicalUrl}
+            onChange={handleChange}
+            className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:border-blue-500"
+            placeholder="Enter Canonical URL"
+          />
+        </div>
+
+        
+
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="mb-1  w-full mr-0 md:mr-2">
@@ -339,6 +385,46 @@ const AddProducts = () => {
             className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5    focus:border-blue-500"
             placeholder="Medicine Stock"
           />
+        </div>
+        {tags.map((tag, index) => (
+          <div key={index} className="mb-1">
+            <label
+              htmlFor={`tags-${index}`}
+              className="block mb-2 text-[13px] font-normal text-gray-900 "
+            >
+              Tags
+            </label>
+            <div className="flex items-center">
+              <input
+                type="text"
+                id={`tags-${index}`}
+                name={`tags-${index}`}
+                value={tag}
+                onChange={(e) => handleTagsChange(index, e)}
+                className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5    focus:border-blue-500 mr-2"
+                placeholder="Enter tags"
+              />
+              {index > 0 && (
+                <button
+                  type="button"
+                  onClick={() => handleRemoveTagField(index)}
+                  className="px-2 py-1 rounded-lg bg-red-500 text-white text-xs"
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+       
+       <div className="mb-1">
+          <button
+            type="button"
+            onClick={handleAddTagField}
+            className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg mr-2"
+          >
+            Add Tag Field
+          </button>
         </div>
 
         <div className="text-center pt-3">

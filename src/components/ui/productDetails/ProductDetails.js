@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductSlide from "./ProductSlide";
 import Rating from "react-rating";
 import { IoIosStar } from "react-icons/io";
@@ -18,9 +18,31 @@ import AdditionalInfo from "./AdditionalInfo";
 import Reviews from "./Reviews";
 import Description from "./Description";
 import ProductCardGrid from "../../shop/ProductCardGrid";
+import { useParams } from "react-router-dom";
 const ProductDetails = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState([]);
+
   const [activeTab, setActiveTab] = useState(1);
   const relatedProducts = [1, 2, 3, 4, 5];
+
+
+  useEffect(() => {
+    setLoading(true);
+    try {
+      fetch(`http://localhost:5000/api/v1/product/getProductsById/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setProduct(data?.data);
+          setLoading(false);
+        });
+    } catch (err) {
+      setLoading(false);
+      return <div>{err}</div>;
+    }
+  }, [id]);
+  const discountedPrice = product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
@@ -30,12 +52,24 @@ const ProductDetails = () => {
       {/* product details */}
       <div className="flex md:flex-row flex-col bg-white p-5 shadow-custom gap-8">
         <div className="max-w-[600px] xl:w-full md:w-1/2  ">
-          <ProductSlide></ProductSlide>
+         <img src={product?.img}></img>
         </div>
         <div className="flex-1">
           <h2 className="font-rubic font-medium uppercase text-[34px] text-[#333] my-2">
-            FRESH RED SEEDLESS
+           {product?.name}
           </h2>
+          <p className="inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
+          {product?.strength}
+          </p>
+          <p className="inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
+          {product?.genericName}
+          </p>
+          <p className="inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
+          {product?.genericCategory}
+          </p>
+          <p className="inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
+          {product?.category}
+          </p>
           <div className="flex items-center gap-5 border-b border-solid border-borderColor pb-3">
             <Rating
               fullSymbol={<IoIosStar className="text-primary" />}
@@ -47,27 +81,16 @@ const ProductDetails = () => {
               (1 customer review)
             </span>
           </div>
-          <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5">
-            £50.00 – £60.00
+          <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5  line-through ">
+          ৳ {product?.onePiecePrice}
           </h2>
           <p className="border border-solid border-borderColor inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
-            color
+          {product?.companyName}
           </p>
-          <div>
-            <select
-              name=""
-              id=""
-              className="w-[200px] border border-solid border-borderColor px-5 py-2 rounded-full"
-            >
-              <option value="red">red</option>
-              <option value="yellow">yellow</option>
-            </select>
-            <span className="pl-5 text-secondary capitalize inline-block">
-              clear
-            </span>
-          </div>
+         
+          
           <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5">
-            £60.00
+          ৳ {discountedPrice}
           </h2>
           <div className="flex md:flex-row flex-col gap-5">
             <div className="flex w-[150px]  items-center border border-solid border-borderColor rounded-full ">
@@ -89,14 +112,8 @@ const ProductDetails = () => {
               add to cart
             </button>
           </div>
-          <p className="py-7  border-b border-borderColor text-[#333] font-openSans mb-7">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-            fringilla augue nec est tristique auctor. Donec non est at libero
-            vulputate rutrum. Morbi ornare lectus quis justo gravida semper.
-            Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.
-            Donec a neque libero.
-          </p>
-          <div>
+       
+          <div className=" mt-5">
             <div className="flex items-center gap-2 md:gap-5">
               <button className="capitalize bg-gray-200 hover:bg-primary px-2 md:px-4 py-2 rounded-lg hover:text-white text-[#333] font-openSans  text-sm transition-all duration-300 flex items-center gap-2 ">
                 <CiHeart /> add to whishlist
@@ -171,7 +188,7 @@ const ProductDetails = () => {
             }`}
             onClick={() => handleTabClick(2)}
           >
-            <span className="mt-1 inline-block"> Additional information</span>
+            <span className="mt-1 inline-block"> Dosage Form</span>
           </div>
           <div
             className={`px-5 py-3 rounded-tr-lg rounded-tl-lg  font-rubic font-medium text-sm uppercase ${
@@ -185,8 +202,8 @@ const ProductDetails = () => {
           </div>
         </div>
         <div className="tab-content">
-          {activeTab === 1 && <Description />}
-          {activeTab === 2 && <AdditionalInfo />}
+          {activeTab === 1 && <Description product={product} />}
+          {activeTab === 2 && <AdditionalInfo product={product}  />}
           {activeTab === 3 && <Reviews />}
         </div>
       </div>
