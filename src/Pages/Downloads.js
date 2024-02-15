@@ -10,7 +10,9 @@ const Downloads = () => {
       >
         Browse products
       </Link>
-      No downloads available yet.
+      <span className="block md:inline mt-5 md:mt-0">
+        No downloads available yet.
+      </span>
     </div>
   );
 };

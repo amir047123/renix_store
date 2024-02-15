@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const MyOrders = () => {
-  const myOrder = [];
+  const myOrder = [1];
   return (
     <div>
       {myOrder.length === 0 ? (
@@ -14,13 +14,16 @@ const MyOrders = () => {
             >
               Browse products
             </Link>
-            No orders available yet.
+            <span className="block md:inline mt-5 md:mt-0">
+              {" "}
+              No orders available yet.
+            </span>
           </div>
         </>
       ) : (
         <div>
           <table
-            className="w-full text-left border border-separate rounded border-slate-200"
+            className="w-full max-lg:w-[800px] bg-white text-left border border-separate rounded border-slate-200"
             cellspacing="0"
           >
             <thead>
