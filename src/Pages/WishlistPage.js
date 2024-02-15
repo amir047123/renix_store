@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import PageHeader from "../components/ui/PageHeader";
-import { RiDeleteBinLine } from "react-icons/ri";
+
 import { FaFacebook, FaTwitch } from "react-icons/fa6";
 
 const WishlistPage = () => {
