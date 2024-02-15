@@ -205,10 +205,10 @@ const WebNavbar = () => {
             {/* Cart icons */}
             <div className="relative group">
               <Link
-                to={""}
+                to={"/cart"}
                 className="border-x border-solid leading-[80px] flex items-center relative h-20 border-[#eaeaea] px-6"
               >
-                <span class="absolute -top-2 items-center justify-center gap-1 rounded-full bg-emerald-500 px-1.5 text-sm text-white">
+                <span className="absolute -top-2 items-center justify-center gap-1 rounded-full bg-emerald-500 px-1.5 text-sm text-white">
                   7
                 </span>
 
@@ -250,12 +250,18 @@ const WebNavbar = () => {
                     ))}
                     {/* Buttons */}
                     <div className="flex justify-center items-center gap-3 mt-5 ">
-                      <button className="bg-primary text-white px-4 py-3 rounded-full transition-all duration-300 hover:bg-black font-rubic font-medium uppercase text-sm">
+                      <Link
+                        to={"/cart"}
+                        className="bg-primary text-white px-4 py-3 rounded-full transition-all duration-300 hover:bg-black font-rubic font-medium uppercase text-sm"
+                      >
                         View cart
-                      </button>
-                      <button className="bg-primary text-white px-4 py-3 rounded-full transition-all duration-300 hover:bg-black font-rubic font-medium uppercase text-sm">
+                      </Link>
+                      <Link
+                        to={"/checkout"}
+                        className="bg-primary text-white px-4 py-3 rounded-full transition-all duration-300 hover:bg-black font-rubic font-medium uppercase text-sm"
+                      >
                         Checkout
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 ) : (
@@ -272,14 +278,14 @@ const WebNavbar = () => {
               {/* my carts menu */}
               <div className="absolute top-full -right-[30px] bg-white w-[270px] border-t-[3px] border-solid border-primary px-5  py-4 opacity-0 invisible group-hover:visible group-hover:opacity-100 duration-200 transform scale-0 group-hover:scale-100 rotate-0 shadow-custom">
                 <ul className="flex flex-col gap-[6px] uppercase text-xs font-rubic font-medium">
-                  <li className="border-b border-solid border-[#eaeaea] py-[14px]">
-                    <Link>MY ACCOUNT</Link>
+                  <li className="border-b border-solid border-[#eaeaea] py-[14px] uppercase">
+                    <Link to={"/my-account"}>MY ACCOUNT</Link>
                   </li>
-                  <li className="border-b border-solid border-[#eaeaea] py-[14px]">
-                    <Link>WISHLIST</Link>
+                  <li className="border-b border-solid border-[#eaeaea] uppercase py-[14px]">
+                    <Link to={"/wishlist"}>WISHLIST</Link>
                   </li>
-                  <li className="py-[14px]">
-                    <Link>CHECKOUT</Link>
+                  <li className="py-[14px] uppercase">
+                    <Link to={"/checkout"}>CHECKOUT</Link>
                   </li>
                 </ul>
               </div>

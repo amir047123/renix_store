@@ -28,8 +28,8 @@ const ProductDetails = () => {
   return (
     <div className=" mt-12 container ">
       {/* product details */}
-      <div className="flex bg-white p-5 shadow-custom gap-8">
-        <div className="max-w-[600px] ">
+      <div className="flex md:flex-row flex-col bg-white p-5 shadow-custom gap-8">
+        <div className="max-w-[600px] xl:w-full md:w-1/2  ">
           <ProductSlide></ProductSlide>
         </div>
         <div className="flex-1">
@@ -69,7 +69,7 @@ const ProductDetails = () => {
           <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5">
             £60.00
           </h2>
-          <div className="flex gap-5">
+          <div className="flex md:flex-row flex-col gap-5">
             <div className="flex w-[150px]  items-center border border-solid border-borderColor rounded-full ">
               <div className=" w-[60px] h-[50px] flex justify-center items-center  hover:text-white rounded-full transition-all duration-150 hover:bg-primary cursor-pointer">
                 <FaPlus className="" />
@@ -97,11 +97,11 @@ const ProductDetails = () => {
             Donec a neque libero.
           </p>
           <div>
-            <div className="flex items-center gap-5">
-              <button className="capitalize bg-gray-200 hover:bg-primary px-4 py-2 rounded-lg hover:text-white text-[#333] font-openSans  text-sm transition-all duration-300 flex items-center gap-2 ">
+            <div className="flex items-center gap-2 md:gap-5">
+              <button className="capitalize bg-gray-200 hover:bg-primary px-2 md:px-4 py-2 rounded-lg hover:text-white text-[#333] font-openSans  text-sm transition-all duration-300 flex items-center gap-2 ">
                 <CiHeart /> add to whishlist
               </button>
-              <button className="capitalize bg-gray-200 hover:bg-primary px-4 py-2 rounded-lg hover:text-white text-[#333] font-openSans  text-sm transition-all duration-300 flex items-center gap-2 ">
+              <button className="capitalize bg-gray-200 hover:bg-primary px-2 md:px-4 py-2 rounded-lg hover:text-white text-[#333] font-openSans  text-sm transition-all duration-300 flex items-center gap-2 ">
                 <FaSignal /> compare
               </button>
             </div>
@@ -152,7 +152,7 @@ const ProductDetails = () => {
       {/* Additional infomation */}
 
       <div className="my-10">
-        <div className="flex border-b border-borderColor gap-2">
+        <div className="flex md:flex-row flex-col border-b border-borderColor gap-2">
           <div
             className={`px-5 py-3 rounded-tr-lg rounded-tl-lg  font-rubic font-medium text-sm uppercase ${
               activeTab === 1

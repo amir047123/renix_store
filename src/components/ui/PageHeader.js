@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa6";
-const PageHeader = () => {
+const PageHeader = ({ title = "Title" }) => {
   const breadcrumbs = [
     {
       path: "Home",
@@ -74,7 +74,7 @@ const PageHeader = () => {
           </ol>
         </nav>
         <h2 className=" text-[36px] lg:text-[42px] font-oswald font-medium tracking-wide">
-          PRODUCTS
+          {title}
         </h2>
       </div>
     </section>
