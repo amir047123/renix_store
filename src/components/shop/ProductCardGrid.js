@@ -31,7 +31,7 @@ const ProductCardGrid = ({ product }) => {
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
   };
   const cartQuantityNumber = cartProducts?.find(
-    (item) => item._id === product._id
+    (item) => item?._id === product?._id
   );
 
   return (
@@ -46,7 +46,7 @@ const ProductCardGrid = ({ product }) => {
         </div>
 
         <h2 className="font-rubic text-[#292929] font-medium px-6 lg:px-0">
-          <Link to={`/productDetails/${product?._id}`}>{product?.name}</Link>
+          <Link to={`productDetails/${product?._id}`}>{product?.name}</Link>
         </h2>
         <Rating
           fullSymbol={<IoIosStar className="text-primary" />}
