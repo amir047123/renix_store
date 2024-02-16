@@ -1,8 +1,10 @@
 import { useState } from "react";
 import PageHeader from "../components/ui/PageHeader";
 import { Link } from "react-router-dom";
-
+import { useForm } from "react-hook-form";
+import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 const CheckOutPage = () => {
+  const { cartProducts, total } = useGetCartsProduct();
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
@@ -13,11 +15,22 @@ const CheckOutPage = () => {
   const handlePaymentOnChange = (event) => {
     setSelectedPayment(event.target.id);
   };
-  const cartProduct = [1];
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    console.log(cartProducts);
+  };
+
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="CheckOut" />
-      {cartProduct.length === 0 ? (
+      {cartProducts.length === 0 ? (
         <>
           <div className="bg-white p-8 shadow-custom container mt-10">
             <p className="font-rubic text-sm text-[#333]">
@@ -70,7 +83,10 @@ const CheckOutPage = () => {
             </div>
             {/* form */}
             <div>
-              <form className="text-sm text-[#666] font-openSans ">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="text-sm text-[#666] font-openSans "
+              >
                 {/* Informations */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div>
@@ -85,6 +101,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
+                        {...register("firstName")}
                         id="firstName"
                         name="firstName"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
@@ -98,6 +115,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
+                        {...register("lastName")}
                         id="lastName"
                         name="lastName"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
@@ -111,6 +129,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
+                        {...register("company")}
                         id="company"
                         name="company"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
@@ -125,6 +144,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <select
+                        {...register("country")}
                         value={"United"}
                         id="country"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
@@ -148,6 +168,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
+                        {...register("streetAddress")}
                         id="streetAddress"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
@@ -169,6 +190,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
+                        {...register("city")}
                         id="city"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
@@ -185,6 +207,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
+                        {...register("countryOptional")}
                         id="countryOptional"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
@@ -198,6 +221,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
+                        {...register("postcode")}
                         id="postcode"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
@@ -211,6 +235,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
+                        {...register("phone")}
                         id="phone"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
@@ -224,6 +249,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
+                        {...register("email")}
                         id="email"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
@@ -233,6 +259,7 @@ const CheckOutPage = () => {
                     {/* Create an account */}
                     <div className="relative ">
                       <input
+                        {...register("createAccount")}
                         onChange={handleCreateUserOnchange}
                         type="checkbox"
                         name="createAccount"
@@ -261,6 +288,7 @@ const CheckOutPage = () => {
                           </label>
 
                           <input
+                            {...register("userName")}
                             id="userName"
                             className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                             type="text"
@@ -278,6 +306,7 @@ const CheckOutPage = () => {
                             <span className="text-secondary">*</span>
                           </label>
                           <input
+                            {...register("password")}
                             id="password"
                             className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                             type="text"
@@ -293,13 +322,14 @@ const CheckOutPage = () => {
                     <h2 className="font-rubic font-medium text-primary my-5">
                       ADDITIONAL INFORMATION
                     </h2>
-                    <label className="mb-2 inline-block" htmlFor="note">
+                    <label className="mb-2 inline-block" htmlFor="notes">
                       Order notes (optional)
                     </label>
                     <textarea
+                      {...register("notes")}
                       className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                      name=""
-                      id="note"
+                      name="notes"
+                      id="notes"
                       cols="2"
                       rows="2"
                       placeholder="Notes about your order, e.g. special notes for delivery."
@@ -323,12 +353,19 @@ const CheckOutPage = () => {
                     {/* body */}
                     <div className="text-sm">
                       {/* Show the product dynamicaly */}
-                      <div className="grid grid-cols-3 border-solid border-b border-borderColor">
-                        <div className="col-span-2 p-3 border-solid border-r border-borderColor">
-                          Fresh Organic Mustard Leaves × 1{" "}
+                      {cartProducts.map((item) => (
+                        <div
+                          key={item._id}
+                          className="grid grid-cols-3 border-solid border-b border-borderColor"
+                        >
+                          <div className="col-span-2 p-3 border-solid border-r border-borderColor">
+                            {item.name} × {item.quantity}
+                          </div>
+                          <div className="col-span-1 p-3">
+                            ৳ {item.discountedPrice * item.quantity}
+                          </div>
                         </div>
-                        <div className="col-span-1 p-3">£6.00</div>
-                      </div>
+                      ))}
                     </div>
                     {/* Footer */}
                     <div className="font-bold">
@@ -336,13 +373,13 @@ const CheckOutPage = () => {
                         <div className="col-span-2 p-3 border-solid border-r border-borderColor">
                           Subtotal
                         </div>
-                        <div className="col-span-1 p-3">£6.00</div>
+                        <div className="col-span-1 p-3">৳ {total}</div>
                       </div>
                       <div className="grid grid-cols-3 border-solid border-l border-borderColor">
                         <div className="col-span-2 p-3 border-solid border-r border-borderColor">
                           Total
                         </div>
-                        <div className="col-span-1 p-3">£6.00</div>
+                        <div className="col-span-1 p-3">৳ {total}</div>
                       </div>
                     </div>
                   </div>
@@ -361,7 +398,7 @@ const CheckOutPage = () => {
                           className="mb-2 inline-block ml-2"
                           htmlFor="bank"
                         >
-                          Direct bank transfer
+                          Online Payment
                         </label>
                         <p
                           className={` transition-all duration-200 ${

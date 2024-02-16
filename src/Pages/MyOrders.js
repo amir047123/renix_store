@@ -15,7 +15,6 @@ const MyOrders = () => {
               Browse products
             </Link>
             <span className="block md:inline mt-5 md:mt-0">
-              {" "}
               No orders available yet.
             </span>
           </div>

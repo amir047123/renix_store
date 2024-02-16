@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaBars, FaSearch } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { IoIosBasket } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
@@ -7,8 +7,7 @@ import Cart from "../Pages/Cart";
 const WebNavbar = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const cart = true;
-  let carts = [1, 2];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible((prevVisible) => !prevVisible);
@@ -128,7 +127,10 @@ const WebNavbar = () => {
         <nav className="bg-white hidden relative px-[30px] md:flex items-center justify-between">
           <div className="flex items-center ">
             <div className=" pr-6 border-r h-20 flex items-center border-solid border-[#eaeaea] mr-[18px]">
-             <Link to="/"> <p className=" uppercase font-bold text-primary">Renix Store</p></Link>
+              <Link to="/">
+                {" "}
+                <p className=" uppercase font-bold text-primary">Renix Store</p>
+              </Link>
             </div>
             <ul className="hidden lg:flex items-center gap-7">
               {menuItems.map((item) => (
@@ -189,9 +191,9 @@ const WebNavbar = () => {
               ))}
             </ul>
           </div>
-        {/* cart */}
+          {/* cart */}
 
-        <Cart></Cart>
+          <Cart></Cart>
         </nav>
         <div className=" hidden md:block lg:hidden bg-white border-t border-solid border-[#eaeaea] py-5 px-6 ">
           <ul className="flex items-center gap-7">
