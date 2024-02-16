@@ -3,29 +3,83 @@ import PageHeader from "../components/ui/PageHeader";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
+import { toast } from "react-toastify";
 const CheckOutPage = () => {
   const { cartProducts, total } = useGetCartsProduct();
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
+
+
+  console.log("cart Product",cartProducts)
   const handleCreateUserOnchange = (e) => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);
   };
+
   const handlePaymentOnChange = (event) => {
     setSelectedPayment(event.target.id);
   };
+
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    console.log(cartProducts);
+
+
+  const onSubmit = async (data) => {
+    try {
+      // Calculate total amount
+      const totalAmount = cartProducts.reduce((acc, product) => {
+        const discountedPrice = product.onePiecePrice * (1 - product.discount / 100);
+        return acc + discountedPrice;
+      }, 0);
+      
+      const orderData = {
+        userId:data._id, 
+        userPhone: data.phone,
+        totalAmount: totalAmount,
+        onlinePay: selectedPayment === "bank",
+        user: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+        
+        },
+        products: cartProducts.map(product => ({
+          productId: product._id,
+          name: product.name,
+          quantity: product.quantity,
+          
+        })),
+        // Add other fields 
+      };
+
+      
+      const response = await fetch("http://localhost:5000/api/v1/order/addOrders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+      const responseData = await response.json();
+      console.log("Order placed successfully:", responseData);
+      toast.success("  Order place successfully ")
+      
+      if (selectedPayment === "bank") {
+        window.location.href = responseData.url; 
+      } else {
+        console.log("Cash on delivery selected");
+        
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
   };
+  
+  
 
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
