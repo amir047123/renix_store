@@ -1,3 +1,4 @@
+import AdminDashboardSliderImg from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminDashboardSliderImg";
 import AdminShipping from "../components/ui/AdminDashboard/AdminShipping/AdminShipping";
 import AddProducts from "../components/ui/AdminDashboard/AllProduct/AddProducts";
 import AdminUpdateProduct from "../components/ui/AdminDashboard/AllProduct/AdminUpdateProduct";
@@ -26,6 +27,8 @@ const AdminRoutes = [
 
 
   { path: "updateShipping", Component: AdminShipping },
+  { path: "updateBanner", Component: AdminDashboardSliderImg },
+
 
 ];
 

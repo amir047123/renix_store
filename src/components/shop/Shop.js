@@ -9,6 +9,10 @@ import ProductCardGrid from "./ProductCardGrid";
 import { useEffect, useState } from "react";
 import ProductListsView from "./ProductListsView";
 import Loading from "../../shared/Loading";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import PageHeader from "../ui/PageHeader";
 
 const Shop = () => {
   const allCategory = categoryData;
@@ -17,6 +21,11 @@ const Shop = () => {
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [categorys, setCategorys] = useState([]);
+  const [category, setCategory] = useState([]);
+  const { id } = useParams();
+  const [product,setProduct]=useState([])
+
   useEffect(() => {
     setLoading(true);
     try {
@@ -33,12 +42,65 @@ const Shop = () => {
       // return <div>{err}</div>;
     }
   }, []);
+
+  useEffect(() => {
+    async function fetchCategorys() {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/category/getCategorys"
+        );
+        setCategorys(response?.data?.data);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    }
+    fetchCategorys();
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      `http://localhost:5000/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.data?.length) {
+          setCategory(data?.data[0]);
+        }else{
+          setCategory([]);
+          setLoading(false);
+        }
+
+      });
+  }, [id]);
+
+  useEffect(() => {
+    setLoading(true);
+   try{
+    fetch(
+      `http://localhost:5000/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data?.data);
+        setLoading(false);
+      });
+   }catch(crr){
+    setLoading(false);
+    toast.error("something wrong")
+   }
+  }, [id,category]);
+
+
+  
  if (loading) {
     return <Loading />;
   }
   return (
-    <section className="mt-8">
-      <div className="container sm:px-5 2xl:px-0  ">
+  <div>
+         <PageHeader />
+      <section className="mt-8">
+      <div className="container sm:px-5 2xl:px-0   ">
         <div className="grid grid-cols-12 gap-6">
           {/* left side content */}
           <div className=" col-span-full md:col-span-4 lg:col-span-3 md:order-1 order-2 ">
@@ -55,9 +117,13 @@ const Shop = () => {
               <h2 className="border-l-2  text-[#292929] border-solid border-l-primary py-[15px] px-5 font-medium uppercase font-oswald text-xl border-b border-b-[#eaeaea] ">
                 PRODUCT CATEGORIES
               </h2>
-              {allCategory.map((category, index) => (
-                <CategroyItems key={index} category={category} />
-              ))}
+              {categorys?.length &&  (
+        <>
+          {categorys?.map((category) => (
+            <CategroyItems className="" category={category?.name} />
+          ))}
+        </>
+      )}
             </div>
             {/* carousel */}
             <div className="mt-8">
@@ -129,9 +195,15 @@ const Shop = () => {
 
               {isGrid ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
-                  {data?.map((product, index) => (
-                    <ProductCardGrid key={index} product={product} />
-                  ))}
+                { id ? 
+  product?.map((product, index) => (
+    <ProductCardGrid key={index} product={product} />
+  )) :
+  data?.map((product, index) => (
+    <ProductCardGrid key={index} product={product} />
+  ))
+}
+
                 </div>
               ) : (
                 <div className=" py-4">
@@ -145,6 +217,7 @@ const Shop = () => {
         </div>
       </div>
     </section>
+  </div>
   );
 };
 

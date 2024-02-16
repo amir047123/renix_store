@@ -11,8 +11,8 @@ const TopRelatedProducts = ({product}) => {
     <Link to={`/productDetails/${product?._id}`} className="border-b border-solid border-borderColor">
       <div className="flex items-center gap-3 pb-3 mb-3 border-b border-solid border-borderColor">
         <img
-          className="border border-solid border-borderColor"
-          src="/assets/products/ps2.jpg"
+          className="border border-solid border-borderColor w-20"
+        src={product?.img}
           alt=""
         />
         <div>

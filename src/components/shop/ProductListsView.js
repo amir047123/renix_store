@@ -19,7 +19,7 @@ const ProductListsView = ({product}) => {
       <div className="basis-[28%]">
         <img
           className="mx-auto group-hover:scale-125  transition-all duration-200"
-          src="/assets/products/p1.jpg"
+         src={product?.img}
           alt=""
         />
       </div>
