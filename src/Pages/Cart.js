@@ -3,12 +3,14 @@ import { IoIosBasket } from "react-icons/io";
 import { Link } from "react-router-dom";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 
+
 const Cart = () => {
-  const { cartProducts, setCartProducts } = useGetCartsProduct();
+  const { cartProducts, setCartProducts, total } = useGetCartsProduct();
   const totalCartItemsNum = cartProducts?.reduce(
     (acc, item) => acc + item.quantity,
     0
   );
+
   const handleRemoveFromCart = (index) => {
     const updatedCartItems = [...cartProducts];
     updatedCartItems.splice(index, 1);
@@ -49,8 +51,8 @@ const Cart = () => {
               <div className="flex justify-between border-b border-solid px-5 border-borderColor pb-3">
                 <p>{totalCartItemsNum} items</p>
                 <p>
-                  <span>£</span>
-                  <span>56.00</span>
+                  <span>৳ </span>
+                  <span>{total}</span>
                 </p>
               </div>
               {/* Cart items */}
@@ -70,7 +72,7 @@ const Cart = () => {
                     <p>
                       {cartItem.quantity} ×{" "}
                       <span className="text-secondary">
-                        {cartItem.onePiecePrice}
+                        {cartItem.discountedPrice}
                       </span>
                     </p>
                     <p className="text-[13px] hover:text-secondary">

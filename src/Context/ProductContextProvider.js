@@ -5,19 +5,30 @@ export const ProductContext = createContext();
 const ProductContextProvider = ({ children }) => {
   // Initialize cartProducts state with an empty array
   const [cartProducts, setCartProducts] = useState([]);
+   let [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    // Retrieve cart items from local storage
-    const getCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    setCartProducts(getCartItems);
-  }, []);
+   useEffect(() => {
+     // Retrieve cart items from local storage
+     const getCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+     setCartProducts(getCartItems);
+   }, []);
 
-  // get all cart quantity
-  useEffect(() => {}, []);
-  const cartsInfo = {
-    cartProducts,
-    setCartProducts,
-  };
+   useEffect(() => {
+     // Calculate the total using reduce
+     const grandTotal = cartProducts.reduce(
+       (accumulator, item) =>
+         accumulator + item.quantity * item.discountedPrice,
+       0
+     );
+
+     setTotal(grandTotal);
+   }, [cartProducts]);
+
+   const cartsInfo = {
+     cartProducts,
+     setCartProducts,
+     total,
+   };
   return (
     <ProductContext.Provider value={cartsInfo}>
       {children}
