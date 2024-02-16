@@ -127,7 +127,7 @@ const WebNavbar = () => {
         <nav className="bg-white hidden relative px-[30px] md:flex items-center justify-between">
           <div className="flex items-center ">
             <div className=" pr-6 border-r h-20 flex items-center border-solid border-[#eaeaea] mr-[18px]">
-              <img src="/assets/header/logo.png" alt="" />
+             <Link to="/"> <p className=" uppercase font-bold text-primary">Renix Store</p></Link>
             </div>
             <ul className="hidden lg:flex items-center gap-7">
               {menuItems.map((item) => (

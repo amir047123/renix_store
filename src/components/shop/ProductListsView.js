@@ -16,10 +16,10 @@ const ProductListsView = ({product}) => {
   
   return (
     <div className="flex px-5 lg:px-0 flex-col lg:flex-row items-center gap-8 pr-2 lg:pr-20 border-b border-solid border-borderColor pb-4 mb-4">
-      <div className="basis-[28%]">
+      <div className="basis-[28%] ">
         <img
-          className="mx-auto group-hover:scale-125  transition-all duration-200"
-         src={product?.img}
+          className="mx-auto  group-hover:scale-125  transition-all duration-200"
+          src={product?.img}
           alt=""
         />
       </div>

@@ -75,7 +75,6 @@ const Shop = () => {
   }, [id]);
 
   useEffect(() => {
-    setLoading(true);
    try{
     fetch(
       `http://localhost:5000/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}`
@@ -83,7 +82,6 @@ const Shop = () => {
       .then((res) => res.json())
       .then((data) => {
         setProduct(data?.data);
-        setLoading(false);
       });
    }catch(crr){
     setLoading(false);
@@ -207,6 +205,8 @@ const Shop = () => {
                 </div>
               ) : (
                 <div className=" py-4">
+                  
+                  
                   {data?.map((product, index) => (
                     <ProductListsView key={index} product={product}/>
                   ))}
