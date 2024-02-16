@@ -1,15 +1,41 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import PageHeader from "../components/ui/PageHeader";
 import { RiDeleteBinLine } from "react-icons/ri";
+import PageHeader from "../components/ui/PageHeader";
+
 const CartPage = () => {
-  const cartsProduct = [1];
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    const itemQuantities = {};
+    storedCartItems.forEach((item) => {
+      const itemId = item._id;
+      if (itemQuantities[itemId]) {
+        itemQuantities[itemId].quantity += 1;
+      } else {
+        itemQuantities[itemId] = { ...item, quantity: 1 };
+      }
+    });
+
+    const cartItemsWithQuantity = Object.values(itemQuantities);
+    setCartItems(cartItemsWithQuantity);
+  }, []);
+
+  const handleRemoveFromCart = (itemId) => {
+    const updatedCartItems = cartItems.filter((item) => item._id !== itemId);
+    setCartItems(updatedCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+  };
+
   return (
-    <div className="bg-[#f5f5f5]  overflow-hidden">
+    <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="Cart" />
-      <div className=" mx-auto max-lg:overflow-x-auto w-full">
+      <div className="mx-auto max-lg:overflow-x-auto w-full">
         <div className="pt-12 container">
           <div className="bg-white p-5 shadow-custom max-lg:min-w-[900px]">
-            {cartsProduct.length === 0 ? (
+            {cartItems.length === 0 ? (
               <>
                 <div>
                   <p className="font-rubic text-sm text-[#333] mb-6">
@@ -17,7 +43,7 @@ const CartPage = () => {
                   </p>
                   <Link
                     to={"/"}
-                    className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm "
+                    className="hover:bg-secondary bg-primary transition-all duration-300 text-white px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm"
                   >
                     Return to shop
                   </Link>
@@ -25,6 +51,7 @@ const CartPage = () => {
               </>
             ) : (
               <>
+                {/* Table header */}
                 <div className="grid grid-cols-12 border-b border-borderColor pb-3 place-items-center font-rubic font-medium text-sm uppercase text-[#222]">
                   <div className="invisible col-span-1">image</div>
                   <div className="col-span-4">
@@ -45,38 +72,39 @@ const CartPage = () => {
                 </div>
                 {/* Table body */}
                 <div>
-                  <div className="grid grid-cols-12 place-items-center border-b text-[#333] border-borderColor pb-3">
-                    <div className=" col-span-1">
-                      <img src="/assets/products/p1.jpg" alt="" />
-                    </div>
-                    <div className="col-span-4 font-rubic">
-                      <Link
-                        className="hover:text-secondary transition-all duration-300 text-[#333] "
-                        to={""}
-                      >
-                        Fresh Organic Mustard Leaves
-                      </Link>
-                    </div>
-                    <div className="col-span-2 font-openSans">
-                      <p>£6.00</p>
-                    </div>
-                    <div className="col-span-2 font-openSans">
-                      <p className="border border-borderColor rounded-full w-4 h-4 p-5 leading-4 flex justify-center items-center">
-                        1
-                      </p>
-                    </div>
-                    <div className="col-span-2 font-openSans">
-                      <p>£6.00</p>
-                    </div>
-                    <div className=" col-span-1 font-openSans">
-                      <div className="border border-borderColor rounded-full w-12 h-12  leading-4 flex justify-center items-center">
-                        <div>
-                          {" "}
-                          <RiDeleteBinLine size={20} />
+                  {cartItems.map((item) => (
+                    <div key={item._id} className="grid grid-cols-12 place-items-center border-b text-[#333] border-borderColor pb-3">
+                      <div className=" col-span-1">
+                        <img src={item.img} alt="" />
+                      </div>
+                      <div className="col-span-4 font-rubic">
+                        <Link
+                          className="hover:text-secondary transition-all duration-300 text-[#333]"
+                          to={""}
+                        >
+                          {item.name}
+                        </Link>
+                      </div>
+                      <div className="col-span-2 font-openSans">
+                        <p>  ৳ {item.onePiecePrice}</p>
+                      </div>
+                      <div className="col-span-2 font-openSans">
+                        <p className="border border-borderColor rounded-full w-4 h-4 p-5 leading-4 flex justify-center items-center">
+                          {item.quantity}
+                        </p>
+                      </div>
+                      <div className="col-span-2 font-openSans">
+                        <p>£{item.subtotal}</p>
+                      </div>
+                      <div className=" col-span-1 font-openSans">
+                        <div className="border border-borderColor rounded-full w-12 h-12  leading-4 flex justify-center items-center">
+                          <div onClick={() => handleRemoveFromCart(item._id)}>
+                            <RiDeleteBinLine size={20} />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
                 {/* Table footer */}
                 <div>
@@ -127,7 +155,6 @@ const CartPage = () => {
                 </div>
               </>
             )}
-            {/* table header */}
           </div>
         </div>
       </div>
