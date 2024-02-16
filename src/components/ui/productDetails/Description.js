@@ -1,63 +1,9 @@
 import React from "react";
 
-const Description = () => {
+const Description = ({product}) => {
   return (
-    <div className="bg-white p-6 shadow-custom font-openSans">
-      <div>
-        <p className="text-[#333] text-sm py-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla
-          augue nec est tristique auctor. Donec non est at libero vulputate
-          rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus
-          mi, vulputate adipiscing cursus eu, suscipit id nulla. Donec a neque
-          libero. Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus
-          feugiat sem, quis fermentum turpis eros eget velit. Donec ac tempus
-          ante. Fusce ultricies massa massa. Mauris vel tellus non nunc mattis
-          lobortis. vulputate adipiscing cursus eu, suscipit id nulla. Donec a
-          neque libero. Pellentesque aliquet, sem eget laoreet ultrices, ipsum
-          metus feugiat sem, quis fermentum turpis eros eget velit. Donec ac
-          tempus ante.
-        </p>
-        <p className="text-[#333] text-sm pb-6">
-          Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et
-          mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum
-          ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-          Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut
-          dolor dignissim semper. Nulla luctus malesuada tincidunt. Class aptent
-          taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-          himenaeos. Integer enim purus, posuere at ultricies eu, placerat a
-          felis. Suspendisse aliquet urna pretium eros convallis interdum.
-          Quisque in arcu id dui vulputate mollis eget non arcu. Aenean et nulla
-          purus. Mauris vel tellus non nunc mattis lobortis. vulputate
-          adipiscing cursus eu, suscipit id nulla. Donec a neque libero.
-          Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat
-          sem, quis fermentum turpis eros eget velit. Donec ac tempus ante.
-          Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis
-          vulputate, sapien libero hendrerit est, vulputate adipiscing cursus
-          eu, suscipit id nulla. Donec a neque libero. Pellentesque aliquet, sem
-          eget laoreet ultrices, ipsum metus feugiat sem, quis fermentum turpis
-          eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa.
-          Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit.
-        </p>
-        <ul className="font-bold pb-6 text-sm space-y-2 list-disc pl-16">
-          <li>Mauris vel tellus non nunc mattis lobortis</li>
-          <li>Suspendisse aliquet urna pretium eros convallis</li>
-          <li>Vestibulum ante ipsum primis in faucibus</li>
-          <li>Fusce ultricies massa massa</li>
-        </ul>
-        <p className="text-[#333] text-sm pb-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla
-          augue nec est tristique auctor. Donec non est at libero vulputate
-          rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus
-          mi, vulputate adipiscing cursus eu, suscipit id nulla. Donec a neque
-          libero. Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus
-          feugiat sem, quis fermentum turpis eros eget velit. Donec ac tempus
-          ante. Fusce ultricies massa massa. Mauris vel tellus non nunc mattis
-          lobortis. vulputate adipiscing cursus eu, suscipit id nulla. Donec a
-          neque libero. Pellentesque aliquet, sem eget laoreet ultrices, ipsum
-          metus feugiat sem, quis fermentum turpis eros eget velit. Donec ac
-          tempus ante.
-        </p>
-      </div>
+    <div className="bg-white p-6 shadow-custom font-openSans" dangerouslySetInnerHTML={{ __html: product?.description }} >
+     
     </div>
   );
 };

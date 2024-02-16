@@ -4,6 +4,7 @@ import { FaPlus } from "react-icons/fa";
 
 const CategoryItems = ({ category }) => {
   const [openSubCategory, setOpenSubCategory] = useState(false);
+  console.log("category",category)
 
   return (
     <div>
@@ -11,9 +12,9 @@ const CategoryItems = ({ category }) => {
         <li className="relative border-b border-solid border-borderColor px-5">
           <Link
             className="uppercase flex justify-between items-center text-blackColor font-medium text-sm py-3"
-            to={""}
+            to={`/shop/${category}`}
           >
-            {category.name}
+            {category}
           </Link>
           <ul
             className={`top-full text-xs pb-4 `}

@@ -11,15 +11,15 @@ const Reviews = () => {
           1 review for Fresh Red Seedless
         </p>
         <div className="flex gap-4 border-b border-solid border-borderColor pb-6 mb-6">
-          <div>
+          <div className="w-[80px] ">
             <img
-              className="rounded-full w-[80px] object-cover"
+              className="rounded-full w-full object-cover"
               src="/assets/products/user.png"
               alt="userimage"
               srcset=""
             />
           </div>
-          <div>
+          <div className="flex-1">
             <Rating
               fullSymbol={<IoIosStar className="text-primary" />}
               emptySymbol={<FaRegStar className="text-primary text-center" />}
@@ -40,9 +40,11 @@ const Reviews = () => {
         <p className="text-black text-lg font-bold border-b border-solid border-borderColor pb-6 mb-6 ">
           Add a review
         </p>
-        <p className="text-[#333] mb-6 ">
-          Your email address will not be published. Required fields are marked{" "}
-          <span className="text-secondary">*</span>
+        <p className="text-[#333] mb-6 text-sm md:text-base  ">
+          <span>Your email address will not be published.</span>{" "}
+          <span className="md:inline block md:mt-0 mt-3">
+            Required fields are marked <span className="text-secondary">*</span>
+          </span>{" "}
         </p>
         <p className="text-[#333] text-sm mb-6 ">
           Your rating
