@@ -23,10 +23,26 @@ const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState([]);
-
+  const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState(1);
   const relatedProducts = [1, 2, 3, 4, 5];
 
+  useEffect(() => {
+    setLoading(true);
+    try {
+      fetch(
+        `http://localhost:5000/api/v1/product/getProducts`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data?.data);
+          setLoading(false);
+        });
+    } catch (err) {
+      setLoading(false);
+      // return <div>{err}</div>;
+    }
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -213,8 +229,8 @@ const ProductDetails = () => {
           RELATED PRODUCTS
         </h2>
         <div className="grid gird-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          {relatedProducts?.map((product) => (
-            <ProductCardGrid key={product} />
+          {data?.slice(0, 5)?.map((product) => (
+            <ProductCardGrid key={product} product={product} />
           ))}
         </div>
       </div>

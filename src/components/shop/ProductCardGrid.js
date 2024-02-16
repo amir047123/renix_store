@@ -21,6 +21,8 @@ const ProductCardGrid = ({ product }) => {
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
 
+  
+
   return (
     <div className="bg-white group pb-6 relative border-r border-b border-solid border-borderColor">
       <div className="text-center">
