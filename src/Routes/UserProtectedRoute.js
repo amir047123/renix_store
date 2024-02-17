@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import AuthUser from "../Hooks/authUser";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UserProtectedRoute = ({ children }) => {
-  const location = useLocation();
   const { userRole, logout } = AuthUser();
   const navigate = useNavigate();
 
@@ -14,7 +13,7 @@ const UserProtectedRoute = ({ children }) => {
       logout();
       navigate("/login");
     }
-  }, [userRole, logout, navigate, location.pathname]);
+  }, [userRole, logout, navigate]);
 
   return children;
 };

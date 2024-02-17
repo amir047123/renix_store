@@ -5,7 +5,7 @@ import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 
 const Cart = () => {
   const location = useLocation();
-  console.log(location.pathname);
+
   const { cartProducts, setCartProducts, total } = useGetCartsProduct();
   const totalCartItemsNum = cartProducts?.reduce(
     (acc, item) => acc + item.quantity,

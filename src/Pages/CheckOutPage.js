@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import AuthUser from "../Hooks/authUser";
 const CheckOutPage = () => {
   const { userInfo } = AuthUser();
-  const { cartProducts, total } = useGetCartsProduct();
+  const { cartProducts, total, setCartProducts } = useGetCartsProduct();
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
@@ -66,6 +66,7 @@ const CheckOutPage = () => {
           img: product.img,
           discountPrice: product.discountedPrice,
           orginalPrice: product.onePiecePrice,
+          total: total,
         })),
         // Add other fields
       };
@@ -83,6 +84,7 @@ const CheckOutPage = () => {
       const responseData = await response.json();
       console.log("Order placed successfully:", responseData);
       toast.success("  Order place successfully ");
+      setCartProducts([]);
 
       if (selectedPayment === "bank") {
         window.location.href = responseData.url;
