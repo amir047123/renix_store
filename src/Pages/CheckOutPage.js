@@ -11,7 +11,7 @@ const CheckOutPage = () => {
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
-  console.log(cartProducts, "cartProducts");
+
   const handleCreateUserOnchange = (e) => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);
@@ -28,7 +28,6 @@ const CheckOutPage = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       // Calculate total amount
       const totalAmount = cartProducts?.reduce((acc, product) => {

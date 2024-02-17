@@ -1,10 +1,11 @@
 import { FaBars, FaSearch } from "react-icons/fa";
 import { IoIosBasket } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 
-
 const Cart = () => {
+  const location = useLocation();
+  console.log(location.pathname);
   const { cartProducts, setCartProducts, total } = useGetCartsProduct();
   const totalCartItemsNum = cartProducts?.reduce(
     (acc, item) => acc + item.quantity,
@@ -116,7 +117,9 @@ const Cart = () => {
         <div className="absolute top-full -right-[30px] bg-white w-[270px] border-t-[3px] border-solid border-primary px-5 py-4 opacity-0 invisible group-hover:visible group-hover:opacity-100 duration-200 transform scale-0 group-hover:scale-100 rotate-0 shadow-custom">
           <ul className="flex flex-col gap-[6px] uppercase text-xs font-rubic font-medium">
             <li className="border-b border-solid border-[#eaeaea] py-[14px] uppercase">
-              <Link to={"/my-account"}>MY ACCOUNT</Link>
+              <Link to="/my-account" state={{ from: location.pathname }}>
+                MY ACCOUNT
+              </Link>
             </li>
             <li className="border-b border-solid border-[#eaeaea] uppercase py-[14px]">
               <Link to={"/wishlist"}>WISHLIST</Link>

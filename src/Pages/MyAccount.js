@@ -4,7 +4,7 @@ import AuthUser from "../Hooks/authUser";
 import { toast } from "react-toastify";
 
 const MyAccount = () => {
-  const { userRole, logout, phone } = AuthUser();
+  const { userRole, logout } = AuthUser();
   const navigate = useNavigate();
   const [isMounted, setIsMounted] = useState(false);
 

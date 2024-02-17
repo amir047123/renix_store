@@ -4,8 +4,12 @@ import { toast } from "react-toastify";
 import { server_url } from "../Config/API";
 import axios from "axios";
 import AuthUser from "../Hooks/authUser";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
   const { setToken } = AuthUser();
   const [otp, setOtp] = useState("");
   const [ph, setPh] = useState("");
@@ -79,7 +83,7 @@ const Login = () => {
               setToken(
                 addUserData?.data?.phone,
                 addUserData?.data?.role,
-                addUserData?.data,
+                addUserData?.data
               );
               toast.success("You have successfully created an account!");
               setUser(addUserData.data); // Set the 'user' state variable
@@ -96,6 +100,7 @@ const Login = () => {
               userData?.data
             );
             toast.success("You are successfully logged in!");
+            navigate(location?.state ? location?.state : "/");
             setUser(userData.data); // Set the 'user' state variable
           }
         } else {
@@ -184,8 +189,6 @@ const Login = () => {
                       </button>
                     )}
                     {user && <p>OTP verified successfully!</p>}
-                   
-                
                   </div>
                 </div>
               </div>
