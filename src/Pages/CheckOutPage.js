@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 import { toast } from "react-toastify";
+import AuthUser from "../Hooks/authUser";
 const CheckOutPage = () => {
+  const { userInfo } = AuthUser();
   const { cartProducts, total } = useGetCartsProduct();
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
-
-
-  console.log("cart Product",cartProducts)
+  console.log(cartProducts, "cartProducts");
   const handleCreateUserOnchange = (e) => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);
@@ -27,59 +27,73 @@ const CheckOutPage = () => {
     formState: { errors },
   } = useForm();
 
-
-
   const onSubmit = async (data) => {
+    console.log(data);
     try {
       // Calculate total amount
-      const totalAmount = cartProducts.reduce((acc, product) => {
-        const discountedPrice = product.onePiecePrice * (1 - product.discount / 100);
+      const totalAmount = cartProducts?.reduce((acc, product) => {
+        const discountedPrice =
+          product.onePiecePrice * (1 - product.discount / 100);
         return acc + discountedPrice;
       }, 0);
-      
+
       const orderData = {
-        userId:data._id, 
-        userPhone: data.phone,
+        userId: userInfo?._id, // auth id
+        userPhone: userInfo?.phone, // auth num
         totalAmount: totalAmount,
         onlinePay: selectedPayment === "bank",
         user: {
           firstName: data.firstName,
           lastName: data.lastName,
-        
+          // all info here
+          country: data.country,
+          company: data.company,
+          city: data.city,
+          apartment: data.apartment,
+          countryOptional: data.countryOptional,
+          createAccount: data.createAccount,
+          email: data.email,
+          notes: data.notes,
+          password: data.password,
+          phone: data.phone,
+          postcode: data.postcode,
+          streetAddress: data.streetAddress,
+          userName: data.userName,
         },
-        products: cartProducts.map(product => ({
+        products: cartProducts?.map((product) => ({
           productId: product._id,
           name: product.name,
           quantity: product.quantity,
-          
+          img: product.img,
+          discountPrice: product.discountedPrice,
+          orginalPrice: product.onePiecePrice,
         })),
-        // Add other fields 
+        // Add other fields
       };
 
-      
-      const response = await fetch("http://localhost:5000/api/v1/order/addOrders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/v1/order/addOrders",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
       const responseData = await response.json();
       console.log("Order placed successfully:", responseData);
-      toast.success("  Order place successfully ")
-      
+      toast.success("  Order place successfully ");
+
       if (selectedPayment === "bank") {
-        window.location.href = responseData.url; 
+        window.location.href = responseData.url;
       } else {
         console.log("Cash on delivery selected");
-        
       }
     } catch (error) {
       console.error("Error placing order:", error);
     }
   };
-  
-  
 
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
@@ -155,12 +169,17 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
-                        {...register("firstName")}
+                        {...register("firstName", { required: true })}
                         id="firstName"
                         name="firstName"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                       />
+                      {errors.firstName && (
+                        <span className="text-xs text-red-500 font-semibold mt-1">
+                          This field is required
+                        </span>
+                      )}
                     </div>
                     {/* Last name */}
                     <div className="mb-4">
@@ -169,12 +188,17 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
-                        {...register("lastName")}
+                        {...register("lastName", { required: true })}
                         id="lastName"
                         name="lastName"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                       />
+                      {errors.lastName && (
+                        <span className="text-xs text-red-500 font-semibold mt-1">
+                          This field is required
+                        </span>
+                      )}
                     </div>
                     {/* Company name */}
                     <div className="mb-4">
@@ -198,7 +222,7 @@ const CheckOutPage = () => {
                       </label>
 
                       <select
-                        {...register("country")}
+                        {...register("country", { required: true })}
                         value={"United"}
                         id="country"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
@@ -211,6 +235,11 @@ const CheckOutPage = () => {
                           United States
                         </option>
                       </select>
+                      {errors.country && (
+                        <span className="text-xs text-red-500 font-semibold mt-1">
+                          This field is required
+                        </span>
+                      )}
                     </div>
                     {/* Street address */}
                     <div className="mb-4">
@@ -222,15 +251,20 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
-                        {...register("streetAddress")}
+                        {...register("streetAddress", { required: true })}
                         id="streetAddress"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         placeholder="House number and street name"
                         name="streetAddress"
                       />
-
+                      {errors.streetAddress && (
+                        <span className="text-xs text-red-500 font-semibold mt-1">
+                          This field is required
+                        </span>
+                      )}
                       <input
+                        {...register("apartment")}
                         className="w-full mt-3 py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         placeholder="Apartment, suite, unit, etc. (optional)"
@@ -244,12 +278,17 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
-                        {...register("city")}
+                        {...register("city", { required: true })}
                         id="city"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         name="city"
                       />
+                      {errors.city && (
+                        <span className="text-xs text-red-500 font-semibold mt-1">
+                          This field is required
+                        </span>
+                      )}
                     </div>
                     {/* County (optional)  */}
                     <div className="mb-4">
@@ -275,12 +314,17 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
-                        {...register("postcode")}
+                        {...register("postcode", { required: true })}
                         id="postcode"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         name="postcode"
                       />
+                      {errors.postcode && (
+                        <span className="text-xs text-red-500 font-semibold mt-1">
+                          This field is required
+                        </span>
+                      )}
                     </div>
                     {/* Phone   */}
                     <div className="mb-4">
@@ -289,12 +333,17 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
-                        {...register("phone")}
+                        {...register("phone", { required: true })}
                         id="phone"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         name="phone"
                       />
+                      {errors.phone && (
+                        <span className="text-xs text-red-500 font-semibold mt-1">
+                          This field is required
+                        </span>
+                      )}
                     </div>
                     {/* Email address   */}
                     <div className="mb-4">
@@ -303,12 +352,17 @@ const CheckOutPage = () => {
                       </label>
 
                       <input
-                        {...register("email")}
+                        {...register("email", { required: true })}
                         id="email"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         name="email"
                       />
+                      {errors.email && (
+                        <span className="text-xs text-red-500 font-semibold mt-1">
+                          This field is required
+                        </span>
+                      )}
                     </div>
                     {/* Create an account */}
                     <div className="relative ">
@@ -319,6 +373,7 @@ const CheckOutPage = () => {
                         name="createAccount"
                         id="createAccount"
                       />
+
                       <label className="ml-2" htmlFor="createAccount">
                         Create an account?
                       </label>
@@ -342,13 +397,20 @@ const CheckOutPage = () => {
                           </label>
 
                           <input
-                            {...register("userName")}
+                            {...register("userName", {
+                              required: newUser ? true : false,
+                            })}
                             id="userName"
                             className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                             type="text"
                             name="userName"
                             placeholder="Username"
                           />
+                          {errors.userName && (
+                            <span className="text-xs text-red-500 font-semibold mt-1">
+                              This field is required
+                            </span>
+                          )}
                         </div>
                         {/* Create account password  */}
                         <div className="mb-4">
@@ -360,13 +422,20 @@ const CheckOutPage = () => {
                             <span className="text-secondary">*</span>
                           </label>
                           <input
-                            {...register("password")}
+                            {...register("password", {
+                              required: newUser ? true : false,
+                            })}
                             id="password"
                             className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                             type="text"
                             name="password"
                             placeholder="Password"
                           />
+                          {errors.password && (
+                            <span className="text-xs text-red-500 font-semibold mt-1">
+                              This field is required
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>

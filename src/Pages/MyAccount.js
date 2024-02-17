@@ -13,16 +13,14 @@ const MyAccount = () => {
 
     if (userRole !== "user") {
       toast.info("Please verify your phone number");
-     
+
       logout();
-      navigate("/login")
-      setTimeout(() => {
-       
-      }, 2000); 
+      navigate("/login");
+      setTimeout(() => {}, 2000);
     }
 
-    return () => setIsMounted(false); 
-  }, [userRole, logout, isMounted]);
+    return () => setIsMounted(false);
+  }, [userRole, logout, isMounted, navigate]);
 
   return (
     <div className="font-openSans text-sm py-3 max-w-[90%]">
