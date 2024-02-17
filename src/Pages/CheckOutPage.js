@@ -39,7 +39,7 @@ const CheckOutPage = () => {
       const orderData = {
         userId: userInfo?._id, // auth id
         userPhone: userInfo?.phone, // auth num
-        totalAmount: totalAmount,
+        totalAmount: total,
         onlinePay: selectedPayment === "bank",
         user: {
           firstName: data.firstName,
@@ -66,7 +66,7 @@ const CheckOutPage = () => {
           img: product.img,
           discountPrice: product.discountedPrice,
           orginalPrice: product.onePiecePrice,
-          total: total,
+          
         })),
         // Add other fields
       };

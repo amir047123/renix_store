@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa6";
+import bg from "../../Assets/Cover.png"
 const PageHeader = ({ title = "Title" }) => {
   const breadcrumbs = [
     {
@@ -11,7 +12,7 @@ const PageHeader = ({ title = "Title" }) => {
   ];
   return (
     <section
-      style={{ background: 'url("/assets/header/pageBanner.jpg")' }}
+    style={{ background: `url(${bg})` }}
       className="bg-no-repeat bg-cover bg-center pt-52 md:pt-60 lg:pt-48 pb-8 text-center"
     >
       <div className="container text-white">

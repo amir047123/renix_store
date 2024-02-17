@@ -22,7 +22,8 @@ const OrderDetails = () => {
   return (
     <div>
       <p className="text-xs font-openSans mb-3 text-[#333]">
-        Order <mark>#981</mark> was placed on <mark> {orderDetails?.date}</mark>{" "}
+        Order <mark>{orderDetails?.tracking_id}</mark> was placed on <mark>  {orderDetails.date ? new Date(orderDetails.date).toLocaleDateString() : ''}
+</mark>{" "}
         and is currently <mark>{orderDetails?.status}</mark>.
       </p>
       <h4 className="text-base font-openSans  text-[#333]">Order details</h4>
@@ -113,20 +114,21 @@ const OrderDetails = () => {
           Billing address
         </h2>
         <address className=" font-openSans text-sm text-[#999]">
-          Lois Ingram
+      {orderDetails?.user?.firstName}   {orderDetails?.user?.lastName}
           <br />
-          Nichols Cain Trading
-          <br />
-          {orderDetails?.user?.streetAddress}
-          <br />
-          Libero quibusdam vol
-          <br />
-          Omnis et aut iste ar
+         {orderDetails?.user?.city}
           <br />
           {orderDetails?.user?.postcode}
+<br/>
+
+          {orderDetails?.user?.streetAddress}
           <br />
-          MAGNAMAUTVITAESED
+        
+         
+      
+          {orderDetails?.user?.postcode}
           <br />
+       
           {orderDetails?.user?.country}
           <p className="my-4">{orderDetails?.user?.phone}</p>
           <p className="">{orderDetails?.user?.email}</p>

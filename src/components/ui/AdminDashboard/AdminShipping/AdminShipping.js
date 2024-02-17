@@ -167,7 +167,7 @@ const AdminShipping = () => {
 
         <div className="text-center pt-3">
           <button
-            className="bg-primary2 hover:bg-lightPrimary text-white  py-2 rounded-lg text-lg w-fit px-8"
+            className="bg-primary hover:bg-lightPrimary text-white  py-2 rounded-lg text-lg w-fit px-8"
             type="submit"
           >
             Update Shipping

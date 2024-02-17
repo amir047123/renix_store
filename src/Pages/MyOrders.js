@@ -6,6 +6,8 @@ const MyOrders = () => {
   const { userInfo } = AuthUser();
 
   const [myOrder, setMyOrder] = useState([]);
+  const [copySuccess, setCopySuccess] = useState(false); // State to track copy success
+
   useEffect(() => {
     const getMyOrder = async () => {
       const response = await fetch(
@@ -16,7 +18,20 @@ const MyOrders = () => {
     };
     getMyOrder();
   }, [userInfo._id]);
-  // Assuming myOrder is your array of orders
+
+  const handleCopyTrackingId = (trackingId) => {
+    navigator.clipboard.writeText(trackingId)
+      .then(() => {
+        setCopySuccess(true); // Set copySuccess to true when copy succeeds
+        setTimeout(() => {
+          setCopySuccess(false); // Reset copySuccess after a delay
+        }, 2000); // Reset after 2 seconds
+      })
+      .catch((error) => {
+        console.error("Error copying tracking ID:", error);
+      });
+  };
+
   const grandTotal = myOrder.reduce((accumulator, order) => {
     const orderTotal = order.products.reduce((total, product) => {
       return total + product.quantity * product.discountPrice;
@@ -24,9 +39,6 @@ const MyOrders = () => {
     return orderTotal;
   }, 0);
 
-  console.log(grandTotal);
-
-  console.log(myOrder);
   return (
     <div>
       {myOrder.length === 0 ? (
@@ -88,18 +100,19 @@ const MyOrders = () => {
                 <tr key={order._id}>
                   <th
                     scope="row"
-                    className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-primary "
+                    className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-primary cursor-pointer"
+                    onClick={() => handleCopyTrackingId(order?.tracking_id)}
                   >
-                    #981
+                    {order?.tracking_id}
                   </th>
-                  <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">
-                    {order.date}
+                  <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500">
+                    {order.date ? new Date(order.date).toLocaleDateString() : ''}
                   </td>
                   <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">
                     {order.status}
                   </td>
                   <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">
-                    {grandTotal} for {order?.products?.length} item
+                  ৳  {grandTotal} for {order?.products?.length} item
                   </td>
                   <td className="h-20 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">
                     <Link
@@ -113,6 +126,9 @@ const MyOrders = () => {
               ))}
             </tbody>
           </table>
+          {copySuccess && (
+            <div className="text-green-500 mt-2">Tracking ID copied successfully!</div>
+          )}
         </div>
       )}
     </div>

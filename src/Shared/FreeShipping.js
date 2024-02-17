@@ -12,7 +12,7 @@ const FreeShipping = () => {
             <MdOutlineLocalShipping className="mx-auto text-xl md:text-[30px] text-primary leading-10" />
           </div>
           <p className="uppercase font-rubic font-medium text-textColor tracking-[0.5px] w-full md:max-w-[185px] mx-auto text-sm mt-6">
-            FREE SHIPPING ON ORDER OVER $99
+            FREE SHIPPING ON ORDER OVER ৳ 5000
           </p>
         </div>
         {/* Questions */}
@@ -21,7 +21,7 @@ const FreeShipping = () => {
             <IoCallSharp className="mx-auto text-xl md:text-[30px] text-primary leading-10" />
           </div>
           <p className="uppercase font-rubic font-medium text-textColor tracking-[0.5px] w-full md:max-w-[185px] mx-auto text-sm mt-6">
-            HAVE A QUESTIONS? +10800 789 0000
+            HAVE A QUESTIONS? +8801884442022
           </p>
         </div>
         {/* grantee */}

@@ -27,7 +27,7 @@ const MyAccount = () => {
       <p className="text-sm text-[#333]">
         Hello <span className="font-bold">res</span> (not{" "}
         <span className="font-bold">res</span>?{" "}
-        <span className="font-bold text-primary   " onClick={logout}>Log out</span>)
+        <span className="font-bold text-primary     cursor-pointer" onClick={logout}>Log out</span>)
       </p>
       <p>
         From your account dashboard you can view your{" "}

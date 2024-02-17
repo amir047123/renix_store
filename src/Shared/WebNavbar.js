@@ -4,10 +4,12 @@ import { IoIosBasket } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import Cart from "../Pages/Cart";
+import axios from "axios";
 const WebNavbar = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const [categorys, setCategorys] = useState([]);
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible((prevVisible) => !prevVisible);
@@ -15,6 +17,10 @@ const WebNavbar = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+
+
+
 
   const menuItems = [
     {
@@ -26,7 +32,7 @@ const WebNavbar = () => {
       href: "/shop",
     },
     {
-      title: "fruits",
+      title: "Categores",
       href: "/category/fruits",
       subCategory: [
         {
@@ -79,9 +85,12 @@ const WebNavbar = () => {
         },
       ],
     },
-
+ {
+      title: "Tracking Order",
+      href: "/tracking-order",
+    },
     {
-      title: "salad",
+      title: "Conatct",
       href: "/category/salad",
       // subCategory: [
       //   { title: "salad", href: "/category/salad" },
@@ -93,7 +102,7 @@ const WebNavbar = () => {
       // ],
     },
     {
-      title: "Juice",
+      title: "About",
       href: "/category/juice",
     },
     // {
@@ -101,6 +110,22 @@ const WebNavbar = () => {
     //   href: "/contact-us",
     // },
   ];
+
+
+  useEffect(() => {
+    async function fetchCategorys() {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/category/getCategorys"
+        );
+        setCategorys(response?.data?.data);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    }
+    fetchCategorys();
+  }, []);
   return (
     <header className="fixed w-full  z-[9999]">
       <div className="md:container">

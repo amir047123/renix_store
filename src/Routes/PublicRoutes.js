@@ -7,6 +7,7 @@ import CheckOutPage from "../Pages/CheckOutPage";
 
 import Home from "../Pages/Home";
 import Shop from "../components/shop/Shop";
+import TrackingOrder from "../Pages/TrackingOrder";
 
 
 const PublicRoutes = [
@@ -19,6 +20,8 @@ const PublicRoutes = [
   { path: "/checkout", Component: CheckOutPage },
   { path: "/wishlist", Component: WishlistPage },
   { path: "/login", Component: Login },
+  { path: "/tracking-order", Component: TrackingOrder },
+
 ];
 
 export { PublicRoutes };

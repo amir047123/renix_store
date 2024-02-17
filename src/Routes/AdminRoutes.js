@@ -6,6 +6,9 @@ import AllProduct from "../components/ui/AdminDashboard/AllProduct/AllProduct";
 import AddCategory from "../components/ui/AdminDashboard/Category/AddCategory";
 import AllCategory from "../components/ui/AdminDashboard/Category/AllCategory";
 import UpdateCategory from "../components/ui/AdminDashboard/Category/UpdateCategory";
+import AddCoupon from "../components/ui/AdminDashboard/Coupon/AddCoupon";
+import AllCoupon from "../components/ui/AdminDashboard/Coupon/AllCoupon";
+import UpdateCoupon from "../components/ui/AdminDashboard/Coupon/UpdateCoupon";
 import Dashboard from "../components/ui/AdminDashboard/Dashboard";
 
 
@@ -28,6 +31,12 @@ const AdminRoutes = [
 
   { path: "updateShipping", Component: AdminShipping },
   { path: "updateBanner", Component: AdminDashboardSliderImg },
+
+
+  { path: "addCoupon", Component: AddCoupon },
+  { path: "allCoupon", Component: AllCoupon },
+  { path: "updateCoupons/:id", Component: UpdateCoupon },
+
 
 
 ];

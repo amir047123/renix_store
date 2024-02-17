@@ -22,6 +22,7 @@ import { useParams } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 const ProductDetails = () => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
+
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState([]);
@@ -31,6 +32,11 @@ const ProductDetails = () => {
   const productQuantity = cartProducts?.find(
     (item) => item?._id === product?._id
   );
+
+ 
+
+
+
   useEffect(() => {
     setLoading(true);
     try {
@@ -119,6 +125,67 @@ const ProductDetails = () => {
     }
   };
 
+
+  // Function to share product on Facebook
+  const handleShareFacebook = async () => {
+    try {
+      await navigator.share({
+       
+        url: window.location.href,
+      });
+    } catch (error) {
+      console.error("Error sharing:", error.message);
+    }
+  };
+
+  // Function to share product on Twitter
+  const handleShareTwitter = async () => {
+    try {
+      await navigator.share({
+      
+        url: window.location.href,
+      });
+    } catch (error) {
+      console.error("Error sharing:", error.message);
+    }
+  };
+
+  // Function to share product on Google Plus (Deprecated)
+  const handleShareGooglePlus = async () => {
+    try {
+      await navigator.share({
+       
+        url: window.location.href,
+      });
+    } catch (error) {
+      console.error("Error sharing:", error.message);
+    }
+  };
+
+  // Function to share product on Pinterest
+  const handleSharePinterest = async () => {
+    try {
+      await navigator.share({
+        
+        url: window.location.href,
+      });
+    } catch (error) {
+      console.error("Error sharing:", error.message);
+    }
+  };
+
+  // Function to share product on LinkedIn
+  const handleShareLinkedIn = async () => {
+    try {
+      await navigator.share({
+       
+        url: window.location.href,
+      });
+    } catch (error) {
+      console.error("Error sharing:", error.message);
+    }
+  };
+
   return (
     <div className=" mt-12 container ">
       {/* product details */}
@@ -195,57 +262,38 @@ const ProductDetails = () => {
             </button>
           </div>
 
-          <div className=" mt-5">
-            <div className="flex items-center gap-2 md:gap-5">
-              <button className="capitalize bg-gray-200 hover:bg-primary px-2 md:px-4 py-2 rounded-lg hover:text-white text-[#333] font-openSans  text-sm transition-all duration-300 flex items-center gap-2 ">
-                <CiHeart /> add to whishlist
-              </button>
-              <button className="capitalize bg-gray-200 hover:bg-primary px-2 md:px-4 py-2 rounded-lg hover:text-white text-[#333] font-openSans  text-sm transition-all duration-300 flex items-center gap-2 ">
-                <FaSignal /> compare
-              </button>
-            </div>
-            {/* social icon */}
-            <div className="flex items-center gap-3 my-6">
-              <div className="border hover:bg-[#3C5B9B] hover:text-white transition-all   border-solid border-borderColor rounded-md p-3 cursor-pointer duration-300 inline-block">
-                <FaFacebookF />
-              </div>
-              <div
-                className="border hover:text-white hover:bg-[#359BED] 
-                border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
-              >
-                <FaTwitter />
-              </div>
-              <div className="border hover:text-white hover:bg-[#E33729] duration-300 border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all inline-block">
-                <FaGooglePlusG />
-              </div>
-              <div className="border hover:text-white hover:bg-[#cb2027] d border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block">
-                <FaPinterestP />
-              </div>
-              <div className="border hover:text-white hover:bg-[#027ba5]  border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block">
-                <FaLinkedinIn />
-              </div>
-            </div>
-            {/*  */}
-            <div className="">
-              <ul className="font-rubic text-sm text-[#333] list-disc space-y-2 ml-4 mb-3">
-                <li>Free Wordwide Shipping</li>
-                <li>30 Days Return</li>
-                <li>Member Discount</li>
-              </ul>
-              <div className="flex gap-2">
-                <p className="text-sm text-[#333]">
-                  <span className="text-primary font-semibold mr-1">SKU:</span>
-                  K37SA62
-                </p>
-                <p className="text-sm text-[#333]">
-                  <span className="text-primary font-semibold mr-1">
-                    Category:
-                  </span>
-                  Fruits
-                </p>
-              </div>
-            </div>
-          </div>
+          <div className="flex items-center gap-3 my-6">
+      <div
+        className="border hover:bg-[#3C5B9B] hover:text-white transition-all border-solid border-borderColor rounded-md p-3 cursor-pointer duration-300 inline-block"
+        onClick={handleShareFacebook}
+      >
+        <FaFacebookF />
+      </div>
+      <div
+        className="border hover:text-white hover:bg-[#359BED] border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
+        onClick={handleShareTwitter}
+      >
+        <FaTwitter />
+      </div>
+      <div
+        className="border hover:text-white hover:bg-[#E33729] duration-300 border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all inline-block"
+        onClick={handleShareGooglePlus}
+      >
+        <FaGooglePlusG />
+      </div>
+      <div
+        className="border hover:text-white hover:bg-[#cb2027] d border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
+        onClick={handleSharePinterest}
+      >
+        <FaPinterestP />
+      </div>
+      <div
+        className="border hover:text-white hover:bg-[#027ba5]  border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
+        onClick={handleShareLinkedIn}
+      >
+        <FaLinkedinIn />
+      </div>
+    </div>
         </div>
       </div>
       {/* Additional infomation */}
@@ -280,13 +328,13 @@ const ProductDetails = () => {
             }`}
             onClick={() => handleTabClick(3)}
           >
-            <span className="mt-1 inline-block"> Reviews (1)</span>
+            <span className="mt-1 inline-block"> Reviews </span>
           </div>
         </div>
         <div className="tab-content">
           {activeTab === 1 && <Description product={product} />}
           {activeTab === 2 && <AdditionalInfo product={product} />}
-          {activeTab === 3 && <Reviews />}
+          {activeTab === 3 && <Reviews product={product} />}
         </div>
       </div>
       {/* Related products */}
