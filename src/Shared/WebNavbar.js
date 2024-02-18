@@ -118,7 +118,7 @@ const WebNavbar = () => {
                         backgroundRepeat: "no-repeat",
                         transform: "rotateX(90deg)",
                       }}
-                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat space-y-6 grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6"
+                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6"
                     >
                       {item?.subCategory?.map((subca) => (
                         <li className="pb-2" key={subca.name}>
@@ -182,7 +182,7 @@ const WebNavbar = () => {
                       backgroundRepeat: "no-repeat",
                       transform: "rotateX(90deg)",
                     }}
-                    className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat space-y-6 grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6"
+                    className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6"
                   >
                     {item?.subCategory.map((subca) => (
                       <li className="pb-2" key={subca.title}>
@@ -270,12 +270,12 @@ const WebNavbar = () => {
                   {item?.subCategory && (
                     <ul
                       style={{
-                        background: 'url("/assets/header/banner.jpg") white',
+                        background: 'url("/assets/header/banner.jpg") red',
                         backgroundPosition: "right ",
                         backgroundRepeat: "no-repeat",
                         transform: "rotateX(90deg)",
                       }}
-                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6"
+                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6 hwllo"
                     >
                       {item?.subCategory.map((subca) => (
                         <li className="pb-2" key={subca.title}>
