@@ -8,20 +8,21 @@ const UsegetUserById = () => {
   useEffect(() => {
     const fetchUserById = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/v1/user/getUsersById/${userInfo._id}`
-        );
-        const resData = await response.json();
-        setUser(resData);
+        if (userInfo) {
+          const response = await fetch(
+            `http://localhost:5000/api/v1/user/getUsersById/${userInfo?._id}`
+          );
+          const resData = await response.json();
+          setUser(resData);
+        }
       } catch (error) {
         console.error("Error fetching user by ID:", error);
       }
     };
-
-    if (userInfo._id) {
+    if (userInfo) {
       fetchUserById();
     }
-  }, [userInfo._id]);
+  }, [userInfo]);
 
   return user;
 };
