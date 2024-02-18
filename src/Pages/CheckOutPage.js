@@ -124,24 +124,51 @@ const CheckOutPage = () => {
     }
   };
   // apply coupon
+const [couponApplied, setCouponApplied] = useState(false);
 
-  const handleCouponApply = () => {
-    const response = fetch(
+const handleCouponApply = async () => {
+  try {
+    // Check if coupon has already been applied
+    if (couponApplied) {
+      toast.warning("Coupon has already been used.");
+      return;
+    }
+
+    const response = await fetch(
       `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data?.data) {
-          const discountPrecent = +data?.data?.discount;
-          console.log(discountPrecent);
-          const discountAmount = (total * discountPrecent) / 100;
-          const discountedPrice = total - discountAmount;
-          const decimelDiscountPrice = discountedPrice.toFixed(2);
-          setTotal(decimelDiscountPrice);
-        }
-      });
-  };
+    );
+    const data = await response.json();
+
+    if (data?.data) {
+      const discountPrecent = +data?.data?.discount;
+      console.log(discountPrecent);
+      const discountAmount = (total * discountPrecent) / 100;
+      const discountedPrice = total - discountAmount;
+      const decimalDiscountPrice = discountedPrice.toFixed(2);
+      setTotal(decimalDiscountPrice);
+
+      // Disable further coupon application
+      setCouponApplied(true);
+      toast.success("Coupon applied successfully!");
+
+      // Disable coupon input and apply button
+      const couponInput = document.getElementById("couponInput");
+      const applyButton = document.getElementById("applyButton");
+      if (couponInput && applyButton) {
+        couponInput.disabled = true;
+        applyButton.disabled = true;
+      }
+    } else {
+      toast.error("Coupon code is invalid.");
+    }
+  } catch (error) {
+    console.error("Error applying coupon:", error);
+    toast.error("Something went wrong while applying the coupon.");
+  }
+};
+
+
+  
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="CheckOut" />
@@ -176,6 +203,7 @@ const CheckOutPage = () => {
                   Click here to enter your code
                 </span>
               </p>
+             
               <div
                 style={{
                   transition: "max-height .5s ease-in-out",
@@ -192,14 +220,17 @@ const CheckOutPage = () => {
                   className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                   type="text"
                   placeholder="Coupon code"
+                  disabled={couponApplied}
                 />
                 <button
                   onClick={handleCouponApply}
+                  disabled={couponApplied}
                   className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-3"
                 >
                   Apply coupon{" "}
                 </button>
               </div>
+        
             </div>
             {/* form */}
             <div>
