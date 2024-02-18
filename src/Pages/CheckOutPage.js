@@ -14,7 +14,7 @@ const CheckOutPage = () => {
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
-
+  console.log(data);
   const handleCreateUserOnchange = (e) => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);
@@ -99,7 +99,7 @@ const CheckOutPage = () => {
         }
       );
       const userResponse = await fetch(
-        `http://localhost:5000/api/v1/user/updateUsers/${userInfo?._id}`,
+        `http://localhost:5000/api/v1/user/updateUsers/${userInfo._id}`,
         {
           method: "PATCH",
           headers: {
@@ -193,7 +193,7 @@ const handleCouponApply = async () => {
         <div className="container py-12">
           <div className="bg-white p-8 shadow-custom ">
             {/* Apply copon */}
-            <div className="relative font-openSans text-sm text-[#333]">
+            {/* <div className="relative font-openSans text-sm text-[#333]">
               <p>
                 Have a coupon?{" "}
                 <span
@@ -231,7 +231,7 @@ const handleCouponApply = async () => {
                 </button>
               </div>
         
-            </div>
+            </div> */}
             {/* form */}
             <div>
               <form
@@ -402,7 +402,7 @@ const handleCouponApply = async () => {
                       )}
                     </div>
                     {/* Phone   */}
-                    <div className="mb-4">
+                    {/* <div className="mb-4">
                       <label className="mb-2 inline-block" htmlFor="phone">
                         Phone <span className="text-secondary">*</span>
                       </label>
@@ -420,7 +420,7 @@ const handleCouponApply = async () => {
                           This field is required
                         </span>
                       )}
-                    </div>
+                    </div> */}
                     {/* Email address   */}
                     <div className="mb-4">
                       <label className="mb-2 inline-block" htmlFor="email">

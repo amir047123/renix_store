@@ -4,6 +4,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import PageHeader from "../components/ui/PageHeader";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const CartPage = () => {
   const [coupon, setCoupon] = useState("");
@@ -15,22 +16,47 @@ const CartPage = () => {
     setCartProducts(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
-  const handleCouponApply = () => {
-    const response = fetch(
-      `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data?.data) {
-          const discountPrecent = +data?.data?.discount;
-          console.log(discountPrecent);
-          const discountAmount = (total * discountPrecent) / 100;
-          const discountedPrice = total - discountAmount;
-          const decimelDiscountPrice = discountedPrice.toFixed(2);
-          setTotal(decimelDiscountPrice);
+  const [couponApplied, setCouponApplied] = useState(false);
+
+  const handleCouponApply = async () => {
+    try {
+      // Check if coupon has already been applied
+      if (couponApplied) {
+        toast.warning("Coupon has already been used.");
+        return;
+      }
+  
+      const response = await fetch(
+        `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
+      );
+      const data = await response.json();
+  
+      if (data?.data) {
+        const discountPrecent = +data?.data?.discount;
+        console.log(discountPrecent);
+        const discountAmount = (total * discountPrecent) / 100;
+        const discountedPrice = total - discountAmount;
+        const decimalDiscountPrice = discountedPrice.toFixed(2);
+        setTotal(decimalDiscountPrice);
+  
+        // Disable further coupon application
+        setCouponApplied(true);
+        toast.success("Coupon applied successfully!");
+  
+        // Disable coupon input and apply button
+        const couponInput = document.getElementById("couponInput");
+        const applyButton = document.getElementById("applyButton");
+        if (couponInput && applyButton) {
+          couponInput.disabled = true;
+          applyButton.disabled = true;
         }
-      });
+      } else {
+        toast.error("Coupon code is invalid.");
+      }
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      toast.error("Something went wrong while applying the coupon.");
+    }
   };
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
@@ -121,6 +147,8 @@ const CartPage = () => {
                         type="text"
                         className="text-sm rounded-full border border-solid border-borderColor py-3 px-4"
                         placeholder="Coupon code"
+                        disabled={couponApplied}
+
                       />
                       <button
                         onClick={handleCouponApply}

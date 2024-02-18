@@ -1,38 +1,68 @@
-import Rating from "react-rating";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { IoIosStar, IoMdSearch } from "react-icons/io";
 import { FaPlus, FaRegHeart, FaRegStar } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import Rating from "react-rating";
+import axios from "axios";
 import useGetCartsProduct from "../../Hooks/useGetCartsProduct";
+import AuthUser from "../../Hooks/authUser";
+import { toast } from "react-toastify";
 
 const ProductCardGrid = ({ product }) => {
+  const { userInfo } = AuthUser();
+  const userId = userInfo?._id;
   const { cartProducts, setCartProducts } = useGetCartsProduct();
+  const [error, setError] = useState(null);
+
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 
   const handleAddToCart = () => {
-    // Retrieve existing cart items from local storage
     let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-    // Check if the product already exists in the cart
     const existingProductIndex = existingCartItems.findIndex(
       (item) => item._id === product._id
     );
 
     if (existingProductIndex !== -1) {
-      // If the product already exists in the cart, update its quantity
       existingCartItems[existingProductIndex].quantity += 1;
     } else {
-      // If the product is not already in the cart, add it with quantity 1
       existingCartItems.push({ ...product, quantity: 1, discountedPrice });
     }
     setCartProducts([...existingCartItems]);
-
-    // Update the cart items in local storage
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
   };
+
   const cartQuantityNumber = cartProducts?.find(
     (item) => item?._id === product?._id
   );
+
+
+
+
+
+  
+
+  const handleAddToWishlist = async () => {
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/v1/wishlist/addWishlistItem", {
+        productId: product._id,
+        userId: userId,
+      });
+      if (response.data.alreadyAdded) {
+        toast.info("Product is already in wishlist");
+      } else {
+        toast.success("Product added to wishlist");
+      }
+      // Update the UI or perform any additional logic here
+    } catch (error) {
+      setError(error.message);
+      console.error("Error adding product to wishlist:", error.message);
+      toast.error("Error adding product to wishlist");
+    }
+  };
+  
 
   return (
     <div className="bg-white group pb-6 relative border-r border-b last:border-r-0  border-solid border-borderColor">
@@ -44,7 +74,6 @@ const ProductCardGrid = ({ product }) => {
             alt=""
           />
         </div>
-
         <h2 className="font-rubic text-[#292929] font-medium px-6 lg:px-0">
           <Link to={`/productDetails/${product?._id}`}>{product?.name}</Link>
         </h2>
@@ -76,12 +105,15 @@ const ProductCardGrid = ({ product }) => {
           <FaPlus size={30} />
         )}
       </div>
-      <div className="absolute flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 p-2 rounded-full border-white -translate-x-1/2 left-1/2 top-1/2">
+      <div
+        className="absolute flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 p-2 rounded-full border-white -translate-x-1/2 left-1/2 top-1/2"
+       
+      >
         <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
           <IoMdSearch />
         </div>
         <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
-          <FaRegHeart />
+          <FaRegHeart  onClick={handleAddToWishlist} />
         </div>
       </div>
     </div>

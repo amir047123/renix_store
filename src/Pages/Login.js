@@ -49,7 +49,7 @@ const Login = () => {
     try {
       setLoading(true);
       const confirmationResult = window.confirmationResult;
-  
+
       if (confirmationResult?.phoneNumber) {
         let ph = `+${confirmationResult.phoneNumber}`;
         // Assuming you have a server-side route for OTP verification
@@ -57,15 +57,14 @@ const Login = () => {
           phoneNumber: confirmationResult?.phoneNumber,
           otp: otp,
         });
-  
+
         if (response.data.success) {
           const getUserResponse = await fetch(
             `${server_url}/user/getUsersByNum/${ph}`
           );
           const userData = await getUserResponse.json();
-  
+
           if (!userData?.data?._id) {
-            // If user does not exist, create a new user
             const addUserResponse = await fetch(`${server_url}/user/addUsers`, {
               method: "POST",
               headers: {
@@ -73,7 +72,7 @@ const Login = () => {
               },
               body: JSON.stringify({ phone: ph }),
             });
-  
+
             const addUserData = await addUserResponse.json();
             if (addUserData.success) {
               setLoading(false);
@@ -91,13 +90,13 @@ const Login = () => {
             }
           } else {
             setLoading(false);
-            // If user exists, set the token and log in
             setToken(
               userData?.data?.phone,
               userData?.data?.role,
               userData?.data
             );
             toast.success("You are successfully logged in!");
+
             setUser(userData.data); // Set the 'user' state variable
           }
         } else {
@@ -113,7 +112,7 @@ const Login = () => {
       setLoading(false);
     }
   }
-  
+
   return (
     <div>
       <div className="bg-[#f5f5f5]  overflow-hidden">
