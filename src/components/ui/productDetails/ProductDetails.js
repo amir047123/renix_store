@@ -20,6 +20,7 @@ import Description from "./Description";
 import ProductCardGrid from "../../shop/ProductCardGrid";
 import { useParams } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
+import RelatedProductCard from "../../shop/RelatedProductCard";
 const ProductDetails = () => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
 
@@ -28,14 +29,10 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState([]);
   const [count, setCount] = useState(1);
   const [activeTab, setActiveTab] = useState(1);
-  const relatedProducts = [1, 2, 3, 4, 5];
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const productQuantity = cartProducts?.find(
     (item) => item?._id === product?._id
   );
-
- 
-
-
 
   useEffect(() => {
     setLoading(true);
@@ -125,12 +122,10 @@ const ProductDetails = () => {
     }
   };
 
-
   // Function to share product on Facebook
   const handleShareFacebook = async () => {
     try {
       await navigator.share({
-       
         url: window.location.href,
       });
     } catch (error) {
@@ -142,7 +137,6 @@ const ProductDetails = () => {
   const handleShareTwitter = async () => {
     try {
       await navigator.share({
-      
         url: window.location.href,
       });
     } catch (error) {
@@ -154,7 +148,6 @@ const ProductDetails = () => {
   const handleShareGooglePlus = async () => {
     try {
       await navigator.share({
-       
         url: window.location.href,
       });
     } catch (error) {
@@ -166,7 +159,6 @@ const ProductDetails = () => {
   const handleSharePinterest = async () => {
     try {
       await navigator.share({
-        
         url: window.location.href,
       });
     } catch (error) {
@@ -178,14 +170,27 @@ const ProductDetails = () => {
   const handleShareLinkedIn = async () => {
     try {
       await navigator.share({
-       
         url: window.location.href,
       });
     } catch (error) {
       console.error("Error sharing:", error.message);
     }
   };
+  // Realated products
 
+  useEffect(() => {
+    setLoading(true);
+    try {
+      fetch(`http://localhost:5000/api/v1/product/getProducts`)
+        .then((res) => res.json())
+        .then((data) => {
+          setRelatedProducts(data?.data);
+          setLoading(false);
+        });
+    } catch (err) {
+      setLoading(false);
+    }
+  }, []);
   return (
     <div className=" mt-12 container ">
       {/* product details */}
@@ -263,37 +268,37 @@ const ProductDetails = () => {
           </div>
 
           <div className="flex items-center gap-3 my-6">
-      <div
-        className="border hover:bg-[#3C5B9B] hover:text-white transition-all border-solid border-borderColor rounded-md p-3 cursor-pointer duration-300 inline-block"
-        onClick={handleShareFacebook}
-      >
-        <FaFacebookF />
-      </div>
-      <div
-        className="border hover:text-white hover:bg-[#359BED] border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
-        onClick={handleShareTwitter}
-      >
-        <FaTwitter />
-      </div>
-      <div
-        className="border hover:text-white hover:bg-[#E33729] duration-300 border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all inline-block"
-        onClick={handleShareGooglePlus}
-      >
-        <FaGooglePlusG />
-      </div>
-      <div
-        className="border hover:text-white hover:bg-[#cb2027] d border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
-        onClick={handleSharePinterest}
-      >
-        <FaPinterestP />
-      </div>
-      <div
-        className="border hover:text-white hover:bg-[#027ba5]  border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
-        onClick={handleShareLinkedIn}
-      >
-        <FaLinkedinIn />
-      </div>
-    </div>
+            <div
+              className="border hover:bg-[#3C5B9B] hover:text-white transition-all border-solid border-borderColor rounded-md p-3 cursor-pointer duration-300 inline-block"
+              onClick={handleShareFacebook}
+            >
+              <FaFacebookF />
+            </div>
+            <div
+              className="border hover:text-white hover:bg-[#359BED] border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
+              onClick={handleShareTwitter}
+            >
+              <FaTwitter />
+            </div>
+            <div
+              className="border hover:text-white hover:bg-[#E33729] duration-300 border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all inline-block"
+              onClick={handleShareGooglePlus}
+            >
+              <FaGooglePlusG />
+            </div>
+            <div
+              className="border hover:text-white hover:bg-[#cb2027] d border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
+              onClick={handleSharePinterest}
+            >
+              <FaPinterestP />
+            </div>
+            <div
+              className="border hover:text-white hover:bg-[#027ba5]  border-solid border-borderColor rounded-md p-3 cursor-pointer transition-all duration-300 inline-block"
+              onClick={handleShareLinkedIn}
+            >
+              <FaLinkedinIn />
+            </div>
+          </div>
         </div>
       </div>
       {/* Additional infomation */}
@@ -344,7 +349,7 @@ const ProductDetails = () => {
         </h2>
         <div className="grid gird-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {relatedProducts?.slice(0, 5)?.map((product) => (
-            <ProductCardGrid key={product} product={product} />
+            <RelatedProductCard key={product} product={product} />
           ))}
         </div>
       </div>

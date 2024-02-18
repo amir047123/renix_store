@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthUser from "../Hooks/authUser";
 import { toast } from "react-toastify";
+import UsegetUserById from "../Hooks/usegetUserById";
 
 const MyAccount = () => {
+  const { data } = UsegetUserById();
+  console.log(data);
   const { userRole, logout } = AuthUser();
   const navigate = useNavigate();
   const [isMounted, setIsMounted] = useState(false);
@@ -25,9 +28,22 @@ const MyAccount = () => {
   return (
     <div className="font-openSans text-sm py-3 max-w-[90%]">
       <p className="text-sm text-[#333]">
-        Hello <span className="font-bold">res</span> (not{" "}
-        <span className="font-bold">res</span>?{" "}
-        <span className="font-bold text-primary     cursor-pointer" onClick={logout}>Log out</span>)
+        Hello{" "}
+        <span className="font-bold">
+          {data?.displayName ? data?.displayName : data?.firstName}
+        </span>{" "}
+        (not{" "}
+        <span className="font-bold">
+          {data?.displayName ? data?.displayName : data?.firstName}
+        </span>
+        ?{" "}
+        <span
+          className="font-bold text-primary     cursor-pointer"
+          onClick={logout}
+        >
+          Log out
+        </span>
+        )
       </p>
       <p>
         From your account dashboard you can view your{" "}

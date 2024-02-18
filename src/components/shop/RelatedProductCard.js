@@ -3,8 +3,9 @@ import { IoIosStar, IoMdSearch } from "react-icons/io";
 import { FaPlus, FaRegHeart, FaRegStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useGetCartsProduct from "../../Hooks/useGetCartsProduct";
+import { space } from "postcss/lib/list";
 
-const ProductCardGrid = ({ product }) => {
+const RelatedProductCard = ({ product }) => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
@@ -35,7 +36,7 @@ const ProductCardGrid = ({ product }) => {
   );
 
   return (
-    <div className="bg-white group pb-6 relative border-r border-b last:border-r-0  border-solid border-borderColor">
+    <div className="bg-white group pb-6 relative border-r last:border-r-0 border-solid border-borderColor">
       <div className="text-center">
         <div className="relative overflow-hidden">
           <img
@@ -65,7 +66,7 @@ const ProductCardGrid = ({ product }) => {
         </p>
       </div>
       <div
-        className="absolute opacity-0 group-hover:opacity-100 bg-primary hover:bg-secondary duration-200 p-2 rounded-full text-white border-solid border-[3px] border-white -translate-x-1/2 left-1/2 bottom-32 cursor-pointer"
+        className="absolute opacity-0 group-hover:opacity-100 bg-primary hover:bg-secondary duration-200 p-2 rounded-full text-white border-solid border-[3px] border-white -translate-x-1/2 left-1/2 bottom-28 cursor-pointer"
         onClick={handleAddToCart}
       >
         {cartQuantityNumber?.quantity ? (
@@ -88,4 +89,4 @@ const ProductCardGrid = ({ product }) => {
   );
 };
 
-export default ProductCardGrid;
+export default RelatedProductCard;
