@@ -47,7 +47,7 @@ const RelatedProductCard = ({ product }) => {
         </div>
 
         <h2 className="font-rubic text-[#292929] font-medium px-6 lg:px-0">
-          <Link to={`productDetails/${product?._id}`}>{product?.name}</Link>
+          <Link to={`/productDetails/${product?._id}`}>{product?.name}</Link>
         </h2>
         <Rating
           fullSymbol={<IoIosStar className="text-primary" />}

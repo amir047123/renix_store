@@ -29,7 +29,7 @@ const WebNavbar = () => {
     },
     {
       title: "CATEGORIES",
-      href: "/category",
+      href: "/",
       subCategory: categorys,
     },
     {
