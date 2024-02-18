@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegHeart, FaRegStar } from "react-icons/fa6";
 import { IoIosStar } from "react-icons/io";
@@ -8,6 +8,8 @@ import useGetCartsProduct from "../../Hooks/useGetCartsProduct";
 
 const ProductListsView = ({ product }) => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
+  const [reviews, setReviews] = useState([]);
+
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
   function truncate(text, limit) {
@@ -40,6 +42,20 @@ const ProductListsView = ({ product }) => {
   const cartQuantityNumber = cartProducts?.find(
     (item) => item._id === product._id
   );
+
+
+
+  useEffect(() => {
+    const getReviews = async () => {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/reviews/specific?fieldName=productId&fieldValue=${product?._id}`
+      );
+      const res = await response.json();
+      setReviews(res.data);
+    };
+    getReviews();
+  }, [product?._id]);
+
   return (
     <div className="flex px-5 lg:px-0 flex-col lg:flex-row items-center gap-8 pr-2 lg:pr-20 border-b last:border-b-0 border-solid border-borderColor pb-4 mb-4">
       <div className="basis-[28%] ">
@@ -62,11 +78,11 @@ const ProductListsView = ({ product }) => {
               readonly
             />
             <p className="border-r border-primary border-solid pr-4 capitalize text-primary font-openSans text-sm hover:text-secondary">
-              1 Review
+              {reviews.length} Review
             </p>
-            <p className="capitalize text-primary font-openSans text-sm hover:text-secondary">
+            <Link  to={`/productDetails/${product?._id}`} className="capitalize text-primary font-openSans text-sm hover:text-secondary">
               add your Review
-            </p>
+            </Link>
           </div>
           <p
             className="py-5"
