@@ -10,6 +10,7 @@ const WebNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categorys, setCategorys] = useState([]);
+  console.log(categorys);
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible((prevVisible) => !prevVisible);
@@ -274,7 +275,7 @@ const WebNavbar = () => {
                         backgroundRepeat: "no-repeat",
                         transform: "rotateX(90deg)",
                       }}
-                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat space-y-6 grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6"
+                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6"
                     >
                       {item?.subCategory.map((subca) => (
                         <li className="pb-2" key={subca.title}>
