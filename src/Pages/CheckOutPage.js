@@ -14,7 +14,7 @@ const CheckOutPage = () => {
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
-  console.log(data);
+
   const handleCreateUserOnchange = (e) => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);
@@ -99,7 +99,7 @@ const CheckOutPage = () => {
         }
       );
       const userResponse = await fetch(
-        `http://localhost:5000/api/v1/user/updateUsers/${userInfo._id}`,
+        `http://localhost:5000/api/v1/user/updateUsers/${userInfo?._id}`,
         {
           method: "PATCH",
           headers: {

@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
+import UsegetUserById from "../Hooks/usegetUserById";
 
 const Address = () => {
-  const isShippingAddress = false;
-  const isBillingAddress = true;
+  // const isShippingAddress = false;
+  const { data } = UsegetUserById();
+
+  console.log(data);
   return (
     <div>
       <p className="font-openSans text-sm mb-4 text-[#333]">
@@ -14,7 +17,7 @@ const Address = () => {
           <h2 className="text-base uppercase font-rubic font-medium text-primary my-3">
             Billing address
           </h2>
-          {isBillingAddress ? (
+          {data?.email ? (
             <div>
               <Link
                 className="text-primary font-openSans font-bold text-sm "
@@ -23,21 +26,21 @@ const Address = () => {
                 Edit
               </Link>
               <address className=" font-openSans text-sm text-[#999]">
-                Lois Ingram
+                {data?.firstName} {data?.lastName}
                 <br />
-                Nichols Cain Trading
+                {data?.email}
                 <br />
-                68 White Old Extension
+                {data?.company}
                 <br />
-                Libero quibusdam vol
+                {data?.country}
                 <br />
-                Omnis et aut iste ar
+                {data?.city}
                 <br />
-                FATA
+                {data?.country}
                 <br />
-                MAGNAMAUTVITAESED
+                {data?.postcode}
                 <br />
-                Pakistan{" "}
+                {data?.streetAddress}
               </address>{" "}
             </div>
           ) : (
@@ -53,7 +56,7 @@ const Address = () => {
           )}
         </div>
         {/* Shipping */}
-        <div>
+        {/* <div>
           <h2 className="text-base font-rubic uppercase font-medium text-primary my-3">
             SHIPPING ADDRESS
           </h2>
@@ -94,7 +97,7 @@ const Address = () => {
               <p>You have not set up this type of address yet.</p>
             </>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
