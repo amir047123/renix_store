@@ -3,15 +3,35 @@ import { Link } from "react-router-dom";
 import { RiDeleteBinLine } from "react-icons/ri";
 import PageHeader from "../components/ui/PageHeader";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
+import { useState } from "react";
 
 const CartPage = () => {
-  const { cartProducts, setCartProducts, total } = useGetCartsProduct();
+  const [coupon, setCoupon] = useState("");
+
+  const { cartProducts, setCartProducts, total, setTotal } =
+    useGetCartsProduct();
   const handleRemoveFromCart = (itemId) => {
     const updatedCartItems = cartProducts.filter((item) => item._id !== itemId);
     setCartProducts(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
-
+  const handleCouponApply = () => {
+    const response = fetch(
+      `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data?.data) {
+          const discountPrecent = +data?.data?.discount;
+          console.log(discountPrecent);
+          const discountAmount = (total * discountPrecent) / 100;
+          const discountedPrice = total - discountAmount;
+          const decimelDiscountPrice = discountedPrice.toFixed(2);
+          setTotal(decimelDiscountPrice);
+        }
+      });
+  };
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="Cart" />
@@ -97,11 +117,15 @@ const CartPage = () => {
                   <div className="flex justify-between items-center py-5 border-b border-borderColor">
                     <div>
                       <input
+                        onChange={(e) => setCoupon(e.target.value)}
                         type="text"
                         className="text-sm rounded-full border border-solid border-borderColor py-3 px-4"
                         placeholder="Coupon code"
                       />
-                      <button className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-2">
+                      <button
+                        onClick={handleCouponApply}
+                        className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-2"
+                      >
                         Apply coupon{" "}
                       </button>
                     </div>

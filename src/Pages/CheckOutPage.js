@@ -5,13 +5,16 @@ import { useForm } from "react-hook-form";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 import { toast } from "react-toastify";
 import AuthUser from "../Hooks/authUser";
+import UsegetUserById from "../Hooks/usegetUserById";
 const CheckOutPage = () => {
+  const { data } = UsegetUserById();
   const { userInfo } = AuthUser();
-  const { cartProducts, total, setCartProducts } = useGetCartsProduct();
+  const { cartProducts, total, setCartProducts, setTotal } = useGetCartsProduct();
+    const [coupon, setCoupon] = useState("");
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
-
+  console.log(data);
   const handleCreateUserOnchange = (e) => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);
@@ -49,7 +52,6 @@ const CheckOutPage = () => {
           company: data.company,
           city: data.city,
           apartment: data.apartment,
-          countryOptional: data.countryOptional,
           createAccount: data.createAccount,
           email: data.email,
           notes: data.notes,
@@ -66,11 +68,26 @@ const CheckOutPage = () => {
           img: product.img,
           discountPrice: product.discountedPrice,
           orginalPrice: product.onePiecePrice,
-          
         })),
         // Add other fields
       };
-
+      const usersData = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        // all info here
+        country: data.country,
+        company: data.company,
+        city: data.city,
+        apartment: data.apartment,
+        createAccount: data.createAccount,
+        email: data.email,
+        notes: data.notes,
+        password: data.password,
+        phone: data.phone,
+        postcode: data.postcode,
+        streetAddress: data.streetAddress,
+        displayName: data.userName,
+      };
       const response = await fetch(
         "http://localhost:5000/api/v1/order/addOrders",
         {
@@ -81,6 +98,17 @@ const CheckOutPage = () => {
           body: JSON.stringify(orderData),
         }
       );
+      const userResponse = await fetch(
+        `http://localhost:5000/api/v1/user/updateUsers/${userInfo._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(usersData),
+        }
+      );
+
       const responseData = await response.json();
       console.log("Order placed successfully:", responseData);
       toast.success("  Order place successfully ");
@@ -95,7 +123,25 @@ const CheckOutPage = () => {
       console.error("Error placing order:", error);
     }
   };
+  // apply coupon
 
+  const handleCouponApply = () => {
+    const response = fetch(
+      `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data?.data) {
+          const discountPrecent = +data?.data?.discount;
+          console.log(discountPrecent);
+          const discountAmount = (total * discountPrecent) / 100;
+          const discountedPrice = total - discountAmount;
+          const decimelDiscountPrice = discountedPrice.toFixed(2);
+          setTotal(decimelDiscountPrice);
+        }
+      });
+  };
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="CheckOut" />
@@ -140,12 +186,17 @@ const CheckOutPage = () => {
                 <p className="mb-5">
                   If you have a coupon code, please apply it below.
                 </p>
+
                 <input
+                  onChange={(e) => setCoupon(e.target.value)}
                   className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                   type="text"
                   placeholder="Coupon code"
                 />
-                <button className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-3">
+                <button
+                  onClick={handleCouponApply}
+                  className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-3"
+                >
                   Apply coupon{" "}
                 </button>
               </div>
@@ -175,6 +226,7 @@ const CheckOutPage = () => {
                         name="firstName"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
+                        defaultValue={data?.firstName}
                       />
                       {errors.firstName && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -194,6 +246,7 @@ const CheckOutPage = () => {
                         name="lastName"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
+                        defaultValue={data?.lastName}
                       />
                       {errors.lastName && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -213,6 +266,7 @@ const CheckOutPage = () => {
                         name="company"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
+                        defaultValue={data?.company}
                       />
                     </div>
                     {/* Country  */}
@@ -228,6 +282,7 @@ const CheckOutPage = () => {
                         id="country"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         name="country"
+                        defaultValue={data?.country}
                       >
                         <option value="bd"> Bangladesh</option>
                         <option value="india"> India</option>
@@ -258,6 +313,7 @@ const CheckOutPage = () => {
                         type="text"
                         placeholder="House number and street name"
                         name="streetAddress"
+                        defaultValue={data?.streetAddress}
                       />
                       {errors.streetAddress && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -270,6 +326,7 @@ const CheckOutPage = () => {
                         type="text"
                         placeholder="Apartment, suite, unit, etc. (optional)"
                         name="apartment"
+                        defaultValue={data?.apartment}
                       />
                     </div>
                     {/* Town / City  */}
@@ -284,6 +341,7 @@ const CheckOutPage = () => {
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         name="city"
+                        defaultValue={data?.city}
                       />
                       {errors.city && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -291,23 +349,7 @@ const CheckOutPage = () => {
                         </span>
                       )}
                     </div>
-                    {/* County (optional)  */}
-                    <div className="mb-4">
-                      <label
-                        className="mb-2 inline-block"
-                        htmlFor="countryOptional"
-                      >
-                        County (optional)
-                      </label>
 
-                      <input
-                        {...register("countryOptional")}
-                        id="countryOptional"
-                        className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                        type="text"
-                        name="countryOptional"
-                      />
-                    </div>
                     {/* Postcode  */}
                     <div className="mb-4">
                       <label className="mb-2 inline-block" htmlFor="postcode">
@@ -320,6 +362,7 @@ const CheckOutPage = () => {
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         name="postcode"
+                        defaultValue={data?.postcode}
                       />
                       {errors.postcode && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -339,6 +382,7 @@ const CheckOutPage = () => {
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         name="phone"
+                        defaultValue={data?.phone}
                       />
                       {errors.phone && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -358,6 +402,7 @@ const CheckOutPage = () => {
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         name="email"
+                        defaultValue={data?.email}
                       />
                       {errors.email && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -373,6 +418,7 @@ const CheckOutPage = () => {
                         type="checkbox"
                         name="createAccount"
                         id="createAccount"
+                        defaultValue={data?.createAccount}
                       />
 
                       <label className="ml-2" htmlFor="createAccount">
@@ -398,6 +444,7 @@ const CheckOutPage = () => {
                           </label>
 
                           <input
+                            defaultValue={data?.displayName}
                             {...register("userName", {
                               required: newUser ? true : false,
                             })}
@@ -426,6 +473,7 @@ const CheckOutPage = () => {
                             {...register("password", {
                               required: newUser ? true : false,
                             })}
+                            defaultValue={data?.password}
                             id="password"
                             className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                             type="text"
@@ -457,6 +505,7 @@ const CheckOutPage = () => {
                       cols="2"
                       rows="2"
                       placeholder="Notes about your order, e.g. special notes for delivery."
+                      defaultValue={data?.notes}
                     ></textarea>
                   </div>
                 </div>

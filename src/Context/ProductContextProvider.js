@@ -28,6 +28,7 @@ const ProductContextProvider = ({ children }) => {
      cartProducts,
      setCartProducts,
      total,
+     setTotal,
    };
   return (
     <ProductContext.Provider value={cartsInfo}>
