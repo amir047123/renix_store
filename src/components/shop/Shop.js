@@ -113,7 +113,7 @@ const Shop = () => {
 
   useEffect(() => {
     const fetchFilterProduct = async () => {
-      const response = await fetch("");
+      const response = await fetch(`http://localhost:5000/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`);
       const { data } = await response.json();
       console.log(data);
     };
