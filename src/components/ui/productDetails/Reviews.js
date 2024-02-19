@@ -4,8 +4,10 @@ import { IoIosStar } from "react-icons/io";
 import Rating from "react-rating";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthUser from "../../../Hooks/authUser";
 
 const Reviews = ({ product }) => {
+  const {userInfo}=AuthUser()
   const productId = product?._id;
   const [reviews, setReviews] = useState([]);
   const [formData, setFormData] = useState({
@@ -38,6 +40,13 @@ const Reviews = ({ product }) => {
 
   const handleSubmit = async () => {
     try {
+      // Check if user is authenticated
+      if (!userInfo) {
+        // If user is not authenticated, show error message
+        toast.error("You need to be logged in to submit a review");
+        return;
+      }
+  
       const response = await fetch(
         "http://localhost:5000/api/v1/reviews/addReviews",
         {
@@ -48,11 +57,11 @@ const Reviews = ({ product }) => {
           body: JSON.stringify(formData),
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Failed to submit review");
       }
-
+  
       // Reset form data after successful submission
       setFormData({
         rating: 0,
@@ -61,9 +70,9 @@ const Reviews = ({ product }) => {
         email: "",
         productId: productId,
       });
-
+  
       toast.success("Review submitted successfully");
-
+  
       // Refetch reviews data
       const getReviews = async () => {
         const response = await fetch(
@@ -78,6 +87,7 @@ const Reviews = ({ product }) => {
       toast.error("Failed to submit review");
     }
   };
+  
 
   return (
     <div className="bg-white p-6 shadow-custom">

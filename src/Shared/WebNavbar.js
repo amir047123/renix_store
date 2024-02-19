@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaBars, FaSearch } from "react-icons/fa";
+import { FaAngleDown, FaBars, FaSearch } from "react-icons/fa";
 import { IoIosBasket } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
@@ -13,10 +13,16 @@ const WebNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openCartMenu, setOpenCartMenu] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
   const [categorys, setCategorys] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [product, setProduct] = useState([]);
+  const { cartProducts, setCartProducts, total } = useGetCartsProduct();
+  const totalCartItemsNum = cartProducts?.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -50,7 +56,7 @@ const WebNavbar = () => {
     },
     {
       title: "Appointment",
-      href: "/category/juice",
+      href: "https://renixlaboratories.com.bd/appointment",
     },
   ];
 
@@ -69,12 +75,8 @@ const WebNavbar = () => {
     fetchCategorys();
   }, []);
   // search functionality and handle add to cart
-  const { cartProducts, setCartProducts, total } = useGetCartsProduct();
-  const totalCartItemsNum = cartProducts?.reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
 
+  //Remove Cart
   const handleRemoveFromCart = (index) => {
     const updatedCartItems = [...cartProducts];
     updatedCartItems.splice(index, 1);
@@ -138,6 +140,7 @@ const WebNavbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  //  main return
   return (
     <header
       className={` stickyMenu w-full ${isSticky || isOpen ? "stickys " : ""} ${
@@ -312,7 +315,7 @@ const WebNavbar = () => {
           <div className="text-center pt-7">
             <img className="mx-auto" src="/assets/header/logo.png" alt="" />
           </div>
-          <div className="flex justify-between items-center px-5">
+          <div className="flex justify-between items-center px-5 gap-10">
             <div>
               <FaBars
                 onClick={() => setIsOpen(!isOpen)}
@@ -320,6 +323,33 @@ const WebNavbar = () => {
                 size={30}
               />
             </div>
+            {/* Search bar */}
+
+            <div className=" flex-1">
+              <div>
+                <input
+                  type="text"
+                  name="productName"
+                  placeholder="search product"
+                  className="border-2 outline-0 w-full border-solid border-borderColor h-full py-2 px-5"
+                  value={searchQuery}
+                  onChange={handleSearch}
+                />
+                {searchQuery && (
+                  <div>
+                    <p className="text-sm mb-2">
+                      Showing {searchResults.length} results
+                    </p>
+                    <ul>
+                      {searchResults.map((result) => (
+                        <li key={result.id}>{result.name}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div className="relative">
               <button
                 onClick={() => setOpenCartMenu(!openCartMenu)}
@@ -332,10 +362,12 @@ const WebNavbar = () => {
               </button>
               {/* Cart dropdown */}
               <div
-                className={`absolute top-full right-0 bg-white w-[370px] border-t-[3px] border-solid border-primary px-5 py-4 duration-200 transform scale-100 group-hover:scale-100 rotate-0 shadow-custom `}
+                className={`absolute top-full right-0 bg-white w-[370px] border-t-[3px] border-solid border-primary px-5 py-4 duration-200 transform ${
+                  openCartMenu ? "scale-100 visible" : "scale-0 invisible"
+                }rotate-0 shadow-custom `}
               >
                 {cartProducts.length ? (
-                  <div>
+                  <div className="">
                     <div className="flex justify-between border-b border-solid px-5 border-borderColor pb-3">
                       <p>{totalCartItemsNum} items</p>
                       <p>
@@ -344,38 +376,40 @@ const WebNavbar = () => {
                       </p>
                     </div>
                     {/* Cart items */}
-                    {cartProducts.map((cartItem, index) => (
-                      <div
-                        key={index}
-                        className="flex justify-between px-3 gap-3 border-solid border-b border-borderColor py-2"
-                      >
-                        {/* Product image */}
-                        <img
-                          className="max-w-[60px] max-h-[60px]"
-                          src={cartItem.img}
-                          alt={`product ${index}`}
-                        />
-                        {/* Product details */}
-                        <div className="flex-1 text-[#333333] text-[13px] mt-1">
-                          <p>
-                            {cartItem.quantity} ×{" "}
-                            <span className="text-secondary">
-                              {cartItem.discountedPrice}
-                            </span>
-                          </p>
-                          <p className="text-[13px] hover:text-secondary">
-                            {cartItem.name}
-                          </p>
-                        </div>
-                        {/* Remove button */}
+                    <div className="h-[200px] overflow-y-auto">
+                      {cartProducts.map((cartItem, index) => (
                         <div
-                          className="max-w-[30px] hover:text-secondary cursor-pointer"
-                          onClick={() => handleRemoveFromCart(index)}
+                          key={index}
+                          className="flex justify-between px-3 gap-3 border-solid border-b border-borderColor py-2 "
                         >
-                          x
+                          {/* Product image */}
+                          <img
+                            className="max-w-[60px] max-h-[60px]"
+                            src={cartItem.img}
+                            alt={`product ${index}`}
+                          />
+                          {/* Product details */}
+                          <div className="flex-1 text-[#333333] text-[13px] mt-1">
+                            <p>
+                              {cartItem.quantity} ×{" "}
+                              <span className="text-secondary">
+                                {cartItem.discountedPrice}
+                              </span>
+                            </p>
+                            <p className="text-[13px] hover:text-secondary">
+                              {cartItem.name}
+                            </p>
+                          </div>
+                          {/* Remove button */}
+                          <div
+                            className="max-w-[30px] hover:text-secondary cursor-pointer"
+                            onClick={() => handleRemoveFromCart(index)}
+                          >
+                            x
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                     {/* Buttons */}
                     <div className="flex justify-center items-center gap-3 mt-5">
                       <Link
@@ -418,37 +452,50 @@ const WebNavbar = () => {
               {menuItems.map((item) => (
                 <li
                   key={item.title}
-                  className="font-rubic  font-medium uppercase text-sm  group"
+                  className="font-rubic  font-medium uppercase text-sm w-full pr-10"
                 >
                   <NavLink
+                    onClick={
+                      item?.subCategory &&
+                      (() => setOpenDropdown(!openDropdown))
+                    }
                     to={item.href}
                     className={({ isActive }) =>
                       `${isActive ? "text-[#ed6663]" : "text-primary"}  
-                    tracking-[1px]
+                    tracking-[1px] flex justify-between 
                     `
                     }
                   >
                     {item.title}
+                    {item?.subCategory && (
+                      <FaAngleDown
+                        className={` transition-all duration-300 ${
+                          openDropdown ? "rotate-180" : "rotate-0"
+                        }`}
+                        size={24}
+                      />
+                    )}
                   </NavLink>
                   {/* Sub menu mega menu */}
 
                   {item?.subCategory && (
                     <ul
+                      className={`bg-gray-100 shadow-md w-full ${
+                        openDropdown ? "py-3 px-2 mt-6" : ""
+                      }  `}
                       style={{
-                        background: 'url("/assets/header/banner.jpg") red',
-                        backgroundPosition: "right ",
-                        backgroundRepeat: "no-repeat",
-                        transform: "rotateX(90deg)",
+                        transition: "max-height 0.5s ease-in-out",
+                        maxHeight: openDropdown ? "fit-content" : "0",
+                        overflow: "hidden",
                       }}
-                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  grid grid-cols-3  top-[95%] left-0 right-0 w-full p-6 hwllo"
                     >
-                      {item?.subCategory.map((subca) => (
-                        <li className="pb-2" key={subca.title}>
+                      {item?.subCategory?.map((subca) => (
+                        <li className="pb-2" key={subca.name}>
                           <Link
-                            className="text-textColor font-medium hover:text-primary hover:ml-3 duration-500 transition-all mb-3 inline-block uppercase text-sm tracking-[0.5px] "
+                            className="text-textColor font-medium hover:text-primary hover:ml-3 duration-500 transition-all mb-1 inline-block uppercase text-sm tracking-[0.5px] "
                             to={subca.href}
                           >
-                            {subca.title}
+                            {subca.name}
                           </Link>
                           {/* nested category list */}
                           {subca?.nestedCategory && (
@@ -472,34 +519,6 @@ const WebNavbar = () => {
                 </li>
               ))}
             </ul>
-            {/* Search bar */}
-            <div className="leading-[80px] mt-10 pr-6 ">
-              {/* Search dropdown */}
-              <div className=" top-full bg-white w-full border-t-[3px] border-solid border-primary px-5 py-4  shadow-custom">
-                <div>
-                  <input
-                    type="text"
-                    name="productName"
-                    placeholder="search product"
-                    className="border-2 outline-0 w-full border-solid border-borderColor h-full py-2 px-5"
-                    value={searchQuery}
-                    onChange={handleSearch}
-                  />
-                  {searchQuery && (
-                    <div>
-                      <p className="text-sm mb-2">
-                        Showing {searchResults.length} results
-                      </p>
-                      <ul>
-                        {searchResults.map((result) => (
-                          <li key={result.id}>{result.name}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
           </div>
         </nav>
       </div>

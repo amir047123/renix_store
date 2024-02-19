@@ -62,7 +62,7 @@ const UserDashboardNav = ({ Outlet }) => {
                   <li>
                     <Link
                       className="text-[#333] hover:text-black hover:ml-3 transition-all duration-200 capitalize"
-                      to={"/my-account/wishlist"}
+                      to={"my-favorite"}
                     >
                       Wishlist
                     </Link>

@@ -577,11 +577,11 @@ const AdminDashboardNav = () => {
           </li>
           <li onClick={handleToggle}>
             <NavLink
-              to={"updateHowToOrder"}
+              to={"updatesidebarBanner"}
               className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
               style={({ isActive }) => (isActive ? activeStyle : undefined)}
             >
-              <span className="ml-3">Update How to order</span>
+              <span className="ml-3">Update Sidebar Banner</span>
             </NavLink>
           </li>
 
@@ -599,7 +599,7 @@ const AdminDashboardNav = () => {
 
       <li>
         <NavLink
-          to={"request-medicine"}
+          to={"all-news-latter"}
           className="flex items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -607,7 +607,20 @@ const AdminDashboardNav = () => {
             <Icon icon="charm:git-request" />
           </span>
 
-          <span className="">Request Medicine</span>
+          <span className="">Subscribe Email</span>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to={"announcement"}
+          className="flex items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <span className="text-lg">
+            <Icon icon="charm:git-request" />
+          </span>
+
+          <span className="">Announcement</span>
         </NavLink>
       </li>
       <li className="flex cursor-pointer items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300">

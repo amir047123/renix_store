@@ -20,8 +20,8 @@ const ProductContextProvider = ({ children }) => {
          accumulator + item.quantity * item.discountedPrice,
        0
      );
-
-     setTotal(grandTotal);
+    const toFixedTotal = grandTotal.toFixed(2);
+    setTotal(toFixedTotal);
    }, [cartProducts]);
 
    const cartsInfo = {

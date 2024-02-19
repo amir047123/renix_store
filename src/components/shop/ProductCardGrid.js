@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosStar, IoMdSearch } from "react-icons/io";
-import { FaPlus, FaRegHeart, FaRegStar } from "react-icons/fa";
+import { FaHeart, FaPlus, FaRegHeart, FaRegStar } from "react-icons/fa";
 import Rating from "react-rating";
 import axios from "axios";
 import useGetCartsProduct from "../../Hooks/useGetCartsProduct";
@@ -13,6 +13,7 @@ const ProductCardGrid = ({ product }) => {
   const userId = userInfo?._id;
   const { cartProducts, setCartProducts } = useGetCartsProduct();
   const [error, setError] = useState(null);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
@@ -37,32 +38,25 @@ const ProductCardGrid = ({ product }) => {
     (item) => item?._id === product?._id
   );
 
+  const handleAddToWishlist = () => {
+    let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
 
+    const existingProductIndex = wishlistItems.findIndex(
+      (item) => item._id === product._id
+    );
 
-
-
-  
-
-  const handleAddToWishlist = async () => {
-
-    try {
-      const response = await axios.post("http://localhost:5000/api/v1/wishlist/addWishlistItem", {
-        productId: product._id,
-        userId: userId,
-      });
-      if (response.data.alreadyAdded) {
-        toast.info("Product is already in wishlist");
-      } else {
-        toast.success("Product added to wishlist");
-      }
-      // Update the UI or perform any additional logic here
-    } catch (error) {
-      setError(error.message);
-      console.error("Error adding product to wishlist:", error.message);
-      toast.error("Error adding product to wishlist");
+    if (existingProductIndex === -1) {
+      wishlistItems.push(product);
+      setIsInWishlist(true);
+      toast.success("Product added to wishlist");
+    } else {
+      wishlistItems = wishlistItems.filter((item) => item._id !== product._id);
+      setIsInWishlist(false);
+      toast.info("Product removed from wishlist");
     }
+
+    localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
   };
-  
 
   return (
     <div className="bg-white group pb-6 relative border-r border-b last:border-r-0  border-solid border-borderColor">
@@ -105,16 +99,19 @@ const ProductCardGrid = ({ product }) => {
           <FaPlus size={30} />
         )}
       </div>
-      <div
-        className="absolute flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 p-2 rounded-full border-white -translate-x-1/2 left-1/2 top-1/2"
-       
-      >
+      <div className="absolute flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 p-2 rounded-full border-white -translate-x-1/2 left-1/2 top-1/2">
         <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
           <IoMdSearch />
         </div>
-        <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
-          <FaRegHeart  onClick={handleAddToWishlist} />
-        </div>
+        <button
+  onClick={handleAddToWishlist}
+  className={`cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white ${
+    isInWishlist ? "text-red-500" : "" // Apply text-red-500 class when isInWishlist is true
+  }`}
+>
+  {isInWishlist ? <FaHeart /> : <FaRegHeart />}
+</button>
+
       </div>
     </div>
   );

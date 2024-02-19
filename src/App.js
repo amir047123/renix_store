@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import './App.css';
+import "./App.css";
 
 import { PublicRoutes } from "./Routes/PublicRoutes";
 import RootLayout from "./layouts/RootLayout";
@@ -9,7 +9,7 @@ import AdminDashboard from "./layouts/AdminDashboard";
 import Dashboard from "./components/ui/AdminDashboard/Dashboard";
 import MyAccount from "./Pages/MyAccount";
 import Home from "./Pages/Home";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { UserRoutes } from "./Routes/UserRoutes";
 import MyContext from "./Context/MyContext";
