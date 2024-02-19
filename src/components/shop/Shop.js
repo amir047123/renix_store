@@ -24,6 +24,7 @@ const Shop = () => {
   const [category, setCategory] = useState([]);
   const { id } = useParams();
   const [product, setProduct] = useState([]);
+  const [filterByPrice, setFilterByPrice] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -91,8 +92,8 @@ const Shop = () => {
     const rangeFill = document.querySelector(".range-fill");
 
     // Calculate the percentage position for min and max values
-    const minPercentage = ((minPrice - 10) / 990) * 100;
-    const maxPercentage = ((maxPrice - 10) / 990) * 100;
+    const minPercentage = ((minPrice - 10) / 1990) * 100;
+    const maxPercentage = ((maxPrice - 10) / 1990) * 100;
 
     // Set the position and width of the fill color element to represent the selected range
     rangeFill.style.left = minPercentage + "%";
@@ -110,15 +111,13 @@ const Shop = () => {
   };
 
   // product get for max min price
-
-  useEffect(() => {
-    const fetchFilterProduct = async () => {
-      const response = await fetch(`http://localhost:5000/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`);
-      const { data } = await response.json();
-      console.log(data);
-    };
-    fetchFilterProduct();
-  }, []);
+  const handleFilterPrice = async () => {
+    const response = await fetch(
+      `http://localhost:5000/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`
+    );
+    const { data } = await response.json();
+    setFilterByPrice(data);
+  };
 
   if (loading) {
     return <Loading />;
@@ -148,7 +147,7 @@ const Shop = () => {
                         className="min-price "
                         value={minPrice}
                         min="10"
-                        max="1000"
+                        max="2000"
                         step="10"
                         onChange={(e) => handleInputChange(e, "min")}
                       />
@@ -157,7 +156,7 @@ const Shop = () => {
                         className="max-price "
                         value={maxPrice}
                         min="10"
-                        max="1000"
+                        max="2000"
                         step="10"
                         onChange={(e) => handleInputChange(e, "max")}
                       />
@@ -166,7 +165,10 @@ const Shop = () => {
                 </div>
                 {/* filter button */}
                 <div className="flex justify-between items-center mt-12 p-3">
-                  <button className="rounded-full bg-primary px-4 py-2 text-white hover:bg-textColor hover:text-white transition-all duration-200 uppercase font-openSans text-sm">
+                  <button
+                    onClick={handleFilterPrice}
+                    className="rounded-full bg-primary px-4 py-2 text-white hover:bg-textColor hover:text-white transition-all duration-200 uppercase font-openSans text-sm"
+                  >
                     filter
                   </button>
                   <div>
@@ -236,7 +238,7 @@ const Shop = () => {
                     </div>
                   </div>
 
-                  <div className="md:pr-5">
+                  {/* <div className="md:pr-5">
                     <select
                       name="orderby"
                       aria-label="Shop order"
@@ -252,13 +254,21 @@ const Shop = () => {
                         Sort by price: high to low
                       </option>
                     </select>
-                  </div>
+                  </div> */}
                 </div>
 
                 {isGrid ? (
                   <div className="grid   grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
                     {id
-                      ? product?.map((product, index) => (
+                      ? filterByPrice?.length > 0
+                        ? filterByPrice?.map((product, index) => (
+                            <ProductCardGrid key={index} product={product} />
+                          ))
+                        : product?.map((product, index) => (
+                            <ProductCardGrid key={index} product={product} />
+                          ))
+                      : filterByPrice?.length > 0
+                      ? filterByPrice?.map((product, index) => (
                           <ProductCardGrid key={index} product={product} />
                         ))
                       : data?.map((product, index) => (
@@ -267,9 +277,13 @@ const Shop = () => {
                   </div>
                 ) : (
                   <div className=" py-4">
-                    {data?.map((product, index) => (
-                      <ProductListsView key={index} product={product} />
-                    ))}
+                    {filterByPrice?.length > 0
+                      ? filterByPrice?.map((product, index) => (
+                          <ProductListsView key={index} product={product} />
+                        ))
+                      : data?.map((product, index) => (
+                          <ProductListsView key={index} product={product} />
+                        ))}
                   </div>
                 )}
               </div>
