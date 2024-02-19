@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageHeader from "../components/ui/PageHeader";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -9,12 +9,21 @@ import UsegetUserById from "../Hooks/usegetUserById";
 const CheckOutPage = () => {
   const { data } = UsegetUserById();
   const { userInfo } = AuthUser();
-  const { cartProducts, total, setCartProducts, setTotal } = useGetCartsProduct();
-    const [coupon, setCoupon] = useState("");
+  const { cartProducts, total, setCartProducts, setTotal } =
+    useGetCartsProduct();
+  const [coupon, setCoupon] = useState("");
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
+  const [appliedCoupon, setAppliedCoupon] = useState([]);
 
+  useEffect(() => {
+    // Load applied coupons from localStorage
+    const storedCoupons = localStorage.getItem("appliedCoupons");
+    if (storedCoupons) {
+      setAppliedCoupon(JSON.parse(storedCoupons));
+    }
+  }, []);
   const handleCreateUserOnchange = (e) => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);
@@ -131,14 +140,21 @@ const CheckOutPage = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        if (data?.data) {
-          const discountPrecent = +data?.data?.discount;
-          console.log(discountPrecent);
-          const discountAmount = (total * discountPrecent) / 100;
+        if (appliedCoupon.includes(coupon)) {
+          toast.error("Coupon already applied");
+        } else if (data?.status === "success" && data?.data?.code === coupon) {
+          setAppliedCoupon([...appliedCoupon, coupon]);
+          localStorage.setItem(
+            "appliedCoupons",
+            JSON.stringify([...appliedCoupon, coupon])
+          );
+          const discountPercent = +data.data.discount;
+          const discountAmount = (total * discountPercent) / 100;
           const discountedPrice = total - discountAmount;
-          const decimelDiscountPrice = discountedPrice.toFixed(2);
-          setTotal(decimelDiscountPrice);
+          setTotal(discountedPrice.toFixed(2));
+          toast.success("Coupon applied successfully");
+        } else {
+          toast.error("Invalid coupon code");
         }
       });
   };

@@ -3,11 +3,20 @@ import { Link } from "react-router-dom";
 import { RiDeleteBinLine } from "react-icons/ri";
 import PageHeader from "../components/ui/PageHeader";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const CartPage = () => {
   const [coupon, setCoupon] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState([]);
 
+  useEffect(() => {
+    // Load applied coupons from localStorage
+    const storedCoupons = localStorage.getItem("appliedCoupons");
+    if (storedCoupons) {
+      setAppliedCoupon(JSON.parse(storedCoupons));
+    }
+  }, []);
   const { cartProducts, setCartProducts, total, setTotal } =
     useGetCartsProduct();
   const handleRemoveFromCart = (itemId) => {
@@ -15,20 +24,28 @@ const CartPage = () => {
     setCartProducts(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
+  //a apply coupon
   const handleCouponApply = () => {
     const response = fetch(
       `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        if (data?.data) {
-          const discountPrecent = +data?.data?.discount;
-          console.log(discountPrecent);
-          const discountAmount = (total * discountPrecent) / 100;
+        if (appliedCoupon.includes(coupon)) {
+          toast.error("Coupon already applied");
+        } else if (data?.status === "success" && data?.data?.code === coupon) {
+          setAppliedCoupon([...appliedCoupon, coupon]);
+          localStorage.setItem(
+            "appliedCoupons",
+            JSON.stringify([...appliedCoupon, coupon])
+          );
+          const discountPercent = +data.data.discount;
+          const discountAmount = (total * discountPercent) / 100;
           const discountedPrice = total - discountAmount;
-          const decimelDiscountPrice = discountedPrice.toFixed(2);
-          setTotal(decimelDiscountPrice);
+          setTotal(discountedPrice.toFixed(2));
+          toast.success("Coupon applied successfully");
+        } else {
+          toast.error("Invalid coupon code");
         }
       });
   };

@@ -10,7 +10,7 @@ const WebNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categorys, setCategorys] = useState([]);
-  console.log(categorys);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible((prevVisible) => !prevVisible);
@@ -100,6 +100,7 @@ const WebNavbar = () => {
                 >
                   <NavLink
                     to={item.href}
+                    replace={true}
                     className={({ isActive }) =>
                       `${isActive ? "text-[#ed6663]" : "text-primary"}  
                     tracking-[1px]
