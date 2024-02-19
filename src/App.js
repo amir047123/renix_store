@@ -52,9 +52,9 @@ function App() {
                   key={index}
                   path={path}
                   element={
-                    <AdminProtectedRoute>
-                      <Component />
-                    </AdminProtectedRoute>
+                    // <AdminProtectedRoute>
+                    <Component />
+                    // </AdminProtectedRoute>
                   }
                 />
               ))}

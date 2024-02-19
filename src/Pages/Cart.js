@@ -1,23 +1,18 @@
 import { FaBars, FaSearch } from "react-icons/fa";
 import { IoIosBasket } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
-import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 
-const Cart = () => {
+const Cart = ({
+  searchQuery,
+  handleSearch,
+  searchResults,
+  cartProducts,
+  totalCartItemsNum,
+  handleRemoveFromCart,
+  total,
+}) => {
   const location = useLocation();
 
-  const { cartProducts, setCartProducts, total } = useGetCartsProduct();
-  const totalCartItemsNum = cartProducts?.reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
-
-  const handleRemoveFromCart = (index) => {
-    const updatedCartItems = [...cartProducts];
-    updatedCartItems.splice(index, 1);
-    setCartProducts(updatedCartItems);
-    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-  };
   return (
     <div className="flex">
       {/* Search bar */}
@@ -28,12 +23,28 @@ const Cart = () => {
           <div>
             <input
               type="text"
+              name="productName"
               placeholder="search product"
               className="border-2 border-solid border-borderColor h-full py-2 px-5"
+              value={searchQuery}
+              onChange={handleSearch}
             />
+            {searchQuery && (
+              <div>
+                <p className="text-sm mb-2">
+                  Showing {searchResults?.length} results
+                </p>
+                <ul>
+                  {searchResults?.map((result) => (
+                    <li key={result.id}>{result.name}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
       {/* Cart icon */}
       <div className="relative group">
         <Link

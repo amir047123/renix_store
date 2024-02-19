@@ -16,7 +16,7 @@ const AddProducts = () => {
   const editor2 = useRef(null);
   const [category, setCategory] = useState([]);
   const [tags, setTags] = useState([""]);
-
+  const [productCode, setProductCode] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     genericCategory: "",
@@ -54,7 +54,7 @@ const AddProducts = () => {
     });
   };
 
-  const data = { ...formData, description, dosageForm, img, tags };
+  const data = { ...formData, description, dosageForm, img, tags ,productCode };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -82,6 +82,8 @@ const AddProducts = () => {
         canonicalUrl: "",
       });
       setTags([""]);
+      setProductCode(""); 
+
     } catch (error) {
       console.error("Error making POST request:", error);
     }
@@ -187,7 +189,23 @@ const AddProducts = () => {
               placeholder="Enter Price"
             />
           </div>
-
+          <div className="mb-1">
+          <label
+            htmlFor="product-code"
+            className="block mb-2 text-[13px] font-normal text-gray-900"
+          >
+            Product Code
+          </label>
+          <input
+            type="text"
+            id="product-code"
+            name="productCode"
+            value={productCode}
+            onChange={(e) => setProductCode(e.target.value)}
+            className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:border-blue-500"
+            placeholder="Enter Product Code"
+          />
+        </div>
          
         </div>
 

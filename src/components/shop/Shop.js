@@ -134,7 +134,7 @@ const Shop = () => {
             {/* all product */}
             <div className=" md:col-span-8 lg:col-span-9 md:order-2 order-1 col-span-full bg-white shadow-md">
               {/* Banner slider */}
-              <BannerSlider />
+              {/* <BannerSlider /> */}
               {/* Product lists */}
               <div className="">
                 {/* sorting */}
