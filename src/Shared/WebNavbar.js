@@ -149,7 +149,7 @@ const WebNavbar = () => {
     >
       <div className="">
         {/* Top part  */}
-        <div className="relative font-rubic font-medium w-full py-4 bg-[#131e2c] text-center text-white uppercase ">
+        <div className="relative font-rubic font-medium w-full py-4 bg-[#131e2c] text-center text-white uppercase">
           <p
             className={`absolute transition-opacity text-[11px] md:text-[13px] text-center left-0 top-1/2 -translate-y-1/2 right-0 duration-1000 ${
               isVisible ? "opacity-100" : "opacity-0"
@@ -374,6 +374,12 @@ const WebNavbar = () => {
                         <span>৳ </span>
                         <span>{total}</span>
                       </p>
+                      <p
+                        onClick={() => setOpenCartMenu(false)}
+                        className="self-start border border-solid border-primary rounded-full p-3 text-xl w-3 h-3 leading-3 flex items-center justify-center cursor-pointer"
+                      >
+                        x
+                      </p>
                     </div>
                     {/* Cart items */}
                     <div className="h-[200px] overflow-y-auto">
@@ -518,6 +524,18 @@ const WebNavbar = () => {
                   )}
                 </li>
               ))}
+              <li className="font-rubic  font-medium uppercase text-sm w-full pr-10">
+                <NavLink
+                  to={"/my-account"}
+                  className={({ isActive }) =>
+                    `${isActive ? "text-[#ed6663]" : "text-primary"}  
+                    tracking-[1px] flex justify-between 
+                    `
+                  }
+                >
+                  My Account
+                </NavLink>
+              </li>
             </ul>
           </div>
         </nav>
