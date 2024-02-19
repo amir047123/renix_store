@@ -1,49 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
-import { FaRegHeart, FaRegStar } from "react-icons/fa6";
+import { FaRegHeart, FaHeart, FaRegStar } from "react-icons/fa";
 import { IoIosStar } from "react-icons/io";
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 import useGetCartsProduct from "../../Hooks/useGetCartsProduct";
+import { toast } from "react-toastify";
 
 const ProductListsView = ({ product }) => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
+  const [isInWishlist, setIsInWishlist] = useState(false);
   const [reviews, setReviews] = useState([]);
-
-  const discountedPrice =
-    product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
-  function truncate(text, limit) {
-    if (!text) return "";
-    const words = text.split(" ");
-    const truncated = words.slice(0, limit).join(" ");
-    return truncated + (words.length > limit ? "..." : "");
-  }
-  const handleAddToCart = () => {
-    // Retrieve existing cart items from local storage
-    let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-
-    // Check if the product already exists in the cart
-    const existingProductIndex = existingCartItems.findIndex(
-      (item) => item._id === product._id
-    );
-
-    if (existingProductIndex !== -1) {
-      // If the product already exists in the cart, update its quantity
-      existingCartItems[existingProductIndex].quantity += 1;
-    } else {
-      // If the product is not already in the cart, add it with quantity 1
-      existingCartItems.push({ ...product, quantity: 1, discountedPrice });
-    }
-    setCartProducts([...existingCartItems]);
-
-    // Update the cart items in local storage
-    localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
-  };
-  const cartQuantityNumber = cartProducts?.find(
-    (item) => item._id === product._id
-  );
-
-
 
   useEffect(() => {
     const getReviews = async () => {
@@ -55,6 +22,64 @@ const ProductListsView = ({ product }) => {
     };
     getReviews();
   }, [product?._id]);
+
+  const discountedPrice =
+    product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
+
+  const truncate = (text, limit) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    const truncated = words.slice(0, limit).join(" ");
+    return truncated + (words.length > limit ? "..." : "");
+  };
+
+  useEffect(() => {
+    const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+    const found = wishlistItems.some(item => item._id === product._id);
+    setIsInWishlist(found);
+  }, [product._id]);
+
+  const handleAddToCart = () => {
+    let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    const existingProductIndex = existingCartItems.findIndex(
+      (item) => item._id === product._id
+    );
+
+    if (existingProductIndex !== -1) {
+      existingCartItems[existingProductIndex].quantity += 1;
+    } else {
+      existingCartItems.push({ ...product, quantity: 1, discountedPrice });
+    }
+    setCartProducts([...existingCartItems]);
+    localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+  };
+
+  const handleAddToWishlist = () => {
+    let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+
+    const existingProductIndex = wishlistItems.findIndex(
+      (item) => item._id === product._id
+    );
+
+    if (existingProductIndex === -1) {
+      wishlistItems.push(product);
+      setIsInWishlist(true);
+      toast.success("Product added to wishlist");
+
+    } else {
+      wishlistItems = wishlistItems.filter(item => item._id !== product._id);
+      setIsInWishlist(false);
+      toast.info("Product removed from wishlist");
+
+    }
+    
+    localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
+  };
+
+  const cartQuantityNumber = cartProducts?.find(
+    (item) => item._id === product._id
+  );
 
   return (
     <div className="flex px-5 lg:px-0 flex-col lg:flex-row items-center gap-8 pr-2 lg:pr-20 border-b last:border-b-0 border-solid border-borderColor pb-4 mb-4">
@@ -107,9 +132,12 @@ const ProductListsView = ({ product }) => {
                 ? cartQuantityNumber?.quantity
                 : "Add to cart"}
             </button>
-            <button className="flex items-center gap-3 text-textColor hover:text-white bg-[#efecec] hover:bg-primary px-5 py-3 font-medium font-rubic uppercase duration-200 text-sm rounded-full">
-              <FaRegHeart />
-              Add to Wishlist
+            <button
+              onClick={handleAddToWishlist}
+              className={`flex items-center gap-3 text-textColor hover:text-white ${isInWishlist ? 'bg-red-500 hover:bg-red-600' : 'bg-[#efecec] hover:bg-primary'} px-5 py-3 font-medium font-rubic uppercase duration-200 text-sm rounded-full`}
+            >
+              {isInWishlist ? <FaHeart /> : <FaRegHeart />}
+              {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
             </button>
           </div>
         </div>

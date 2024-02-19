@@ -42,7 +42,7 @@ const EditBillingAddress = () => {
       }
     );
     const res = await userResponse.json();
-    console.log(res);
+    // console.log(res);
     if (res.status === "success") {
       toast.success("Information successfully updated ");
     }

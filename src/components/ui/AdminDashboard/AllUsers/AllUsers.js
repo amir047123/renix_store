@@ -83,7 +83,7 @@ function AllUsers() {
     setUpazilaLength(upazilaLength);
   }, [users]);
 
-  console.log(users.length);
+  // console.log(users.length);
 
   if (loading) {
     return <Loading />;

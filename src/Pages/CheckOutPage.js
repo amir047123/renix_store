@@ -14,7 +14,7 @@ const CheckOutPage = () => {
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
-  console.log(data);
+  // console.log(data);
   const handleCreateUserOnchange = (e) => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);

@@ -6,6 +6,7 @@ import MyAccount from "../Pages/MyAccount";
 import MyOrders from "../Pages/MyOrders";
 import OrderDetails from "../Pages/OrderDetails";
 import Address from "../Pages/Address";
+import Favorite from "../Pages/Favorite";
 
 
 const UserRoutes = [
@@ -20,6 +21,8 @@ const UserRoutes = [
   { path: "/my-account/edit-address/billing", Component: EditBillingAddress },
   { path: "/my-account/edit-address/shipping", Component: EditShippingAddress },
   { path: "/my-account/edit-account", Component: EditAccountDetails },
+  { path: "my-favorite", Component: Favorite },
+
 
 ];
   

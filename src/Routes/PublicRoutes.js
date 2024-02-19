@@ -9,6 +9,7 @@ import Shop from "../components/shop/Shop";
 import TrackingOrder from "../Pages/TrackingOrder";
 import Category from "../components/shop/Category";
 import ProductChecking from "../Pages/ProductChecking";
+import WishlistPage from "../Pages/WishlistPage";
 
 
 const PublicRoutes = [
@@ -22,6 +23,7 @@ const PublicRoutes = [
   { path: "/tracking-order", Component: TrackingOrder },
   { path: "/category", Component: Category },
   { path: "/product-checking", Component: ProductChecking },
+  { path: "wishlist", Component: WishlistPage },
 
 
 ];

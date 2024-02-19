@@ -10,7 +10,7 @@ const WebNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categorys, setCategorys] = useState([]);
-  console.log(categorys);
+  // console.log(categorys);
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible((prevVisible) => !prevVisible);
@@ -43,7 +43,7 @@ const WebNavbar = () => {
     },
     {
       title: "Appointment",
-      href: "/category/juice",
+      href: "https://renixlaboratories.com.bd/appointment",
     },
   ];
 
