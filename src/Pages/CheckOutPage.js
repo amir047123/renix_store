@@ -122,7 +122,7 @@ const CheckOutPage = () => {
       console.log("Order placed successfully:", responseData);
       toast.success("  Order place successfully ");
       setCartProducts([]);
-
+      localStorage.removeItem("appliedCoupons");
       if (selectedPayment === "bank") {
         window.location.href = responseData.url;
       } else {
