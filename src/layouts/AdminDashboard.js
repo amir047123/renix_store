@@ -63,7 +63,7 @@ const [u,setU]=useState([]);
             >
               <div className="py-4 ">
                 <Link to={"/"} className="flex items-center justify-center">
-                  <img  className="h-12 mr-3" alt="Renix Logo" />
+                  <p className=" text-white font-bold uppercase text-xl">Renix Store</p>
                 </Link>
 
                 <AdminDashboardNav />

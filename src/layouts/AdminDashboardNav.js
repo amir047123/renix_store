@@ -83,7 +83,7 @@ const AdminDashboardNav = () => {
         </NavLink>
       </li>
 
-      <li>
+      {/* <li>
         <span
           onClick={() => setOpenInventory(!openInventory)}
           className="flex items-center justify-between cursor-pointer gap-5 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
@@ -133,9 +133,9 @@ const AdminDashboardNav = () => {
             </NavLink>
           </li>
         </ul>
-      </li>
+      </li> */}
 
-      <li>
+      {/* <li>
         <span
           onClick={() => setOpenPrescription(!openPrescription)}
           className="flex items-center justify-between cursor-pointer gap-5 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
@@ -185,7 +185,7 @@ const AdminDashboardNav = () => {
             </NavLink>
           </li>
         </ul>
-      </li>
+      </li> */}
 
       {/* <li>
         <span
@@ -406,7 +406,7 @@ const AdminDashboardNav = () => {
       {/* Category  */}
 
       {/* Complain */}
-      <li>
+      {/* <li>
         <span
           onClick={() => setOpenComplain(!openComplain)}
           className="flex items-center justify-between cursor-pointer gap-5 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
@@ -461,7 +461,7 @@ const AdminDashboardNav = () => {
             </NavLink>
           </li>
         </ul>
-      </li>
+      </li> */}
 
       {/* order */}
 
@@ -502,7 +502,7 @@ const AdminDashboardNav = () => {
           </li>
         </ul>
       </li>
-
+{/* 
       <li>
         <span
           onClick={() => setOpenBlog(!openBlog)}
@@ -542,7 +542,7 @@ const AdminDashboardNav = () => {
             </NavLink>
           </li>
         </ul>
-      </li>
+      </li> */}
       {/* frontend */}
       <li>
         <span
@@ -585,15 +585,6 @@ const AdminDashboardNav = () => {
             </NavLink>
           </li>
 
-          <li onClick={handleToggle}>
-            <NavLink
-              to={"updateFooter"}
-              className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
-              style={({ isActive }) => (isActive ? activeStyle : undefined)}
-            >
-              <span className="ml-3">Update Footer</span>
-            </NavLink>
-          </li>
         </ul>
       </li>
 

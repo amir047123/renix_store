@@ -1,9 +1,11 @@
 import AdminDashboardSliderImg from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminDashboardSliderImg";
 import AdminSideBarBanner from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminSideBarBanner";
+import AdminOrders from "../components/ui/AdminDashboard/AdminOrders/AdminOrders";
 import AdminShipping from "../components/ui/AdminDashboard/AdminShipping/AdminShipping";
 import AddProducts from "../components/ui/AdminDashboard/AllProduct/AddProducts";
 import AdminUpdateProduct from "../components/ui/AdminDashboard/AllProduct/AdminUpdateProduct";
 import AllProduct from "../components/ui/AdminDashboard/AllProduct/AllProduct";
+import AllUsers from "../components/ui/AdminDashboard/AllUsers/AllUsers";
 import Announcement from "../components/ui/AdminDashboard/Announcement/Announcement";
 import AddCategory from "../components/ui/AdminDashboard/Category/AddCategory";
 import AllCategory from "../components/ui/AdminDashboard/Category/AllCategory";
@@ -44,6 +46,9 @@ const AdminRoutes = [
   { path: "all-news-latter", Component: AllNewsLatter },
 
   { path: "announcement", Component: Announcement },
+  { path: "orders", Component: AdminOrders },
+  {path: 'allUsers', Component: AllUsers},
+
 
 ];
 
