@@ -108,6 +108,16 @@ const Shop = () => {
       setMaxPrice(newValue);
     }
   };
+  // product get for max min price
+
+  useEffect(() => {
+    const fetchFilterProduct = async () => {
+      const response = await fetch("");
+      const { data } = await response.json();
+      console.log(data);
+    };
+    fetchFilterProduct();
+  }, []);
 
   if (loading) {
     return <Loading />;
