@@ -108,6 +108,7 @@ const Shop = () => {
       setMaxPrice(newValue);
     }
   };
+
   // product get for max min price
 
   useEffect(() => {
