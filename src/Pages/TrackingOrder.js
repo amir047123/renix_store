@@ -41,7 +41,7 @@ const TrackingOrder = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mb-5">
       <PageHeader />
       <div className="flex flex-col items-center justify-center px-4 mt-10">
         <div className="text-center">

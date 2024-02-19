@@ -2,9 +2,13 @@ import { FaBars, FaSearch } from "react-icons/fa";
 import { IoIosBasket } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
+import { useEffect, useState } from "react";
 
 const Cart = () => {
   const location = useLocation();
+  const [product, setProduct] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const { cartProducts, setCartProducts, total } = useGetCartsProduct();
   const totalCartItemsNum = cartProducts?.reduce(
@@ -18,6 +22,27 @@ const Cart = () => {
     setCartProducts(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/product/getProducts`
+      );
+      const res = await response.json();
+      setProduct(res.data);
+    };
+    getProducts();
+  }, []);
+
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    const results = product.filter((item) =>
+      item.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setSearchResults(results);
+  };
+
   return (
     <div className="flex">
       {/* Search bar */}
@@ -28,12 +53,28 @@ const Cart = () => {
           <div>
             <input
               type="text"
+              name="productName"
               placeholder="search product"
               className="border-2 border-solid border-borderColor h-full py-2 px-5"
+              value={searchQuery}
+              onChange={handleSearch}
             />
+            {searchQuery && (
+              <div>
+                <p className="text-sm mb-2">
+                  Showing {searchResults.length} results
+                </p>
+                <ul>
+                  {searchResults.map((result) => (
+                    <li key={result.id}>{result.name}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
+  
       {/* Cart icon */}
       <div className="relative group">
         <Link

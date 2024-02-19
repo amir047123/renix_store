@@ -1,10 +1,12 @@
 import { Icon } from "@iconify/react";
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import AuthUser from "../Hooks/authUser";
 const AdminDashboardNav = () => {
   const [issideNavOpen, setSidenavOpen] = useState(false);
-
+  const navigate = useNavigate();
+  const { userRole, logout } = AuthUser();
   //show  notice
   const [openNotice, setOpenNotice] = useState(false);
   const [openNotice2, setOpenNotice2] = useState(false);
@@ -29,6 +31,29 @@ const AdminDashboardNav = () => {
   let activeStyle = {
     backgroundColor: "#01AEEF",
   };
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is logged in
+    if (!userRole) {
+      // If not logged in, redirect to login page
+      toast.error("Unauthorized access!");
+      navigate("/login");
+      return;
+    }
+  
+    // Check if the user is not an admin
+    if (userRole !== "admin") {
+      // If the user is not an admin, show an error message and redirect to another page
+      toast.error("You do not have permission to access this page!");
+      navigate("/adminDashboard"); // or wherever you want to redirect non-admin users
+      return;
+    }
+  
+    // If the user is an admin, continue rendering the AdminDashboardNav component
+  }, [userRole, navigate]);
+  
   return (
     <ul className="space-y-2 pt-8">
       <li>
@@ -595,7 +620,7 @@ const AdminDashboardNav = () => {
           <Icon icon="tabler:logout" />
         </span>
 
-        <span className="">LogOut</span>
+        <span onClick={logout} className="">LogOut</span>
       </li>
     </ul>
   );

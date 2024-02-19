@@ -30,7 +30,7 @@ const WebNavbar = () => {
     },
     {
       title: "CATEGORIES",
-      href: "/",
+      href: "/category",
       subCategory: categorys,
     },
     {
@@ -38,11 +38,11 @@ const WebNavbar = () => {
       href: "/tracking-order",
     },
     {
-      title: "Conatct",
-      href: "/category/salad",
+      title: "Product Checking",
+      href: "/product-checking",
     },
     {
-      title: "About",
+      title: "Appointment",
       href: "/category/juice",
     },
   ];
@@ -63,7 +63,7 @@ const WebNavbar = () => {
   }, []);
   return (
     <header className="fixed w-full  z-[9999]">
-      <div className="md:container">
+      <div className="">
         {/* Top part  */}
         <div className="relative font-rubic font-medium w-full py-4 bg-[#131e2c] text-center text-white uppercase ">
           <p

@@ -45,7 +45,7 @@ const BannerSlider = () => {
         className="mySwiper"
       >
         {
-          images?.map(i=><SwiperSlide className=' overflow-hidden' key={i?._id}>
+          images?.map(i=><SwiperSlide className=' overflow-hidden  ' key={i?._id}>
             <img className='w-full' src={i?.sliderImg} alt="img"></img>
           </SwiperSlide>)
         }

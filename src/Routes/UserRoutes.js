@@ -20,6 +20,7 @@ const UserRoutes = [
   { path: "/my-account/edit-address/billing", Component: EditBillingAddress },
   { path: "/my-account/edit-address/shipping", Component: EditShippingAddress },
   { path: "/my-account/edit-account", Component: EditAccountDetails },
+
 ];
   
   export {  UserRoutes };

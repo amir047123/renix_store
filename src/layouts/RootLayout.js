@@ -6,7 +6,7 @@ import Footer from "../shared/Footer";
 const RootLayout = () => {
   return (
     <div>
-      <WebNavbar></WebNavbar>
+      <WebNavbar ></WebNavbar>
       <Outlet></Outlet>
       <Footer></Footer>
       

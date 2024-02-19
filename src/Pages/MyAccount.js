@@ -14,13 +14,24 @@ const MyAccount = () => {
   useEffect(() => {
     setIsMounted(true);
 
-    if (userRole !== "user") {
-      toast.info("Please verify your phone number");
-
-      logout();
+    // Check if the user is logged in
+    if (!userRole) {
+      // If not logged in, show toast message and redirect to login page
+      toast.error("Unauthorized access!");
       navigate("/login");
-      setTimeout(() => {}, 2000);
+      return;
     }
+
+    // Check if the user is an admin
+    if (userRole === "admin") {
+      // If the user is an admin, redirect to admin dashboard
+      navigate("/adminDashboard");
+      return;
+    }
+
+    // If the user is a regular user, continue rendering the MyAccount component
+
+    // Additional logic for regular users can be added here
 
     return () => setIsMounted(false);
   }, [userRole, logout, isMounted, navigate]);
@@ -38,7 +49,7 @@ const MyAccount = () => {
         </span>
         ?{" "}
         <span
-          className="font-bold text-primary     cursor-pointer"
+          className="font-bold text-primary cursor-pointer"
           onClick={logout}
         >
           Log out
