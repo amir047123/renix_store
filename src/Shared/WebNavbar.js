@@ -204,7 +204,7 @@ const WebNavbar = () => {
                         transform: "rotateX(90deg)",
                         minHeight: "271px",
                       }}
-                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  grid grid-cols-12  top-[95%] left-0 right-0 w-full p-6"
+                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat flex flex-wrap gap-5 top-[95%] left-0 right-0 w-full p-6"
                     >
                       {item?.subCategory?.map((subca) => (
                         <li className="pb-2" key={subca.name}>
@@ -251,9 +251,9 @@ const WebNavbar = () => {
         </nav>
         <div className=" hidden md:block lg:hidden bg-white border-t border-solid border-[#eaeaea] py-5 px-6 ">
           <ul className="flex items-center gap-7">
-            {menuItems.map((item) => (
+            {menuItems?.map((item) => (
               <li
-                key={item.title}
+                key={item}
                 className="font-rubic  font-medium uppercase text-sm  group"
               >
                 <NavLink
@@ -277,7 +277,7 @@ const WebNavbar = () => {
                       transform: "rotateX(90deg)",
                       minHeight: "100%",
                     }}
-                    className="absolute z-[9999] group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  grid grid-cols-12  top-[95%] left-0 right-0 w-full p-6"
+                    className="absolute z-[9999] group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  flex gap-5 flex-wrap  top-[95%] left-0 right-0 w-full p-6"
                   >
                     {item?.subCategory.map((subca) => (
                       <li className="pb-2" key={subca.title}>
@@ -447,7 +447,7 @@ const WebNavbar = () => {
             >
               <IoClose />
             </div>
-            {/* Menus */}
+            {/* Menus  mobile*/}
             <ul className="flex flex-col items-start  gap-7">
               {menuItems.map((item) => (
                 <li
@@ -476,7 +476,7 @@ const WebNavbar = () => {
                       />
                     )}
                   </NavLink>
-                  {/* Sub menu mega menu */}
+                  {/* Sub menu mega menu mobile*/}
 
                   {item?.subCategory && (
                     <ul

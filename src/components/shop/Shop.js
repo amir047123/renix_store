@@ -13,9 +13,10 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import PageHeader from "../ui/PageHeader";
-
+import "./priceRange.css";
 const Shop = () => {
-
+  const [minPrice, setMinPrice] = useState(50);
+  const [maxPrice, setMaxPrice] = useState(250);
   const [isGrid, setIsGrid] = useState(true);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -83,6 +84,31 @@ const Shop = () => {
     }
   }, [id, category]);
 
+  // silder range
+
+  // Function to validate range and update the fill color on slider
+  useEffect(() => {
+    const rangeFill = document.querySelector(".range-fill");
+
+    // Calculate the percentage position for min and max values
+    const minPercentage = ((minPrice - 10) / 990) * 100;
+    const maxPercentage = ((maxPrice - 10) / 990) * 100;
+
+    // Set the position and width of the fill color element to represent the selected range
+    rangeFill.style.left = minPercentage + "%";
+    rangeFill.style.width = maxPercentage - minPercentage + "%";
+  }, [minPrice, maxPrice]);
+
+  // Event handler for input change
+  const handleInputChange = (e, type) => {
+    const newValue = parseInt(e.target.value);
+    if (type === "min") {
+      setMinPrice(newValue);
+    } else {
+      setMaxPrice(newValue);
+    }
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -100,7 +126,44 @@ const Shop = () => {
                 <h2 className="border-l-2 text-[#292929] border-solid border-l-primary py-[15px] px-5 font-medium uppercase font-oswald text-xl border-b border-b-[#eaeaea] ">
                   FILTER BY PRICE
                 </h2>
-                <input type="range" />
+                {/* price slider range design */}
+                <div>
+                  <div>
+                    <div className="my-5 w-[90%] relative mx-auto">
+                      <div className="range-fill"></div>
+
+                      <input
+                        type="range"
+                        className="min-price "
+                        value={minPrice}
+                        min="10"
+                        max="1000"
+                        step="10"
+                        onChange={(e) => handleInputChange(e, "min")}
+                      />
+                      <input
+                        type="range"
+                        className="max-price "
+                        value={maxPrice}
+                        min="10"
+                        max="1000"
+                        step="10"
+                        onChange={(e) => handleInputChange(e, "max")}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* filter button */}
+                <div className="flex justify-between items-center mt-12 p-3">
+                  <button className="rounded-full bg-primary px-4 py-2 text-white hover:bg-textColor hover:text-white transition-all duration-200 uppercase font-openSans text-sm">
+                    filter
+                  </button>
+                  <div>
+                    <p className="font-openSans text-sm text-textColor">
+                      Price: ৳ {minPrice} — ৳ {maxPrice}
+                    </p>
+                  </div>
+                </div>
               </div>
               {/* Product Category */}
               <div className="bg-white shadow-md mt-8 ">
@@ -171,8 +234,7 @@ const Shop = () => {
                       <option value="menu_order" selected="selected">
                         Default sorting
                       </option>
-                      <option value="popularity">Sort by popularity</option>
-                      <option value="rating">Sort by average rating</option>
+
                       <option value="date">Sort by latest</option>
                       <option value="price">Sort by price: low to high</option>
                       <option value="price-desc">
