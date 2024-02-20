@@ -10,6 +10,8 @@ import TrackingOrder from "../Pages/TrackingOrder";
 import Category from "../components/shop/Category";
 import ProductChecking from "../Pages/ProductChecking";
 import WishlistPage from "../Pages/WishlistPage";
+import Success from "../Pages/Success";
+import Failed from "../Pages/Failed";
 
 
 const PublicRoutes = [
@@ -25,6 +27,8 @@ const PublicRoutes = [
   { path: "/product-checking", Component: ProductChecking },
   { path: "wishlist", Component: WishlistPage },
 
+  { path: "/payment/success", Component: Success },
+  { path: "/payment/failed", Component: Failed },
 
 ];
 
