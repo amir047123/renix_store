@@ -117,9 +117,9 @@ const Login = () => {
     <div>
       <div className="bg-[#f5f5f5]  overflow-hidden">
         <PageHeader title="My Account" />
-        <div className=" mx-auto max-lg:overflow-x-auto w-full">
+        <div className="  w-full">
           <div className="pt-12 container">
-            <div className="bg-white w-1/2 mx-auto shadow-custom  mb-5 max-lg:min-w-[900px]">
+            <div className="bg-white lg:w-1/2 w-full mx-auto shadow-custom  mb-5">
               <div className="">
                 <div className=" py-16 px-10">
                   <h2 className="font-rubic font-medium text-lg uppercase text-[#333] mb-5">
