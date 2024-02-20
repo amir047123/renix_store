@@ -154,7 +154,6 @@ const WishlistPage = () => {
   };
   // handle change actions
   const handleApplyActions = () => {
-    console.log(actions);
     if (actions === "cart") {
       // add all wishlist to cart
       handleAddAllToCart();

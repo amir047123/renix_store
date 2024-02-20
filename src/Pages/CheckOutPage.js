@@ -6,6 +6,7 @@ import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 import { toast } from "react-toastify";
 import AuthUser from "../Hooks/authUser";
 import UsegetUserById from "../Hooks/usegetUserById";
+import axios from "axios";
 const CheckOutPage = () => {
   const { data } = UsegetUserById();
   const { userInfo } = AuthUser();
@@ -16,6 +17,7 @@ const CheckOutPage = () => {
   const [newUser, setNewUser] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("bank");
   const [appliedCoupon, setAppliedCoupon] = useState([]);
+  const [shippingInfo, setShippingInfo] = useState({});
 
   useEffect(() => {
     // Load applied coupons from localStorage
@@ -39,6 +41,12 @@ const CheckOutPage = () => {
     formState: { errors },
   } = useForm();
 
+  // total amount add tax shhiping charge
+  const tax = (total * (+shippingInfo?.tax || 0)) / 100;
+
+  const totalAmount =
+    tax + parseFloat(total) + parseFloat(shippingInfo?.outsideDhaka);
+  // order data submit
   const onSubmit = async (data) => {
     try {
       // Calculate total amount
@@ -51,7 +59,7 @@ const CheckOutPage = () => {
       const orderData = {
         userId: userInfo?._id, // auth id
         userPhone: userInfo?.phone, // auth num
-        totalAmount: total,
+        totalAmount: totalAmount.toFixed(2), // grand total with tax and shipping charge
         onlinePay: selectedPayment === "bank",
         user: {
           firstName: data.firstName,
@@ -158,6 +166,19 @@ const CheckOutPage = () => {
         }
       });
   };
+  // add tax and shipping charge
+
+  useEffect(() => {
+    const fetchShippingData = async () => {
+      const { data } = await axios.get(
+        "http://localhost:5000/api/v1/shipping/getShippings"
+      );
+      const res = data?.data;
+      const shippingDetails = res?.map((item) => setShippingInfo(item));
+    };
+    fetchShippingData();
+  }, []);
+  console.log(shippingInfo);
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="CheckOut" />
@@ -558,17 +579,39 @@ const CheckOutPage = () => {
                     </div>
                     {/* Footer */}
                     <div className="font-bold">
+                      {/* Sub total */}
                       <div className="grid grid-cols-3 border-solid border-b border-borderColor">
                         <div className="col-span-2 p-3 border-solid border-r border-borderColor">
                           Subtotal
                         </div>
                         <div className="col-span-1 p-3">৳ {total}</div>
                       </div>
+                      {/* Shipping charge  */}
+                      <div className="grid grid-cols-3 border-solid border-b border-borderColor">
+                        <div className="col-span-2 p-3 border-solid border-r border-borderColor">
+                          Shipping charge
+                        </div>
+                        <div className="col-span-1 p-3">
+                          ৳ {shippingInfo?.outsideDhaka}
+                        </div>
+                      </div>
+                      {/* Tax */}
+                      <div className="grid grid-cols-3 border-solid border-b border-borderColor">
+                        <div className="col-span-2 p-3 border-solid border-r border-borderColor">
+                          Tax
+                        </div>
+                        <div className="col-span-1 p-3">
+                          {shippingInfo?.tax} %
+                        </div>
+                      </div>
+                      {/* total */}
                       <div className="grid grid-cols-3 border-solid border-l border-borderColor">
                         <div className="col-span-2 p-3 border-solid border-r border-borderColor">
                           Total
                         </div>
-                        <div className="col-span-1 p-3">৳ {total}</div>
+                        <div className="col-span-1 p-3">
+                          ৳ {totalAmount.toFixed(2)}
+                        </div>
                       </div>
                     </div>
                   </div>
