@@ -5,6 +5,8 @@ import { Icon } from "@iconify/react";
 // import logo from "../../Assets/Nirog Health logo-01.png";
 import { toast } from "react-toastify";
 import AdminDashboardNav from "./AdminDashboardNav";
+import logo from "../../src/Assets/logo renix store.svg"
+
 const AdminDashboard = () => {
 
   const navWrapper = useRef();
@@ -57,13 +59,13 @@ const [u,setU]=useState([]);
           <div className="w-full lg:w-1/5 lg:block hidden">
             <div
               id="drawer-navigation"
-              className="drawer_height w-1/5 fixed left-0 top-0 p-4 overflow-y-auto h-full bg-primary z-10 "
+              className="drawer_height w-1/5 fixed left-0 top-0 p-4 overflow-y-auto h-full  bg-[#0a2004] z-10 "
               tabindex="-1"
               aria-labelledby="drawer-navigation-label"
             >
               <div className="py-4 ">
                 <Link to={"/"} className="flex items-center justify-center">
-                  <p className=" text-white font-bold uppercase text-xl">Renix Store</p>
+                  <img className=" w-44" src={logo}></img>
                 </Link>
 
                 <AdminDashboardNav />
@@ -73,7 +75,7 @@ const [u,setU]=useState([]);
           {/* dashboard main part */}
           <div className="w-full lg:w-4/5">
             <div>
-              <div className="bg-primary  py-4 px-3">
+              <div className="bg-[#e7f7f4]  py-4 px-3">
                 <div className="flex items-center ">
                   <span
                     className=" text-white  mx-3 lg:hidden cursor-pointer"
@@ -102,13 +104,13 @@ const [u,setU]=useState([]);
                     <Icon icon="icon-park-solid:back" />
                   </button>
                   <div className="flex items-center ml-auto gap-2 w-fit">
-                    <span className="text-lg font-semibold text-white  inline-block">
-                      <h2>Amir </h2>
+                    <span className="text-lg font-semibold text-black  inline-block">
+                      <h2>Renix Administration </h2>
                     </span>
                     {/* user dropdown */}
 
                     <Icon
-                      className=" text-2xl text-white"
+                      className=" text-2xl text-black"
                       icon="mdi:user-outline"
                     ></Icon>
                     <div

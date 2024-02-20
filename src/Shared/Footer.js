@@ -51,7 +51,14 @@ const Footer = () => {
                      Product Checking
                     </Link>
                   </li>
-                
+                  <li className="mb-2 leading-6">
+                    <Link
+                      to="https://www.google.com/maps/dir/%E0%A6%A8%E0%A7%88%E0%A6%B9%E0%A6%BE%E0%A6%9F%E0%A6%BF+%E0%A6%A6%E0%A6%95%E0%A7%8D%E0%A6%B7%E0%A6%BF%E0%A6%A3%E0%A6%AA%E0%A6%BE%E0%A6%A1%E0%A6%BC%E0%A6%BE+%E0%A6%9C%E0%A6%BE%E0%A6%AE%E0%A7%87+%E0%A6%AE%E0%A6%B8%E0%A6%9C%E0%A6%BF%E0%A6%A6,+Bishay+Khaly/Renix+Unani+Laboratories+Limited+Narayanganj/@23.529079,89.1597937,9z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x39fee7bb7660ff03:0xbc6171805f38bd37!2m2!1d89.1701849!2d23.4765074!1m5!1m1!1s0x3755b73d69f41d37:0xf197a5601f2a766a!2m2!1d90.4764375!2d23.6704375?entry=ttu"
+                      className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
+                    >
+                     Location
+                    </Link>
+                  </li>
                 </ul>
               </nav>
               <nav

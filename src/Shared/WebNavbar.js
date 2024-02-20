@@ -6,6 +6,7 @@ import { IoClose } from "react-icons/io5";
 import Cart from "../Pages/Cart";
 import axios from "axios";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
+import logo from "../../src/Assets/logo renix store.svg"
 const WebNavbar = () => {
   const [isSticky, setIsSticky] = useState(false);
   const [isHidden, setIsHidden] = useState(false);

@@ -18,7 +18,7 @@ import AllNewsLatter from "../components/ui/AdminDashboard/NewsLatter/AllNewsLat
 
 
 const AdminRoutes = [
-  { path: "", Component: Dashboard },
+  { path: "dashboard", Component: Dashboard },
   { path: "add-category", Component: AddCategory },
 
   { path: "addCategory", Component: AddCategory },
