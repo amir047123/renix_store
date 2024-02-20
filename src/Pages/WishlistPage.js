@@ -239,29 +239,37 @@ const WishlistPage = () => {
                         colSpan={100}
                         className="h-24 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 "
                       >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <select
-                              name=""
-                              id=""
-                              className="h-9 w-40 border border-solid border-borderColor"
-                            >
-                              <option value="actions">Actions</option>
-                              <option value="cart">Add to cart</option>
-                              <option value="remove">Remove</option>
-                            </select>
-                            <button
-                              onClick={handleAddSelectedToCart}
-                              className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-3 "
-                            >
-                              Add Selected to Cart
-                            </button>
-                            <button
-                              onClick={handleAddAllToCart}
-                              className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-3"
-                            >
-                              Add All to Cart
-                            </button>
+                        <div className="">
+                          <div className="flex justify-between">
+                            <div>
+                              {" "}
+                              <select
+                                name=""
+                                id=""
+                                className="h-9 w-40 border border-solid border-borderColor"
+                              >
+                                <option value="actions">Actions</option>
+                                <option value="cart">Add to cart</option>
+                                <option value="remove">Remove</option>
+                              </select>
+                              <button className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-3 ">
+                                Apply Actions
+                              </button>
+                            </div>
+                            <div>
+                              <button
+                                onClick={handleAddSelectedToCart}
+                                className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-3 "
+                              >
+                                Add Selected to Cart
+                              </button>
+                              <button
+                                onClick={handleAddAllToCart}
+                                className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-3"
+                              >
+                                Add All to Cart
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </td>
