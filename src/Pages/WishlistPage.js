@@ -5,6 +5,7 @@ import PageHeader from "../components/ui/PageHeader";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 
 const WishlistPage = () => {
+  const [actions, setActions] = useState("");
   const [wishlist, setWishlist] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const { cartProducts, setCartProducts } = useGetCartsProduct();
@@ -151,6 +152,18 @@ const WishlistPage = () => {
       console.error("Error sharing:", error.message);
     }
   };
+  // handle change actions
+  const handleApplyActions = () => {
+    console.log(actions);
+    if (actions === "cart") {
+      // add all wishlist to cart
+      handleAddAllToCart();
+    }
+    if (actions === "remove") {
+      // Clear wishlist and remove wishlist items from local storage
+      setWishlist([]);
+    }
+  };
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="Wishlist" />
@@ -244,6 +257,7 @@ const WishlistPage = () => {
                             <div>
                               {" "}
                               <select
+                                onChange={(e) => setActions(e.target.value)}
                                 name=""
                                 id=""
                                 className="h-9 w-40 border border-solid border-borderColor"
@@ -252,7 +266,10 @@ const WishlistPage = () => {
                                 <option value="cart">Add to cart</option>
                                 <option value="remove">Remove</option>
                               </select>
-                              <button className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-3 ">
+                              <button
+                                onClick={handleApplyActions}
+                                className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-3 "
+                              >
                                 Apply Actions
                               </button>
                             </div>
