@@ -104,14 +104,21 @@ const ProductCardGrid = ({ product }) => {
           <IoMdSearch />
         </div>
         <button
-  onClick={handleAddToWishlist}
-  className={`cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white ${
-    isInWishlist ? "text-red-500" : "" // Apply text-red-500 class when isInWishlist is true
-  }`}
->
-  {isInWishlist ? <FaHeart /> : <FaRegHeart />}
-</button>
-
+          onClick={handleAddToWishlist}
+          className={`cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white ${
+            isInWishlist ? "text-red-500" : "" // Apply text-red-500 class when isInWishlist is true
+          }`}
+        >
+          {isInWishlist ? <FaHeart /> : <FaRegHeart />}
+        </button>
+      </div>
+      <div className="text-center mt-4">
+        <Link
+          to={"/checkout"}
+          className="inline-block bg-primary text-white rounded-full uppercase text-sm font-openSans font-medium px-4 py-2 hover:bg-textColor transition-all duration-200"
+        >
+          buy now
+        </Link>
       </div>
     </div>
   );

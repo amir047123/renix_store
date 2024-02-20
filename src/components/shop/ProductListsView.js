@@ -105,7 +105,10 @@ const ProductListsView = ({ product }) => {
             <p className="border-r border-primary border-solid pr-4 capitalize text-primary font-openSans text-sm hover:text-secondary">
               {reviews.length} Review
             </p>
-            <Link  to={`/productDetails/${product?._id}`} className="capitalize text-primary font-openSans text-sm hover:text-secondary">
+            <Link
+              to={`/productDetails/${product?._id}`}
+              className="capitalize text-primary font-openSans text-sm hover:text-secondary"
+            >
               add your Review
             </Link>
           </div>
@@ -134,11 +137,21 @@ const ProductListsView = ({ product }) => {
             </button>
             <button
               onClick={handleAddToWishlist}
-              className={`flex items-center gap-3 text-textColor hover:text-white ${isInWishlist ? 'bg-red-500 hover:bg-red-600' : 'bg-[#efecec] hover:bg-primary'} px-5 py-3 font-medium font-rubic uppercase duration-200 text-sm rounded-full`}
+              className={`flex items-center gap-3 text-textColor hover:text-white ${
+                isInWishlist
+                  ? "bg-red-500 hover:bg-red-600"
+                  : "bg-[#efecec] hover:bg-primary"
+              } px-5 py-3 font-medium font-rubic uppercase duration-200 text-sm rounded-full`}
             >
               {isInWishlist ? <FaHeart /> : <FaRegHeart />}
-              {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+              {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
             </button>
+            <Link
+              to={"/checkout"}
+              className="inline-block bg-primary text-white rounded-full uppercase text-sm font-openSans font-medium px-4 py-2 hover:bg-textColor transition-all duration-200"
+            >
+              buy now
+            </Link>
           </div>
         </div>
       </div>
