@@ -1,5 +1,5 @@
 import { FaBars, FaSearch } from "react-icons/fa";
-import { IoIosBasket } from "react-icons/io";
+import { IoIosBasket, IoMdClose } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 
 const Cart = ({
@@ -82,7 +82,7 @@ const Cart = ({
                   {/* Product details */}
                   <div className="flex-1 text-[#333333] text-[13px] mt-1">
                     <p>
-                      {cartItem.quantity} ×{" "}
+                      {cartItem.quantity} <IoMdClose />{" "}
                       <span className="text-secondary">
                         {cartItem.discountedPrice}
                       </span>

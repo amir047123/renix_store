@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { FaAngleDown, FaBars, FaSearch } from "react-icons/fa";
-import { IoIosBasket } from "react-icons/io";
+import { IoIosBasket, IoMdClose } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import Cart from "../Pages/Cart";
 import axios from "axios";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
-import logo from "../../src/Assets/logo renix store.svg"
+import logo from "../../src/Assets/logo renix store.svg";
 const WebNavbar = () => {
   const [isSticky, setIsSticky] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
@@ -334,10 +334,13 @@ const WebNavbar = () => {
         </div>
         {/* Mobile Navbar */}
         <nav className="bg-white md:hidden">
-          <div className="text-center pt-7">
-            <img className="mx-auto" src="/assets/header/logo.png" alt="" />
+          <div className="text-center pt-2">
+            <Link to="/">
+              {" "}
+              <p className=" uppercase font-bold text-primary">Renix Store</p>
+            </Link>
           </div>
-          <div className="flex justify-between items-center px-5 gap-10">
+          <div className="flex justify-between items-center px-5 gap-10 -mt-2">
             <div>
               <FaBars
                 onClick={() => setIsOpen(!isOpen)}
@@ -400,7 +403,10 @@ const WebNavbar = () => {
                         onClick={() => setOpenCartMenu(false)}
                         className="self-start border border-solid border-primary rounded-full p-3 text-xl w-3 h-3 leading-3 flex items-center justify-center cursor-pointer"
                       >
-                        x
+                        <span className="inline-block">
+                          {" "}
+                          <IoMdClose />
+                        </span>
                       </p>
                     </div>
                     {/* Cart items */}
@@ -433,7 +439,7 @@ const WebNavbar = () => {
                             className="max-w-[30px] hover:text-secondary cursor-pointer"
                             onClick={() => handleRemoveFromCart(index)}
                           >
-                            x
+                            <IoMdClose />
                           </div>
                         </div>
                       ))}
