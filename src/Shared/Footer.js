@@ -6,6 +6,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { IoMdCall } from "react-icons/io";
 import { SlEnvolope } from "react-icons/sl";
 import { Icon } from "@iconify/react";
+import payment from "../Assets/Footer/payment.webp"
 const Footer = () => {
   return (
     <section>
@@ -23,41 +24,34 @@ const Footer = () => {
                 aria-labelledby="footer-header"
               >
                 <h3 className="mb-6 uppercase text-base font-medium text-primary font-rubic tracking-[0.5px]">
-                  SHOPPING GUIDE
+                 Renix
                 </h3>
                 <ul>
                   <li className="mb-2 leading-6">
                     <Link
-                      to=""
+                      to="https://renixlaboratories.com.bd/appointment"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
-                      Features
+                     Appointment
                     </Link>
                   </li>
                   <li className="mb-2 leading-6">
                     <Link
-                      to=""
+                      to="http://localhost:3000/tracking-order"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
-                      Customers
+                   Tracking Order
                     </Link>
                   </li>
                   <li className="mb-2 leading-6">
                     <Link
-                      to=""
+                      to="http://localhost:3000/product-checking"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
-                      Why us?
+                     Product Checking
                     </Link>
                   </li>
-                  <li className="mb-2 leading-6">
-                    <Link
-                      to=""
-                      className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
-                    >
-                      Pricing
-                    </Link>
-                  </li>
+                
                 </ul>
               </nav>
               <nav
@@ -65,49 +59,35 @@ const Footer = () => {
                 aria-labelledby="footer-header"
               >
                 <h3 className="mb-6 uppercase text-base font-medium text-primary font-rubic tracking-[0.5px]">
-                  STYLE ADVISOR
+                Quick Links
                 </h3>
                 <ul>
                   <li className="mb-2 leading-6">
                     <Link
-                      to=""
+                      to="https://renixlaboratories.com.bd/privacy-policy"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
-                      Documentation
+                  Privacy Policy
                     </Link>
                   </li>
                   <li className="mb-2 leading-6">
                     <Link
-                      to=""
+                      to="https://renixlaboratories.com.bd/terms-conditions"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
-                      Training
+                      Terms & Conditions
                     </Link>
                   </li>
                   <li className="mb-2 leading-6">
                     <Link
-                      to=""
+                      to="https://renixlaboratories.com.bd/refound-return"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
-                      System status
+                  Refound & Return
                     </Link>
                   </li>
-                  <li className="mb-2 leading-6">
-                    <Link
-                      to=""
-                      className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
-                    >
-                      FAQ's
-                    </Link>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <Link
-                      to=""
-                      className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
-                    >
-                      Help Center
-                    </Link>
-                  </li>
+                 
+                  
                 </ul>
               </nav>
               <nav
@@ -123,44 +103,23 @@ const Footer = () => {
                 <ul>
                   <li className="mb-2 leading-6">
                     <Link
-                      to=""
+                      to="https://renixlaboratories.com.bd/about"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
                       About us
                     </Link>
                   </li>
+                 
+                 
                   <li className="mb-2 leading-6">
                     <Link
-                      to=""
-                      className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
-                    >
-                      Careers
-                    </Link>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <Link
-                      to=""
-                      className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
-                    >
-                      Leadership
-                    </Link>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <Link
-                      to=""
+                      to="https://renixlaboratories.com.bd/blogs"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
                       Blog
                     </Link>
                   </li>
-                  <li className="mb-2 leading-6">
-                    <Link
-                      to=""
-                      className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
-                    >
-                      Events
-                    </Link>
-                  </li>
+                
                 </ul>
               </nav>
               <nav
@@ -214,7 +173,8 @@ const Footer = () => {
                       to=""
                       className="transition-colors text-[#b7bcc8] duration-300  "
                     >
-                      Qualis@klbtheme.com
+                   support@renixlaboratories.com.bd
+
                     </p>
                   </div>
                 </div>
@@ -226,12 +186,8 @@ const Footer = () => {
         {/* <!-- Subfooter --> */}
         <div className="py-4 text-sm bg-[#252932]">
           <div className="container px-6 mx-auto">
-            <div className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
-              <div className="col-span-2 md:col-span-4 lg:col-span-6">
-              © 2024-2025 Renix. All Rights Reserved.
-
-              </div>
-              <nav
+            <div  className=" flex" >
+            <nav
                 aria-labelledby="footer-social-links"
                 className="col-span-2 text-right md:col-span-4 lg:col-span-6"
               >
@@ -265,6 +221,15 @@ const Footer = () => {
                   </li>
                 </ul>
               </nav>
+              <div className="col-span-2 md:col-span-4 lg:col-span-6">
+              © 2024-2025 Renix. All Rights Reserved.
+
+              </div>
+
+              <div>
+                <img className=" " src={payment}></img>
+              </div>
+            
             </div>
           </div>
         </div>

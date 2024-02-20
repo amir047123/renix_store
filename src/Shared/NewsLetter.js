@@ -38,7 +38,7 @@ const NewsLetter = () => {
           NEWSLETTER
         </h3>
         <h2 className="font-oswald font-normal  uppercase mb-7 text-primary text-3xl md:text-[38px]">
-          GET DISCOUNT 30% OFF
+          GET Latest News
         </h2>
         <form onSubmit={handleForm}>
         <div className="md:flex sm:mx-20 lg:mx-0 px-5 md:px-0 block items-center justify-center gap-2">

@@ -169,7 +169,7 @@ const WebNavbar = () => {
     fetchAnnouncements();
   }, []);
 
-  console.log(getTitles, "getTitles");
+  // console.log(getTitles, "getTitles");
   //  main return
   return (
     <header
