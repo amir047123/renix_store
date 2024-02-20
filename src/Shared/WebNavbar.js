@@ -186,21 +186,6 @@ const WebNavbar = () => {
               {title}
             </p>
           ))}
-          {/* <p
-            className={`absolute transition-opacity text-[11px] md:text-[13px] text-center left-0 top-1/2 -translate-y-1/2 right-0 duration-1000 ${
-              isVisible ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            Special Offers! - Get <span className="text-primary">50%</span> off
-            on vegetables
-          </p> */}
-          {/* <p
-            className={`absolute transition-opacity text-[13px] text-center top-1/2 -translate-y-1/2 left-0 right-0 duration-1000 ${
-              isVisible ? "opacity-0" : "opacity-100"
-            }`}
-          >
-            sale 40%off on bulk shopping!
-          </p> */}
         </div>
 
         {/* desktop Navbar */}
@@ -230,11 +215,11 @@ const WebNavbar = () => {
                     {item.title}
                   </NavLink>
                   {/* Sub menu mega menu */}
-
+                  {/* hi */}
                   {item?.subCategory && (
                     <ul
                       style={{
-                        background: 'url("/assets/header/banner.jpg") white',
+                        background: 'url("/assets/banner/megamenu.png") white',
                         backgroundPosition: "right ",
                         backgroundRepeat: "no-repeat",
                         transform: "rotateX(90deg)",
@@ -287,9 +272,9 @@ const WebNavbar = () => {
         </nav>
         <div className=" hidden md:block lg:hidden bg-white border-t border-solid border-[#eaeaea] py-5 px-6 ">
           <ul className="flex items-center gap-7">
-            {menuItems?.map((item, i) => (
+            {menuItems?.map((item, index) => (
               <li
-                key={i}
+                key={index}
                 className="font-rubic  font-medium uppercase text-sm  group"
               >
                 <NavLink
@@ -303,11 +288,11 @@ const WebNavbar = () => {
                   {item.title}
                 </NavLink>
                 {/* Sub menu mega menu */}
-
+                {/* hello */}
                 {item?.subCategory && (
                   <ul
                     style={{
-                      background: 'url("/assets/header/banner.jpg") white',
+                      background: 'url("/assets/banner/megamenu.png") white',
                       backgroundPosition: "right ",
                       backgroundRepeat: "no-repeat",
                       transform: "rotateX(90deg)",

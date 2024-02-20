@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 const Announcement = () => {
   const [titles, setTitles] = useState([""]);
+  const [error, setError] = useState("");
   const [getTitles, setGetTitles] = useState([]);
 
   useEffect(() => {
@@ -14,6 +15,7 @@ const Announcement = () => {
 
   const handleAddField = () => {
     setTitles([...titles, ""]);
+    setError("");
   };
 
   const handleTitleChange = (index, e) => {
@@ -28,20 +30,24 @@ const Announcement = () => {
 
   const handleAddAnnouncement = async () => {
     try {
-      const announcementData = {
-        title: titles,
-      };
+      if (titles.length === 0) {
+        setError("This field is required");
+      } else {
+        const announcementData = {
+          title: titles,
+        };
 
-      const res = await axios.post(
-        "http://localhost:5000/api/v1/announcements/addAnnouncement",
-        announcementData
-      );
-      if (res?.data?.data === null) {
-        toast.error("already added a annoucment. Please delete previous one");
+        const res = await axios.post(
+          "http://localhost:5000/api/v1/announcements/addAnnouncement",
+          announcementData
+        );
+        if (res?.data?.data === null) {
+          toast.error("already added a annoucment. Please delete previous one");
+        }
+        console.log("Announcement added successfully:", res.data);
+        setTitles([""]);
+        fetchAnnouncements();
       }
-      console.log("Announcement added successfully:", res.data);
-      setTitles([""]);
-      fetchAnnouncements();
     } catch (error) {
       console.log("Error adding announcement:", error.messages);
     }
@@ -102,6 +108,7 @@ const Announcement = () => {
             )}
           </div>
         ))}
+        {error && <span className="text-red-500 text-sm">{error}</span>}
         <button
           onClick={handleAddAnnouncement}
           className="bg-primary rounded-full text-white px-4 py-2 text-lg font-openSans uppercase"
@@ -127,10 +134,12 @@ const Announcement = () => {
             <tbody className="divide-y divide-gray-200">
               {getTitles.map((announcement) => (
                 <tr key={announcement._id}>
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    {announcement.title}
+                  <td className="whitespace-nowrap border border-solid border-collapse border-gray-200 px-4 py-2 font-medium text-gray-900">
+                    {announcement.title.map((t, index) => (
+                      <p key={index}>{t}</p>
+                    ))}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <td className="whitespace-nowrap border border-solid border-collapse border-gray-200 px-4 py-2 font-medium text-gray-900">
                     <button
                       onClick={() => handleDeleteAnnouncement(announcement._id)}
                     >
