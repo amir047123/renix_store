@@ -34,25 +34,25 @@ const AdminDashboardNav = () => {
 
   const [isMounted, setIsMounted] = useState(false);
 
-  // useEffect(() => {
-  //   // Check if the user is logged in
-  //   if (!userRole) {
-  //     // If not logged in, redirect to login page
-  //     toast.error("Unauthorized access!");
-  //     navigate("/login");
-  //     return;
-  //   }
+  useEffect(() => {
+    // Check if the user is logged in
+    if (!userRole) {
+      // If not logged in, redirect to login page
+      toast.error("Unauthorized access!");
+      navigate("/login");
+      return;
+    }
 
-  //   // Check if the user is not an admin
-  //   if (userRole !== "admin") {
-  //     // If the user is not an admin, show an error message and redirect to another page
-  //     toast.error("You do not have permission to access this page!");
-  //     navigate("/adminDashboard"); // or wherever you want to redirect non-admin users
-  //     return;
-  //   }
+    // Check if the user is not an admin
+    if (userRole !== "admin") {
+      // If the user is not an admin, show an error message and redirect to another page
+      toast.error("You do not have permission to access this page!");
+      navigate("/adminDashboard"); // or wherever you want to redirect non-admin users
+      return;
+    }
 
-  //   // If the user is an admin, continue rendering the AdminDashboardNav component
-  // }, [userRole, navigate]);
+    // If the user is an admin, continue rendering the AdminDashboardNav component
+  }, [userRole, navigate]);
 
   return (
     <ul className="space-y-2 pt-8">
