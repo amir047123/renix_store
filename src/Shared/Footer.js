@@ -44,7 +44,7 @@ const Footer = () => {
                   </li>
                   <li className="mb-2 leading-6">
                     <Link
-                      to="http://localhost:3000/tracking-order"
+                      to="/tracking-order"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
                       Tracking Order
@@ -52,7 +52,7 @@ const Footer = () => {
                   </li>
                   <li className="mb-2 leading-6">
                     <Link
-                      to="http://localhost:3000/product-checking"
+                      to="/product-checking"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
                     >
                       Product Checking

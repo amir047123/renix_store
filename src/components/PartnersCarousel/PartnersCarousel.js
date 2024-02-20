@@ -17,7 +17,7 @@ const PartnersCarousel = () => {
     fetchData();
   }, []);
   return (
-    <div className="container">
+    <div className="container ">
       {/* Partner */}
       <div className="mt-20">
         <div className=" relative max-w-[310px]  mb-10">
