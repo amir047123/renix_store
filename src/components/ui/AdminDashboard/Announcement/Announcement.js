@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const Announcement = () => {
   const [titles, setTitles] = useState([""]);
@@ -35,12 +36,14 @@ const Announcement = () => {
         "http://localhost:5000/api/v1/announcements/addAnnouncement",
         announcementData
       );
-
+      if (res?.data?.data === null) {
+        toast.error("already added a annoucment. Please delete previous one");
+      }
       console.log("Announcement added successfully:", res.data);
       setTitles([""]);
       fetchAnnouncements();
     } catch (error) {
-      console.error("Error adding announcement:", error);
+      console.log("Error adding announcement:", error.messages);
     }
   };
 

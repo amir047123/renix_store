@@ -19,27 +19,25 @@ const WebNavbar = () => {
   const [product, setProduct] = useState([]);
   const [getTitles, setGetTitles] = useState([]);
   const { cartProducts, setCartProducts, total } = useGetCartsProduct();
-  const [isVisible, setIsVisible] = useState(false);
+
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
   const totalCartItemsNum = cartProducts?.reduce(
     (acc, item) => acc + item.quantity,
     0
   );
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Toggle visibility
-      setIsVisible((prevVisible) => !prevVisible);
-    }, 1500);
-
-    return () => clearInterval(interval);
-  }, []); // Empty dependency array ensures effect runs only once
-
   // Increment the index of the current title to display the next one
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % getTitles.length);
-    }, 1500 * getTitles.length); // Adjust this delay as needed
+      setCurrentTitleIndex((prevIndex) => {
+        // Check if the current index is at the end of the titles array
+        if (prevIndex === getTitles.length - 1) {
+          return 0; // Reset to the first title
+        } else {
+          return prevIndex + 1; // Increment the index
+        }
+      });
+    }, 1500); // Adjust this delay as needed
 
     return () => clearInterval(interval);
   }, [getTitles]);
@@ -152,24 +150,22 @@ const WebNavbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+  // annoment
   useEffect(() => {
-    // annoment
     const fetchAnnouncements = async () => {
       try {
-        const res = await axios.get(
+        const { data } = await axios.get(
           "http://localhost:5000/api/v1/announcements/getAnnouncements"
         );
-        console.log(res.data);
-        setGetTitles(res.data.data);
+
+        const title = data?.data;
+        const anou = title.map((i) => setGetTitles(i.title));
       } catch (error) {
         console.error("Error fetching announcements:", error);
       }
     };
     fetchAnnouncements();
   }, []);
-
-  console.log(getTitles, "getTitles");
   //  main return
   return (
     <header
@@ -180,22 +176,15 @@ const WebNavbar = () => {
       <div className="">
         {/* Top part  */}
         <div className="relative font-rubic font-medium w-full py-4 bg-[#131e2c] text-center text-white uppercase">
-          {getTitles.map((item, index) => (
-            <div key={index}>
-              {item.title &&
-                item.title.map((title, titleIndex) => (
-                  <p
-                    key={titleIndex}
-                    className={`transition-opacity text-[11px] md:text-[13px] text-center left-0 top-1/2 -translate-y-1/2 right-0 duration-1000 ${
-                      isVisible && currentTitleIndex === index
-                        ? "opacity-100"
-                        : "opacity-0"
-                    }`}
-                  >
-                    {title}
-                  </p>
-                ))}
-            </div>
+          {getTitles.map((title, index) => (
+            <p
+              key={index}
+              className={` absolute transition-opacity text-[11px] md:text-[13px] text-center left-0 top-1/2 -translate-y-1/2 right-0 duration-1000 ${
+                currentTitleIndex === index ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {title}
+            </p>
           ))}
           {/* <p
             className={`absolute transition-opacity text-[11px] md:text-[13px] text-center left-0 top-1/2 -translate-y-1/2 right-0 duration-1000 ${
@@ -210,7 +199,7 @@ const WebNavbar = () => {
               isVisible ? "opacity-0" : "opacity-100"
             }`}
           >
-            sale <span className="text-primary">40%</span> off on bulk shopping!
+            sale 40%off on bulk shopping!
           </p> */}
         </div>
 
