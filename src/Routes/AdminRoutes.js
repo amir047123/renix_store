@@ -1,5 +1,7 @@
 import AdminDashboardSliderImg from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminDashboardSliderImg";
+import AdminPartner from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminPartner";
 import AdminSideBarBanner from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminSideBarBanner";
+import AdminOrderView from "../components/ui/AdminDashboard/AdminOrders/AdminOrderView";
 import AdminOrders from "../components/ui/AdminDashboard/AdminOrders/AdminOrders";
 import AdminShipping from "../components/ui/AdminDashboard/AdminShipping/AdminShipping";
 import AddProducts from "../components/ui/AdminDashboard/AllProduct/AddProducts";
@@ -48,6 +50,8 @@ const AdminRoutes = [
   { path: "announcement", Component: Announcement },
   { path: "orders", Component: AdminOrders },
   {path: 'allUsers', Component: AllUsers},
+  {path: 'partner', Component: AdminPartner},
+  {path: "orders/:id", Component: AdminOrderView},
 
 
 ];

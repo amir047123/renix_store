@@ -34,7 +34,7 @@ const Dashboard = () => {
         <p className="font-thin mb-4">{currentTime.toLocaleString()}</p>
       </div>
 
-      <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+      {/* <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         <div className="flex items-center justify-center  rounded-lg bg-gray-200">
           Totall Pending Order
         </div>
@@ -45,7 +45,7 @@ const Dashboard = () => {
         <div className="flex items-center justify-center   rounded-lg bg-gray-200">
           Total Seling Amount
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

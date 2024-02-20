@@ -57,7 +57,7 @@ function AllUsers() {
         </h1>
       
       </div>
-
+{/* 
       <div className="flex relative rounded-md w-full mt-3 mb-3">
         <input
           type="text"
@@ -75,7 +75,7 @@ function AllUsers() {
             <Icon icon="material-symbols:search" />
           </span>
         </button>
-      </div>
+      </div> */}
 
       {/* Display suggestions */}
       {suggestions.length > 0 && (
@@ -147,11 +147,11 @@ function AllUsers() {
                 </td>
                 <td className="h-16 px-6  transition duration-300 border-slate-200  text-secondary text-lg flex gap-2 items-center cursor-pointer">
                   {/* pase id view page */}
-                  <Link to={`/adminDashboard/view-user-profile/${user?._id}`}>
+                  {/* <Link to={`/adminDashboard/view-user-profile/${user?._id}`}>
                     <button className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300">
                       <Icon className="text-secondary" icon="grommet-icons:view" />
                     </button>
-                  </Link>
+                  </Link> */}
 
                   <div
                     onClick={() => {

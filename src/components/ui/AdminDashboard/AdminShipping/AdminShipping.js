@@ -68,14 +68,11 @@ const AdminShipping = () => {
         <h1 class="text-4xl font-bold text-gray-900 leading-tight mb-2 border-b-2 border-gray-500 pb-2">
           Update Shipping
         </h1>
-        <p class="text-lg text-gray-800 mb-8">
-          update essential shipping for health . Act now to secure the latest
-          items
-        </p>
+      
       </div>
 
       <div class="grid grid-cols-1 gap-4 px-4  sm:grid-cols-4 sm:px-8">
-        <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
+        {/* <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
           <div class="p-4 bg-green-400">
            <Icon className=" h-12 w-12 text-white" icon="fa-solid:shipping-fast"></Icon> 
           </div>
@@ -83,13 +80,13 @@ const AdminShipping = () => {
             <h3 class="text-sm tracking-wider">Inside Dhaka  </h3>
             <p class="text-3xl">  {formData?.insideDhaka} BDT</p>
           </div>
-        </div>
+        </div> */}
         <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
           <div class="p-4 bg-green-400">
            <Icon className=" h-12 w-12 text-white" icon="fa-solid:shipping-fast"></Icon> 
           </div>
           <div class="px-4 text-gray-700">
-            <h3 class="text-sm tracking-wider"> Outside Dhaka  </h3>
+            <h3 class="text-sm tracking-wider"> Shipping </h3>
             <p class="text-3xl">{formData?.outsideDhaka} BDT</p>
           </div>
         </div>
@@ -111,7 +108,7 @@ const AdminShipping = () => {
         {/* date */}
 
         <div className="md:flex items-center">
-          <div className="mb-1  w-full md:w-[50%] mr-0 md:mr-2">
+          {/* <div className="mb-1  w-full md:w-[50%] mr-0 md:mr-2">
             <label class="block mb-2 text-[13px] font-normal text-gray-900 ">
               Inside Dhaka
             </label>
@@ -123,11 +120,11 @@ const AdminShipping = () => {
               onChange={handleChange}
               className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none  block w-full p-2.5 focus:border-none"
             />
-          </div>
+          </div> */}
 
           <div className="mb-1  w-full md:w-[50%] mr-0 md:mr-2">
             <label class="block mb-2 text-[13px] font-normal text-gray-900 ">
-              Outside Dhaka
+              Shipping Charge
             </label>
 
             <input

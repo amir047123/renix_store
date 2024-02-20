@@ -221,12 +221,12 @@ const WebNavbar = () => {
                     <ul
                       style={{
                         background: 'url("/assets/banner/megamenu.png") white',
-                        backgroundPosition: "right ",
+                        backgroundPosition: "right",
                         backgroundRepeat: "no-repeat",
                         transform: "rotateX(90deg)",
                         minHeight: "271px",
                       }}
-                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat flex flex-wrap gap-5 top-[95%] left-0 right-0 w-full p-6"
+                      className="absolute group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] !bg-no-repeat back flex flex-wrap gap-5 top-[95%] left-0 right-0 w-full p-6"
                     >
                       {item?.subCategory?.map((subca) => (
                         <li className="pb-2" key={subca.name}>
@@ -294,12 +294,12 @@ const WebNavbar = () => {
                   <ul
                     style={{
                       background: 'url("/assets/banner/megamenu.png") white',
-                      backgroundPosition: "right ",
+                      backgroundPosition: "right",
                       backgroundRepeat: "no-repeat",
                       transform: "rotateX(90deg)",
                       minHeight: "100%",
                     }}
-                    className="absolute z-[9999] group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] bg-no-repeat  flex gap-5 flex-wrap  top-[95%] left-0 right-0 w-full p-6"
+                    className="absolute z-[9999] group-hover:!rotate-0 transform transition-all origin-top translate-y-0 shadow-[0px_4px_13px_-3px_#808080] !bg-no-repeat  flex gap-5 flex-wrap  top-[95%] left-0 right-0 w-full p-6"
                   >
                     {item?.subCategory.map((subca) => (
                       <li className="pb-2" key={subca.title}>

@@ -7,12 +7,12 @@ import Swal from "sweetalert2";
 import { singleImageUpload } from "../../../../Hooks/ImageUpload";
 import PostHooks from "../../../../Hooks/PostHooks";
 
-const AdminSideBarBanner = () => {
+const AdminPartner = () => {
   const [sliders, setSliders] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [img, setImg] = useState("");
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/sidebarslider/getSliders`)
+    fetch(`http://localhost:5000/api/v1/partners/getPartners`)
       .then((res) => res.json())
       .then((data) => setSliders(data?.data));
   }, [refresh]);
@@ -26,7 +26,7 @@ const AdminSideBarBanner = () => {
   const addSliderImage = async () => {
     if (img) {
       await PostHooks(
-        "http://localhost:5000/api/v1/sidebarslider/addSliders",
+        "http://localhost:5000/api/v1/partners/addPartners",
         { sliderImg: img },
         "Your slider image successfully posted"
       );
@@ -51,7 +51,7 @@ const AdminSideBarBanner = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/api/v1/sidebarslider/deleteSliders/${id}`, {
+        fetch(`http://localhost:5000/api/v1/partners/deletePartners/${id}`, {
           method: "DELETE",
         }).then((res) => {
           if (res.status === 200) {
@@ -65,7 +65,7 @@ const AdminSideBarBanner = () => {
   return (
     <div className="w-11/12 mx-auto py-5">
       <div className="w-fit mb-10">
-        <h2 className="text-left text-2xl font-bold">Edit Sidebar Slider</h2>
+        <h2 className="text-left text-2xl font-bold"> Partner</h2>
         <div className="w-[50%] h-[4px] bg-primary rounded-full mt-1"></div>
       </div>
 
@@ -85,7 +85,7 @@ const AdminSideBarBanner = () => {
 
       <div>
         <label className="font-medium text-dark mt-5">
-      Upload Image <span className="text-warning">*</span>
+        Upload Logo <span className="text-warning">*</span>
         </label>
         <div className=" rounded-lg flex justify-between items-center px-4 py-2 mt-1 border border-gray-400 mb-5">
           <p className="text-sm">Browse Banner File</p>
@@ -103,7 +103,7 @@ const AdminSideBarBanner = () => {
       </div>
       <div className="mt-5">
         <div className="w-fit mb-10">
-          <h2 className="text-left text-2xl font-bold">All Sidebar Slider Image</h2>
+          <h2 className="text-left text-2xl font-bold">All Partner Logo</h2>
           <div className="w-[50%] h-[4px] bg-primary rounded-full mt-1"></div>
         </div>
         <div className="grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-3">
@@ -131,4 +131,4 @@ const AdminSideBarBanner = () => {
   );
 };
 
-export default AdminSideBarBanner;
+export default AdminPartner;

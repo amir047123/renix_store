@@ -45,6 +45,8 @@ const Announcement = () => {
           toast.error("already added a annoucment. Please delete previous one");
         }
         console.log("Announcement added successfully:", res.data);
+        toast.success("Announcement added successfully");
+
         setTitles([""]);
         fetchAnnouncements();
       }
@@ -59,6 +61,8 @@ const Announcement = () => {
         `http://localhost:5000/api/v1/announcements/deleteAnnouncement/${id}`
       );
       fetchAnnouncements();
+      toast.success("Delete  successfully annoucment");
+
     } catch (error) {
       console.error("Error deleting announcement:", error);
     }
@@ -121,8 +125,8 @@ const Announcement = () => {
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
             <thead className="ltr:text-left rtl:text-right">
-              <tr>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <tr className=" border"> 
+                <th className="whitespace-nowrap px-4 py-2 border font-medium text-gray-900">
                   Title
                 </th>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
@@ -143,7 +147,7 @@ const Announcement = () => {
                     <button
                       onClick={() => handleDeleteAnnouncement(announcement._id)}
                     >
-                      <MdDelete size={20} className="text-red-500" />
+                      <MdDelete size={30} className="text-red-500" />
                     </button>
                   </td>
                 </tr>
