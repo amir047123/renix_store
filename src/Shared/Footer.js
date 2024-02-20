@@ -6,7 +6,6 @@ import { CiLocationOn } from "react-icons/ci";
 import { IoLogoGoogleplus, IoMdCall } from "react-icons/io";
 import { SlEnvolope } from "react-icons/sl";
 import { TfiYoutube } from "react-icons/tfi";
-import payment from "../Assets/Footer/payment.webp";
 import {
   FaFacebookF,
   FaLinkedinIn,
@@ -16,7 +15,7 @@ import {
 } from "react-icons/fa";
 const Footer = () => {
   return (
-    <section>
+    <section className="mt-5 md:mt-10">
       {/* Shipping */}
       <FreeShipping />
       {/* Newsletter */}

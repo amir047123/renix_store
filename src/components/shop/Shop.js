@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import PageHeader from "../ui/PageHeader";
 import "./priceRange.css";
+import PartnersCarousel from "../PartnersCarousel/PartnersCarousel";
 const Shop = () => {
   const [minPrice, setMinPrice] = useState(50);
   const [maxPrice, setMaxPrice] = useState(250);
@@ -291,6 +292,7 @@ const Shop = () => {
           </div>
         </div>
       </section>
+      <PartnersCarousel />
     </div>
   );
 };
