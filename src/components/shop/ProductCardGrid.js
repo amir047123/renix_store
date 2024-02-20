@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { IoIosStar, IoMdSearch } from "react-icons/io";
 import { FaHeart, FaPlus, FaRegHeart, FaRegStar } from "react-icons/fa";
 import Rating from "react-rating";
-import axios from "axios";
+
 import useGetCartsProduct from "../../Hooks/useGetCartsProduct";
 import AuthUser from "../../Hooks/authUser";
 import { toast } from "react-toastify";
@@ -62,11 +62,38 @@ const ProductCardGrid = ({ product }) => {
     <div className="bg-white group pb-6 relative border-r border-b last:border-r-0  border-solid border-borderColor">
       <div className="text-center">
         <div className="relative overflow-hidden">
-          <img
-            className="mx-auto group-hover:scale-125 transition-all duration-200"
-            src={product?.img}
-            alt=""
-          />
+          <div>
+            <img
+              className="mx-auto group-hover:scale-125 transition-all duration-200"
+              src={product?.img}
+              alt=""
+            />
+          </div>
+          <div
+            className="absolute opacity-0 group-hover:opacity-100 bg-primary hover:bg-secondary duration-200 p-2 rounded-full text-white border-solid border-[3px] border-white -translate-x-1/2 left-1/2 bottom-0 cursor-pointer"
+            onClick={handleAddToCart}
+          >
+            {cartQuantityNumber?.quantity ? (
+              <span className="w-6 h-6 leading-6 inline-block text-center">
+                {cartQuantityNumber?.quantity}
+              </span>
+            ) : (
+              <FaPlus size={30} />
+            )}
+          </div>
+          <div className="absolute flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 p-2 rounded-full border-white -translate-x-1/2 left-1/2 top-1/2">
+            <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
+              <IoMdSearch />
+            </div>
+            <button
+              onClick={handleAddToWishlist}
+              className={`cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white ${
+                isInWishlist ? "text-red-500" : "" // Apply text-red-500 class when isInWishlist is true
+              }`}
+            >
+              {isInWishlist ? <FaHeart /> : <FaRegHeart />}
+            </button>
+          </div>
         </div>
         <h2 className="font-rubic text-[#292929] font-medium px-6 lg:px-0">
           <Link to={`/productDetails/${product?._id}`}>{product?.name}</Link>
@@ -87,31 +114,7 @@ const ProductCardGrid = ({ product }) => {
           <span className="text-green-500">{product?.discount}% off</span>
         </p>
       </div>
-      <div
-        className="absolute opacity-0 group-hover:opacity-100 bg-primary hover:bg-secondary duration-200 p-2 rounded-full text-white border-solid border-[3px] border-white -translate-x-1/2 left-1/2 bottom-32 cursor-pointer"
-        onClick={handleAddToCart}
-      >
-        {cartQuantityNumber?.quantity ? (
-          <span className="w-6 h-6 leading-6 inline-block text-center">
-            {cartQuantityNumber?.quantity}
-          </span>
-        ) : (
-          <FaPlus size={30} />
-        )}
-      </div>
-      <div className="absolute flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 p-2 rounded-full border-white -translate-x-1/2 left-1/2 top-1/2">
-        <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
-          <IoMdSearch />
-        </div>
-        <button
-          onClick={handleAddToWishlist}
-          className={`cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white ${
-            isInWishlist ? "text-red-500" : "" // Apply text-red-500 class when isInWishlist is true
-          }`}
-        >
-          {isInWishlist ? <FaHeart /> : <FaRegHeart />}
-        </button>
-      </div>
+
       <div className="text-center mt-4">
         <Link
           onClick={handleAddToCart}

@@ -18,7 +18,7 @@ import AdditionalInfo from "./AdditionalInfo";
 import Reviews from "./Reviews";
 import Description from "./Description";
 import ProductCardGrid from "../../shop/ProductCardGrid";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 import RelatedProductCard from "../../shop/RelatedProductCard";
 const ProductDetails = () => {
@@ -265,6 +265,13 @@ const ProductDetails = () => {
             >
               add to cart
             </button>
+            <Link
+              to={"/checkout"}
+              onClick={handleAddToCart}
+              className="uppercase bg-secondary hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
+            >
+              Buy now
+            </Link>
           </div>
 
           <div className="flex items-center gap-3 my-6">

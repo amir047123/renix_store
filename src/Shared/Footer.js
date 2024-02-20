@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa";
 const Footer = () => {
   return (
-    <section className="mt-5 md:mt-10">
+    <section className="">
       {/* Shipping */}
       <FreeShipping />
       {/* Newsletter */}
