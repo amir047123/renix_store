@@ -41,8 +41,8 @@ const TrackingOrder = () => {
   };
 
   return (
-    <div className="min-h-screen mb-5">
-      <PageHeader />
+    <div className=" mt-40 mb-10">
+      {/* <PageHeader /> */}
       <div className="flex flex-col items-center justify-center px-4 mt-10">
         <div className="text-center">
           <h1 className="font-bold uppercase text-3xl text-primary">
@@ -70,7 +70,7 @@ const TrackingOrder = () => {
           </button>
         </div>
 
-        {loading && <Loading/>}
+        {loading && <Loading />}
 
         {searched && myOrder.length > 0 && !loading && (
           <div className="mt-8">

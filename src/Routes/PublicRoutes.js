@@ -15,9 +15,9 @@ import Failed from "../Pages/Failed";
 
 
 const PublicRoutes = [
-  { path: "", Component: Home },
+  // { path: "/", Component: Home },
   { path: "shop/:id", Component: Shop },
-  { path: "shop", Component: Shop },
+  { path: "/", Component: Shop },
   { path: "productDetails/:id", Component: ProductDetailsPage },
   { path: "/cart", Component: CartPage },
   { path: "/checkout", Component: CheckOutPage },
@@ -29,7 +29,6 @@ const PublicRoutes = [
 
   { path: "/payment/success", Component: Success },
   { path: "/payment/failed", Component: Failed },
-
 ];
 
 export { PublicRoutes };

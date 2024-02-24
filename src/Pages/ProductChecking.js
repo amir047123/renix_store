@@ -45,8 +45,8 @@ const ProductChecking = () => {
   };
 
   return (
-    <div className="min-h-screen mb-5">
-      <PageHeader />
+    <div className="mt-40 mb-10">
+      {/* <PageHeader /> */}
       <div className="flex flex-col items-center justify-center px-4 mt-10">
         <div className="text-center">
           <h1 className="font-bold uppercase text-3xl text-primary">
@@ -113,11 +113,7 @@ const ProductChecking = () => {
                           readonly
                         />
                         <p className="font-medium font-rubic text-sm">
-                          <span className="">
-                            ৳ {order?.onePiecePrice}
-                          </span>{" "}
-                         
-                    
+                          <span className="">৳ {order?.onePiecePrice}</span>{" "}
                         </p>
                       </div>
                       {/* <div

@@ -45,18 +45,14 @@ const WebNavbar = () => {
 
   const menuItems = [
     {
-      title: "Home",
+      title: "shop",
       href: "/",
     },
-    {
-      title: "shop",
-      href: "/shop",
-    },
-    {
-      title: "CATEGORIES",
-      href: "/category",
-      subCategory: categorys,
-    },
+    // {
+    //   title: "CATEGORIES",
+    //   href: "/category",
+    //   subCategory: categorys,
+    // },
     {
       title: "Tracking Order",
       href: "/tracking-order",
@@ -68,6 +64,8 @@ const WebNavbar = () => {
     {
       title: "Appointment",
       href: "https://renixlaboratories.com.bd/appointment",
+      className: "text-white bg-primary px-3 py-2 rounded",
+      target: "_blank",
     },
   ];
 
@@ -205,11 +203,14 @@ const WebNavbar = () => {
                   className="font-rubic  font-medium uppercase text-sm  group"
                 >
                   <NavLink
+                    target={item.target && item.target}
                     to={item.href}
                     replace={true}
                     className={({ isActive }) =>
                       `${isActive ? "text-[#ed6663]" : "text-primary"}  
-                    tracking-[1px]
+                    tracking-[1px]  ${
+                      item.className ? item.className : "text-primary"
+                    } 
                     `
                     }
                   >
@@ -334,7 +335,7 @@ const WebNavbar = () => {
         </div>
         {/* Mobile Navbar */}
         <nav className="bg-white md:hidden">
-          <div className="text-center pt-2">
+          <div className="text-left px-5 pt-2">
             <Link to="/">
               {" "}
               <p className=" uppercase font-bold text-primary">Renix Store</p>
