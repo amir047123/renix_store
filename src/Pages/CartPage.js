@@ -27,7 +27,7 @@ const CartPage = () => {
   //a apply coupon
   const handleCouponApply = () => {
     const response = fetch(
-      `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
+      `https://serverrenixstore.niroghealthplus.com/api/v1/coupon/veryfiCoupon/${coupon}`
     )
       .then((res) => res.json())
       .then((data) => {

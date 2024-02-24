@@ -32,7 +32,7 @@ const EditBillingAddress = () => {
       displayName: data.userName,
     };
     const userResponse = await fetch(
-      `http://localhost:5000/api/v1/user/updateUsers/${userInfo?._id}`,
+      `https://serverrenixstore.niroghealthplus.com/api/v1/user/updateUsers/${userInfo?._id}`,
       {
         method: "PATCH",
         headers: {

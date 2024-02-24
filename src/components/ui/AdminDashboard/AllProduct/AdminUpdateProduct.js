@@ -36,13 +36,13 @@ const AdminUpdateProduct = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/category/getCategorys")
+    fetch("https://serverrenixstore.niroghealthplus.com/api/v1/category/getCategorys")
       .then((res) => res.json())
       .then((data) => setCategory(data?.data));
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/product/getProductsById/${id}`).then(
+    fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/product/getProductsById/${id}`).then(
       (res) =>
         res.json().then((data) => {
           setFormData(data?.data);
@@ -65,7 +65,7 @@ const AdminUpdateProduct = () => {
 
   const handelUpdate = async (e) => {
     e.preventDefault();
-    const BASE_URL = `http://localhost:5000/api/v1/product/updateProducts/${id}`;
+    const BASE_URL = `https://serverrenixstore.niroghealthplus.com/api/v1/product/updateProducts/${id}`;
 
     await UpdateHooks(BASE_URL, data, true, "Product info Updated");
     toast.success("Product updated successfully");

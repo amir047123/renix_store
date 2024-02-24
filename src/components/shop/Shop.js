@@ -30,7 +30,7 @@ const Shop = () => {
   useEffect(() => {
     setLoading(true);
     try {
-      fetch(`http://localhost:5000/api/v1/product/getProducts`)
+      fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/product/getProducts`)
         .then((res) => res.json())
         .then((data) => {
           setData(data?.data);
@@ -45,7 +45,7 @@ const Shop = () => {
     async function fetchCategorys() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/category/getCategorys"
+          "https://serverrenixstore.niroghealthplus.com/api/v1/category/getCategorys"
         );
         setCategorys(response?.data?.data);
         setLoading(false);
@@ -58,7 +58,7 @@ const Shop = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:5000/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`
+      `https://serverrenixstore.niroghealthplus.com/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -74,7 +74,7 @@ const Shop = () => {
   useEffect(() => {
     try {
       fetch(
-        `http://localhost:5000/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}`
+        `https://serverrenixstore.niroghealthplus.com/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -114,7 +114,7 @@ const Shop = () => {
   // product get for max min price
   const handleFilterPrice = async () => {
     const response = await fetch(
-      `http://localhost:5000/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`
+      `https://serverrenixstore.niroghealthplus.com/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`
     );
     const { data } = await response.json();
     setFilterByPrice(data);

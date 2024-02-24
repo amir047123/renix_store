@@ -11,7 +11,7 @@ const MyOrders = () => {
   useEffect(() => {
     const getMyOrder = async () => {
       const response = await fetch(
-        `http://localhost:5000/api/v1/order/specific?fieldName=userId&fieldValue=${userInfo._id}`
+        `https://serverrenixstore.niroghealthplus.com/api/v1/order/specific?fieldName=userId&fieldValue=${userInfo._id}`
       );
       const res = await response.json();
       setMyOrder(res.data);

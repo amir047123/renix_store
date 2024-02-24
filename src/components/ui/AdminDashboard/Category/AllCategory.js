@@ -20,7 +20,7 @@ function AllCategory() {
     async function fetchCategorys() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/category/getCategorys"
+          "https://serverrenixstore.niroghealthplus.com/api/v1/category/getCategorys"
         );
         setCategorys(response?.data?.data);
         setFilteredCategorys(response?.data?.data);
@@ -160,7 +160,7 @@ function AllCategory() {
                     DeleteHook({
                       refetch,
                       setRefetch,
-                      url: `http://localhost:5000/api/v1/category/deleteCategorys/${category?._id}`,
+                      url: `https://serverrenixstore.niroghealthplus.com/api/v1/category/deleteCategorys/${category?._id}`,
                     });
                   }}
                   className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300"

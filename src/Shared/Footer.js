@@ -201,42 +201,44 @@ const Footer = () => {
                 </h2>
                 <ul className="flex items-center justify-end gap-2">
                   <li className="transition-colors duration-300 bg-[#3C5B9B] text-white p-2 rounded">
-                    <Link to="https://www.facebook.com/renixbangladesh">
+                    <Link
+                      to="https://www.facebook.com/renixbangladesh"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <FaFacebookF size={18} />
                     </Link>
                   </li>
-                  {/* <li className="transition-colors duration-300 bg-[#359BED] text-white p-2 rounded">
-                    <Link href="">
-                      <FaTwitter size={18} />
-                    </Link>
-                  </li> */}
                   <li className="transition-colors duration-300 bg-[#E33729] text-white p-2 rounded">
-                    <Link to="https://www.instagram.com/renixunani/?igsh=N2hvMjN5MTNzc2U4">
+                    <Link
+                      to="https://www.instagram.com/renixunani/?igsh=N2hvMjN5MTNzc2U4"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <FaInstagram size={18} />
                     </Link>
                   </li>
-                  {/* <li className="transition-colors duration-300 bg-[#FD9F13] text-white p-2 rounded">
-                    <Link href="">
-                      <FaRss size={18} />
-                    </Link>
-                  </li> */}
-                  {/* <li className="transition-colors duration-300 bg-[#cb2027] text-white p-2 rounded">
-                    <Link href="">
-                      <FaPinterest size={18} />
-                    </Link>
-                  </li> */}
                   <li className="transition-colors duration-300 bg-[#027ba5] text-white p-2 rounded">
-                    <Link to="https://www.linkedin.com/company/renix-unani-laboratories-ltd">
+                    <Link
+                      to="https://www.linkedin.com/company/renix-unani-laboratories-ltd"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <FaLinkedinIn size={18} />
                     </Link>
                   </li>
                   <li className="transition-colors duration-300 bg-[#F03434] text-white p-2 rounded">
-                    <Link to="https://www.youtube.com/@renixlaboratoriesltd">
+                    <Link
+                      to="https://www.youtube.com/@renixlaboratoriesltd"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <TfiYoutube size={18} />
                     </Link>
                   </li>
                 </ul>
               </nav>
+
               <div className="col-span-2 md:col-span-4 lg:col-span-6">
                 © 2024-2025 Renix. All Rights Reserved.
               </div>

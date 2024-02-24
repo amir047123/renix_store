@@ -18,7 +18,7 @@ function AllNewsLatter() {
     async function fetchNewsLatter() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/newsLatter/getNewsLatters"
+          "https://serverrenixstore.niroghealthplus.com/api/v1/newsLatter/getNewsLatters"
         );
         setNewsLatter(response?.data?.data);
         setFilterNewsLatter(response?.data?.data);
@@ -141,7 +141,7 @@ function AllNewsLatter() {
                     DeleteHook({
                       refetch,
                       setRefetch,
-                      url: `http://localhost:5000/api/v1/newsLatter/deleteNewsLatter/${newsLatter?._id}`,
+                      url: `https://serverrenixstore.niroghealthplus.com/api/v1/newsLatter/deleteNewsLatter/${newsLatter?._id}`,
                     });
                   }}
                   className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300"

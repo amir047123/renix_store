@@ -6,7 +6,7 @@ const ViewUserProfile = () => {
   const [u, setU] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/user/getUsersById/${id}`)
+    fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/user/getUsersById/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setU(data?.data);

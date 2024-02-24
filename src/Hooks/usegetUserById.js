@@ -10,7 +10,7 @@ const UsegetUserById = () => {
       try {
         if (userInfo) {
           const response = await fetch(
-            `http://localhost:5000/api/v1/user/getUsersById/${userInfo?._id}`
+            `https://serverrenixstore.niroghealthplus.com/api/v1/user/getUsersById/${userInfo?._id}`
           );
           const resData = await response.json();
           console.log(resData, "resData");

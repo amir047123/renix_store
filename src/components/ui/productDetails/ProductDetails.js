@@ -37,7 +37,7 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     try {
-      fetch(`http://localhost:5000/api/v1/product/getProductsById/${id}`)
+      fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/product/getProductsById/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setProduct(data?.data);
@@ -181,7 +181,7 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     try {
-      fetch(`http://localhost:5000/api/v1/product/getProducts`)
+      fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/product/getProducts`)
         .then((res) => res.json())
         .then((data) => {
           setRelatedProducts(data?.data);

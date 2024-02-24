@@ -8,7 +8,7 @@ const ProductCarousel = () => {
   const [images, setImages] = useState([]);
 
   const fetchData = async () => {
-    await fetch(`http://localhost:5000/api/v1/sidebarslider/getSliders`)
+    await fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/sidebarslider/getSliders`)
       .then((res) => res.json())
       .then((data) => setImages(data?.data));
   };

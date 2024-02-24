@@ -14,7 +14,7 @@ const AdminShipping = () => {
 
   //   load data
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/shipping/getShippings`)
+    fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/shipping/getShippings`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.data.length) {
@@ -34,14 +34,14 @@ const AdminShipping = () => {
     event.preventDefault();
     if (formData?._id) {
       await UpdateHooks(
-        `http://localhost:5000/api/v1/shipping/updateShippings/${formData?._id}`,
+        `https://serverrenixstore.niroghealthplus.com/api/v1/shipping/updateShippings/${formData?._id}`,
         formData
       );
       toast?.success(`Shipping data Updated !`);
     } else {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/v1/shipping/addShippings",
+          "https://serverrenixstore.niroghealthplus.com/api/v1/shipping/addShippings",
           formData
         );
         toast.success("Shipping posted!");

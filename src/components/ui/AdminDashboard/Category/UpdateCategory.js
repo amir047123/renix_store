@@ -20,7 +20,7 @@ icon:"",
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/category/getCategorysById/${id}`).then(
+    fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/category/getCategorysById/${id}`).then(
       (res) =>
         res.json().then((data) => {
           setFormData(data?.data);
@@ -32,7 +32,7 @@ icon:"",
 
   const handelUpdate = async (e) => {
     e.preventDefault();
-    const BASE_URL = `http://localhost:5000/api/v1/category/updateCategorys/${id}`;
+    const BASE_URL = `https://serverrenixstore.niroghealthplus.com/api/v1/category/updateCategorys/${id}`;
 
     await UpdateHooks(BASE_URL, {name:formData?.name,icon,banner}, true, "Category info Updated");
   };

@@ -25,7 +25,7 @@ icon:"",
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/category/addCategorys",
+        "https://serverrenixstore.niroghealthplus.com/api/v1/category/addCategorys",
         {name:formData?.name,icon,banner}
       );
       toast.success("Category posted!")
