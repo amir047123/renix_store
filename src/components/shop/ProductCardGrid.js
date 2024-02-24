@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosStar, IoMdSearch } from "react-icons/io";
-import { FaHeart, FaPlus, FaRegHeart, FaRegStar } from "react-icons/fa";
+import {
+  FaHeart,
+  FaPlus,
+  FaRegHeart,
+  FaRegStar,
+  FaShoppingCart,
+} from "react-icons/fa";
 import Rating from "react-rating";
 
 import useGetCartsProduct from "../../Hooks/useGetCartsProduct";
@@ -63,13 +69,15 @@ const ProductCardGrid = ({ product }) => {
       <div className="text-center">
         <div className="relative overflow-hidden">
           <div>
-            <img
-              className="mx-auto group-hover:scale-125 transition-all duration-200"
-              src={product?.img}
-              alt=""
-            />
+            <Link to={`/productDetails/${product?._id}`}>
+              <img
+                className="mx-auto group-hover:scale-125 transition-all duration-200"
+                src={product?.img}
+                alt=""
+              />
+            </Link>
           </div>
-          <div
+          {/* <div
             className="absolute opacity-0 group-hover:opacity-100 bg-primary hover:bg-secondary duration-200 p-2 rounded-full text-white border-solid border-[3px] border-white -translate-x-1/2 left-1/2 bottom-0 cursor-pointer"
             onClick={handleAddToCart}
           >
@@ -80,18 +88,18 @@ const ProductCardGrid = ({ product }) => {
             ) : (
               <FaPlus size={30} />
             )}
-          </div>
-          <div className="absolute flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 p-2 rounded-full border-white -translate-x-1/2 left-1/2 top-1/2">
-            <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
-              <IoMdSearch />
-            </div>
+          </div> */}
+          <div className="absolute flex items-center justify-center gap-2 opacity-100 p-2 rounded-full border-white  right-3 top-5">
+            {/*  <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
+              <IoMdSearch /> 
+            </div>*/}
             <button
               onClick={handleAddToWishlist}
               className={`cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white ${
                 isInWishlist ? "text-red-500" : "" // Apply text-red-500 class when isInWishlist is true
               }`}
             >
-              {isInWishlist ? <FaHeart /> : <FaRegHeart />}
+              {isInWishlist ? <FaHeart size={24} /> : <FaRegHeart size={24} />}
             </button>
           </div>
         </div>
@@ -115,7 +123,16 @@ const ProductCardGrid = ({ product }) => {
         </p>
       </div>
 
-      <div className="text-center mt-4">
+      <div className="text-center mt-4 flex items-center justify-center gap-3 ">
+        <button
+          onClick={handleAddToCart}
+          className="flex items-center gap-3 text-white hover:bg-[#131e2c] bg-primary px-4 py-2 font-medium font-rubic uppercase duration-200 text-sm rounded-full"
+        >
+          <FaShoppingCart />
+          {cartQuantityNumber?.quantity
+            ? cartQuantityNumber?.quantity
+            : "Add to cart"}
+        </button>
         <Link
           onClick={handleAddToCart}
           to={"/checkout"}

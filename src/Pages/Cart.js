@@ -81,7 +81,7 @@ const Cart = ({
                   />
                   {/* Product details */}
                   <div className="flex-1 text-[#333333] text-[13px] mt-1">
-                    <p>
+                    <p className="flex items-center gap-1">
                       {cartItem.quantity} <IoMdClose />{" "}
                       <span className="text-secondary">
                         {cartItem.discountedPrice}

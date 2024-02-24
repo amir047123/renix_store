@@ -28,7 +28,7 @@ const BannerSlider = () => {
 
 
   return (
-    <div className="pt-[175px] md:pt-[140px] xl:pt-[112px]">
+    <div className="pt-[140px] md:pt-[200px] xl:pt-[112px]">
       <>
         <Swiper
           spaceBetween={30}

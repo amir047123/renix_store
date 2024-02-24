@@ -126,7 +126,7 @@ const Shop = () => {
   return (
     <div>
       <PageHeader />
-      <section className="mt-8">
+      <section className="mt-4">
         <div className="container sm:px-5 2xl:px-0   ">
           <div className="grid grid-cols-12 gap-6">
             {/* left side content */}
