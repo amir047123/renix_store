@@ -208,10 +208,10 @@ const WebNavbar = () => {
                     replace={true}
                     className={({ isActive }) =>
                       `${isActive ? "text-[#ed6663]" : "text-primary"}  
-                    tracking-[1px]  ${
-                      item.className ? item.className : "text-primary"
-                    } 
-                    `
+        tracking-[1px] ${
+          isActive ? "" : item.className ? item.className : "text-primary"
+        }
+    `
                     }
                   >
                     {item.title}
