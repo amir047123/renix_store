@@ -420,6 +420,7 @@ const CheckOutPage = () => {
                         type="text"
                         name="phone"
                         defaultValue={data?.phone}
+                        disabled
                       />
                       {errors.phone && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -448,83 +449,7 @@ const CheckOutPage = () => {
                       )}
                     </div>
                     {/* Create an account */}
-                    <div className="relative ">
-                      <input
-                        {...register("createAccount")}
-                        onChange={handleCreateUserOnchange}
-                        type="checkbox"
-                        name="createAccount"
-                        id="createAccount"
-                        defaultValue={data?.createAccount}
-                      />
-
-                      <label className="ml-2" htmlFor="createAccount">
-                        Create an account?
-                      </label>
-                      {/* new user accont */}
-                      <div
-                        className="mt-5"
-                        style={{
-                          transition: "max-height .5s ease-in-out",
-                          maxHeight: newUser ? "1000px" : "0",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {/* user name   */}
-                        <div className="mb-4">
-                          <label
-                            className="mb-2 inline-block"
-                            htmlFor="userName"
-                          >
-                            Account username
-                            <span className="text-secondary">*</span>
-                          </label>
-
-                          <input
-                            defaultValue={data?.displayName}
-                            {...register("userName", {
-                              required: newUser ? true : false,
-                            })}
-                            id="userName"
-                            className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                            type="text"
-                            name="userName"
-                            placeholder="Username"
-                          />
-                          {errors.userName && (
-                            <span className="text-xs text-red-500 font-semibold mt-1">
-                              This field is required
-                            </span>
-                          )}
-                        </div>
-                        {/* Create account password  */}
-                        <div className="mb-4">
-                          <label
-                            className="mb-2 inline-block"
-                            htmlFor="password"
-                          >
-                            Create account password
-                            <span className="text-secondary">*</span>
-                          </label>
-                          <input
-                            {...register("password", {
-                              required: newUser ? true : false,
-                            })}
-                            defaultValue={data?.password}
-                            id="password"
-                            className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                            type="text"
-                            name="password"
-                            placeholder="Password"
-                          />
-                          {errors.password && (
-                            <span className="text-xs text-red-500 font-semibold mt-1">
-                              This field is required
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+               
                   </div>
                   {/* additonal notes */}
                   <div>

@@ -38,13 +38,13 @@ const RelatedProductCard = ({ product }) => {
   return (
     <div className="bg-white group pb-6 relative border-r last:border-r-0 border-solid border-borderColor">
       <div className="text-center">
-        <div className="relative overflow-hidden">
+        <Link to={`/productDetails/${product?._id}`} className="relative overflow-hidden">
           <img
             className="mx-auto group-hover:scale-125 transition-all duration-200"
             src={product?.img}
             alt=""
           />
-        </div>
+        </Link>
 
         <h2 className="font-rubic text-[#292929] font-medium px-6 lg:px-0">
           <Link to={`/productDetails/${product?._id}`}>{product?.name}</Link>
@@ -77,14 +77,14 @@ const RelatedProductCard = ({ product }) => {
           <FaPlus size={30} />
         )}
       </div>
-      <div className="absolute flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 p-2 rounded-full border-white -translate-x-1/2 left-1/2 top-1/2">
+      {/* <div className="absolute flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 p-2 rounded-full border-white -translate-x-1/2 left-1/2 top-1/2">
         <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
           <IoMdSearch />
         </div>
         <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
           <FaRegHeart />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -19,8 +19,12 @@ const ProductCardGrid = ({ product }) => {
   const userId = userInfo?._id;
   const { cartProducts, setCartProducts } = useGetCartsProduct();
   const [error, setError] = useState(null);
-  const [isInWishlist, setIsInWishlist] = useState(false);
-
+  const [isInWishlist, setIsInWishlist] = useState(() => {
+  
+    const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+    return wishlistItems.some(item => item._id === product._id);
+  });
+  
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 
@@ -46,23 +50,24 @@ const ProductCardGrid = ({ product }) => {
 
   const handleAddToWishlist = () => {
     let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
-
+  
     const existingProductIndex = wishlistItems.findIndex(
       (item) => item._id === product._id
     );
-
+  
     if (existingProductIndex === -1) {
       wishlistItems.push(product);
-      setIsInWishlist(true);
+      setIsInWishlist(true); 
       toast.success("Product added to wishlist");
     } else {
       wishlistItems = wishlistItems.filter((item) => item._id !== product._id);
-      setIsInWishlist(false);
+      setIsInWishlist(false); 
       toast.info("Product removed from wishlist");
     }
-
+  
     localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
   };
+  
 
   return (
     <div className="bg-white group pb-6 relative border-r border-b last:border-r-0  border-solid border-borderColor">

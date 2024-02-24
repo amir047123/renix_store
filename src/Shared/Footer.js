@@ -109,6 +109,8 @@ const Footer = () => {
                     <Link
                       to="https://renixlaboratories.com.bd/about"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       About us
                     </Link>
@@ -118,12 +120,15 @@ const Footer = () => {
                     <Link
                       to="https://renixlaboratories.com.bd/blogs"
                       className="transition-colors text-[#b7bcc8] duration-300 hover:text-primary "
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Blog
                     </Link>
                   </li>
                 </ul>
               </nav>
+
               <nav
                 className="col-span-2 md:col-span-4 lg:col-span-3"
                 aria-labelledby="footer-header"

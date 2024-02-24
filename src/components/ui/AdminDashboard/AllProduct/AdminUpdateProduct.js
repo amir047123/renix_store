@@ -6,6 +6,7 @@ import { singleImageUpload } from "../../../../Hooks/ImageUpload";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UpdateHooks from "../../../../Hooks/UpdateHooks";
+import { toast } from "react-toastify";
 
 const GenericCategories = ["AllopathicL", "Herbal", "Airobotics", "Unani"];
 
@@ -67,6 +68,7 @@ const AdminUpdateProduct = () => {
     const BASE_URL = `http://localhost:5000/api/v1/product/updateProducts/${id}`;
 
     await UpdateHooks(BASE_URL, data, true, "Product info Updated");
+    toast.success("Product updated successfully");
   };
   const handleChangeUploadImage = async (event) => {
     const image = event.target.files[0];
@@ -112,7 +114,7 @@ const AdminUpdateProduct = () => {
           </div>
         </div>
 
-        <div className="mb-1  w-full ">
+        {/* <div className="mb-1  w-full ">
             <label
               for="repeat-password"
               class="block mb-2 text-[13px] font-normal text-gray-900 "
@@ -134,7 +136,7 @@ const AdminUpdateProduct = () => {
                 </option>
            
             </select>
-          </div>
+          </div> */}
 
         {/* price  */}
 
@@ -157,7 +159,7 @@ const AdminUpdateProduct = () => {
             />
           </div>
 
-          {
+          {/* {
             formData?.medicineType==="tablet"&&<><div className="mb-1  w-full mr-0 md:mr-2">
             <label
               for="repeat-password"
@@ -211,7 +213,7 @@ const AdminUpdateProduct = () => {
             />
           </div>
           </>
-          }
+          } */}
         </div>
 
         {/* price end  */}
