@@ -131,9 +131,22 @@ const Shop = () => {
           <div className="grid grid-cols-12 gap-6">
             {/* left side content */}
             <div className=" col-span-full md:col-span-4 lg:col-span-3 md:order-1 order-2 ">
+              {/* Product Category */}
+              <div className="bg-white shadow-md  ">
+                <h2 className="border-l-2  text-[#292929] border-solid border-l-primary py-[15px] px-5 font-medium uppercase font-oswald text-xl border-b border-b-[#eaeaea] ">
+                  PRODUCT CATEGORIES
+                </h2>
+                {categorys?.length && (
+                  <>
+                    {categorys?.map((category) => (
+                      <CategroyItems className="" category={category?.name} />
+                    ))}
+                  </>
+                )}
+              </div>
               {/* product filter */}
 
-              <div className="bg-white shadow-md">
+              <div className="bg-white shadow-md mt-8">
                 <h2 className="border-l-2 text-[#292929] border-solid border-l-primary py-[15px] px-5 font-medium uppercase font-oswald text-xl border-b border-b-[#eaeaea] ">
                   FILTER BY PRICE
                 </h2>
@@ -178,19 +191,6 @@ const Shop = () => {
                     </p>
                   </div>
                 </div>
-              </div>
-              {/* Product Category */}
-              <div className="bg-white shadow-md mt-8 ">
-                <h2 className="border-l-2  text-[#292929] border-solid border-l-primary py-[15px] px-5 font-medium uppercase font-oswald text-xl border-b border-b-[#eaeaea] ">
-                  PRODUCT CATEGORIES
-                </h2>
-                {categorys?.length && (
-                  <>
-                    {categorys?.map((category) => (
-                      <CategroyItems className="" category={category?.name} />
-                    ))}
-                  </>
-                )}
               </div>
               {/* carousel */}
               <div className="mt-8">
