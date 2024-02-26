@@ -12,9 +12,9 @@ const UpdateHooks = async (url, data, on = false, message = "") => {
     .then((data) => {
       // console.log("from Data", data);
       if (data.status === "success") {
-        if (on) swal("Success", message, "success");
+        if (on) swal.fire("Success", message, "success");
       } else if (data.status === "fail") {
-        swal(
+        swal.fire(
           "Error",
           `${
             data.message

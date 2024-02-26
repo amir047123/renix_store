@@ -38,7 +38,7 @@ const Announcement = () => {
         };
 
         const res = await axios.post(
-          "https://serverrenixstore.niroghealthplus.com/api/v1/announcements/addAnnouncement",
+          "http://localhost:5000/api/v1/announcements/addAnnouncement",
           announcementData
         );
         if (res?.data?.data === null) {
@@ -58,7 +58,7 @@ const Announcement = () => {
   const handleDeleteAnnouncement = async (id) => {
     try {
       await axios.delete(
-        `https://serverrenixstore.niroghealthplus.com/api/v1/announcements/deleteAnnouncement/${id}`
+        `http://localhost:5000/api/v1/announcements/deleteAnnouncement/${id}`
       );
       fetchAnnouncements();
       toast.success("Delete  successfully annoucment");
@@ -71,7 +71,7 @@ const Announcement = () => {
   const fetchAnnouncements = async () => {
     try {
       const res = await axios.get(
-        "https://serverrenixstore.niroghealthplus.com/api/v1/announcements/getAnnouncements"
+        "http://localhost:5000/api/v1/announcements/getAnnouncements"
       );
       setGetTitles(res.data.data);
     } catch (error) {

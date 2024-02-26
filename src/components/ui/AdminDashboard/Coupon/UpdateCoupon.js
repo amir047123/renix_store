@@ -30,7 +30,7 @@ const UpdateCoupon = () => {
   };
 
   useEffect(() => {
-    fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/coupon/getCouponsById/${id}`).then(
+    fetch(`http://localhost:5000/api/v1/coupon/getCouponsById/${id}`).then(
       (res) =>
         res.json().then((data) => {
           setFormData(data?.data);
@@ -40,7 +40,7 @@ const UpdateCoupon = () => {
 
   const handelUpdate = async (e) => {
     e.preventDefault();
-    const BASE_URL = `https://serverrenixstore.niroghealthplus.com/api/v1/coupon/updateCoupons/${id}`;
+    const BASE_URL = `http://localhost:5000/api/v1/coupon/updateCoupons/${id}`;
 
     await UpdateHooks(BASE_URL, formData, true, "Product info Updated");
   };

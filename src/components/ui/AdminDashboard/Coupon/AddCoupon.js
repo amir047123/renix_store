@@ -33,7 +33,7 @@ endDate:"",
 
     try {
       const response = await axios.post(
-        "https://serverrenixstore.niroghealthplus.com/api/v1/coupon/addCoupons",
+        "http://localhost:5000/api/v1/coupon/addCoupons",
         formData
       );
       toast.success("Coupon posted!")

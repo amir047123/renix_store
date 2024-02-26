@@ -30,7 +30,7 @@ const Reviews = ({ product }) => {
   useEffect(() => {
     const getReviews = async () => {
       const response = await fetch(
-        `https://serverrenixstore.niroghealthplus.com/api/v1/reviews/specific?fieldName=productId&fieldValue=${productId}`
+        `http://localhost:5000/api/v1/reviews/specific?fieldName=productId&fieldValue=${productId}`
       );
       const res = await response.json();
       setReviews(res.data);
@@ -48,7 +48,7 @@ const Reviews = ({ product }) => {
       }
   
       const response = await fetch(
-        "https://serverrenixstore.niroghealthplus.com/api/v1/reviews/addReviews",
+        "http://localhost:5000/api/v1/reviews/addReviews",
         {
           method: "POST",
           headers: {
@@ -76,7 +76,7 @@ const Reviews = ({ product }) => {
       // Refetch reviews data
       const getReviews = async () => {
         const response = await fetch(
-          `https://serverrenixstore.niroghealthplus.com/api/v1/reviews/specific?fieldName=productId&fieldValue=${productId}`
+          `http://localhost:5000/api/v1/reviews/specific?fieldName=productId&fieldValue=${productId}`
         );
         const res = await response.json();
         setReviews(res.data);

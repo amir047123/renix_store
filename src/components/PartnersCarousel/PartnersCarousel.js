@@ -8,7 +8,7 @@ const PartnersCarousel = () => {
   const [images, setImages] = useState([]);
 
   const fetchData = async () => {
-    await fetch(`https://serverrenixstore.niroghealthplus.com/api/v1/partners/getPartners`)
+    await fetch(`http://localhost:5000/api/v1/partners/getPartners`)
       .then((res) => res.json())
       .then((data) => setImages(data?.data));
   };
@@ -22,7 +22,7 @@ const PartnersCarousel = () => {
       <div className="mt-20">
         <div className=" relative max-w-[310px]  mb-10">
           <h2 className=" md:text-[40px] font-oswald text-2xl  text-primary font-semibold py-3 ">
-            Our partner
+            Our Achievements
           </h2>
         </div>
         <>
