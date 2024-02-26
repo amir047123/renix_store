@@ -28,7 +28,7 @@ const AddCategory = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = { ...formData, metaImage };
+    const data = { ...formData, metaImage, icon, banner };
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/category/addCategorys",
@@ -104,7 +104,7 @@ const AddCategory = () => {
             </label>
             <input
               onChange={handleChangeUploadImage}
-              className="block w-full text-sm text-gray-900  rounded-lg cursor-pointer bg-[#F0FDF4]  focus:outline-none    p-2"
+              className="block w-full text-sm text-gray-900  rounded-lg cursor-pointer bg-[#F0FDF4] focus:outline-none p-2"
               name="banner"
               type="file"
             />
@@ -166,7 +166,7 @@ const AddCategory = () => {
         </div>
         <div className="text-center pt-3">
           <button
-            className="bg-primary2 hover:bg-lightPrimary text-white  py-2 rounded-lg text-lg w-fit px-8"
+            className="bg-primary hover:bg-lightPrimary text-white  py-2 rounded-lg text-lg w-fit px-8"
             type="submit"
           >
             Add Category
