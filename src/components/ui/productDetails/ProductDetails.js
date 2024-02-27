@@ -35,19 +35,22 @@ const ProductDetails = () => {
   );
 
   useEffect(() => {
-    setLoading(true);
-    try {
-      fetch(`http://localhost:5000/api/v1/product/getProductsById/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setProduct(data?.data);
-          setLoading(false);
-        });
-    } catch (err) {
-      setLoading(false);
-      return <div>{err}</div>;
-    }
+    fetch(`http://localhost:5000/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success" && data.data.length > 0) {
+          setProduct(data.data[0]); 
+        } else {
+          console.error("No product found for ID:", id);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching product:", error); 
+        setLoading(false);
+      });
   }, [id]);
+
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 

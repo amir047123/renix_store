@@ -38,16 +38,16 @@ const RelatedProductCard = ({ product }) => {
   return (
     <div className="bg-white group pb-6 relative border-r last:border-r-0 border-solid border-borderColor">
       <div className="text-center">
-        <Link to={`/productDetails/${product?._id}`} className="relative overflow-hidden">
+        <Link to={`/product/${product?.slug}`} className="relative overflow-hidden">
           <img
-            className="mx-auto group-hover:scale-125 transition-all duration-200"
+            className="mx-auto group-hover:scale-100 transition-all duration-200"
             src={product?.img}
             alt=""
           />
         </Link>
 
         <h2 className="font-rubic text-[#292929] font-medium px-6 lg:px-0">
-          <Link to={`/productDetails/${product?._id}`}>{product?.name}</Link>
+          <Link to={`/product/${product?.slug}`}>{product?.name}</Link>
         </h2>
         <Rating
           fullSymbol={<IoIosStar className="text-primary" />}

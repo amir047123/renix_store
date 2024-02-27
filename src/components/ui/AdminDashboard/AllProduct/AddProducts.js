@@ -423,7 +423,7 @@ const AddProducts = () => {
           </div>
           <div className="mb-5 w-full mr-0 md:mr-2">
           <label className="block mb-2 text-[13px] font-normal text-gray-900">
-            Slug
+            Slug (unique)
           </label>
           <input
             type="text"
@@ -432,6 +432,7 @@ const AddProducts = () => {
             onChange={handleChange}
             className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5 focus:border-none"
             placeholder="Enter a slug"
+            required
             
           />
         </div>

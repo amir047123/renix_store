@@ -83,7 +83,7 @@ const ProductListsView = ({ product }) => {
 
   return (
     <div className="flex px-5 lg:px-0 flex-col lg:flex-row items-center gap-8 pr-2 lg:pr-20 border-b last:border-b-0 border-solid border-borderColor pb-4 mb-4">
-      <Link   to={`/productDetails/${product?._id}`} className="basis-[28%] ">
+      <Link   to={`/product/${product?.slug}`} className="basis-[28%] ">
         <img
           className="mx-auto  group-hover:scale-125  transition-all duration-200"
           src={product?.img}
@@ -93,7 +93,7 @@ const ProductListsView = ({ product }) => {
       <div className="flex-1">
         <div>
           <h2 className="font-rubic text-[#292929] font-medium">
-            <Link to={`/productDetails/${product?._id}`}>{product?.name}</Link>
+            <Link to={`/product/${product?.slug}`}>{product?.name}</Link>
           </h2>
           <div className="flex  gap-4 items-center mt-1">
             <Rating
@@ -106,7 +106,7 @@ const ProductListsView = ({ product }) => {
               {reviews.length} Review
             </p>
             <Link
-              to={`/productDetails/${product?._id}`}
+              to={`/product/${product?.slug}`}
               className="capitalize text-primary font-openSans text-sm hover:text-secondary"
             >
               add your Review

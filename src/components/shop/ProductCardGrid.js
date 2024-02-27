@@ -74,7 +74,7 @@ const ProductCardGrid = ({ product }) => {
       <div className="text-center">
         <div className="relative overflow-hidden">
           <div>
-            <Link to={`/productDetails/${product?._id}`}>
+            <Link to={`/product/${product?.slug}`}>
               <img
                 className="mx-auto group-hover:scale-125 transition-all duration-200"
                 src={product?.img}
@@ -109,7 +109,7 @@ const ProductCardGrid = ({ product }) => {
           </div>
         </div>
         <h2 className="font-rubic text-[#292929] font-medium px-6 lg:px-0">
-          <Link to={`/productDetails/${product?._id}`}>{product?.name}</Link>
+          <Link to={`/product/${product?.slug}`}>{product?.name}</Link>
         </h2>
         <Rating
           fullSymbol={<IoIosStar className="text-primary" />}
