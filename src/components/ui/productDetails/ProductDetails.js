@@ -10,14 +10,12 @@ import {
   FaPinterestP,
   FaPlus,
   FaRegStar,
-  FaSignal,
   FaTwitter,
 } from "react-icons/fa6";
-import { CiHeart } from "react-icons/ci";
+import ImageGallery from "react-image-gallery";
 import AdditionalInfo from "./AdditionalInfo";
 import Reviews from "./Reviews";
 import Description from "./Description";
-import ProductCardGrid from "../../shop/ProductCardGrid";
 import { useParams, Link } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 import RelatedProductCard from "../../shop/RelatedProductCard";
@@ -33,20 +31,25 @@ const ProductDetails = () => {
   const productQuantity = cartProducts?.find(
     (item) => item?._id === product?._id
   );
+  console.log(product, 33);
+
+  let images = [{ original: product?.img, thumbnail: product?.img }];
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`)
+    fetch(
+      `http://localhost:5000/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success" && data.data.length > 0) {
-          setProduct(data.data[0]); 
+          setProduct(data.data[0]);
         } else {
           console.error("No product found for ID:", id);
         }
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching product:", error); 
+        console.error("Error fetching product:", error);
         setLoading(false);
       });
   }, [id]);
@@ -199,7 +202,14 @@ const ProductDetails = () => {
       {/* product details */}
       <div className="flex md:flex-row flex-col bg-white p-5 shadow-custom gap-8">
         <div className="max-w-[600px] xl:w-full md:w-1/2  ">
-          <img alt="" src={product?.img} />
+          {/* <img alt="" src={product?.img} /> */}
+          <ImageGallery
+            showPlayButton={false}
+            showBullets={false}
+            items={images}
+            autoPlay={false}
+          />
+          ;
         </div>
         <div className="flex-1">
           <h2 className="font-rubic font-medium uppercase text-[34px] text-[#333] my-2">

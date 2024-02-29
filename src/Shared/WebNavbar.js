@@ -68,6 +68,31 @@ const WebNavbar = () => {
       target: "_blank",
     },
   ];
+  const mobileMenuItems = [
+    {
+      title: "shop",
+      href: "/",
+    },
+    {
+      title: "CATEGORIES",
+      href: "/category",
+      subCategory: categorys,
+    },
+    {
+      title: "Tracking Order",
+      href: "/tracking-order",
+    },
+    {
+      title: "Product Checking",
+      href: "/product-checking",
+    },
+    {
+      title: "Appointment",
+      href: "https://renixlaboratories.com.bd/appointment",
+      className: "text-white bg-primary px-3 py-2 rounded",
+      target: "_blank",
+    },
+  ];
 
   useEffect(() => {
     async function fetchCategorys() {
@@ -203,6 +228,7 @@ const WebNavbar = () => {
                   className="font-rubic  font-medium uppercase text-sm  group"
                 >
                   <NavLink
+                    onClick={() => setIsOpen(false)}
                     target={item.target && item.target}
                     to={item.href}
                     replace={true}
@@ -484,15 +510,18 @@ const WebNavbar = () => {
             </div>
             {/* Menus  mobile*/}
             <ul className="flex flex-col items-start  gap-7">
-              {menuItems.map((item, i) => (
+              {mobileMenuItems.map((item, i) => (
                 <li
+                  onClick={() => setIsOpen(false)}
                   key={i}
                   className="font-rubic  font-medium uppercase text-sm w-full pr-10"
                 >
                   <NavLink
                     onClick={
                       item?.subCategory &&
-                      (() => setOpenDropdown(!openDropdown))
+                      (() => {
+                        setOpenDropdown(!openDropdown);
+                      })
                     }
                     to={item.href}
                     className={({ isActive }) =>
