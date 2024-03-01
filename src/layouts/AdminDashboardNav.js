@@ -502,7 +502,7 @@ const AdminDashboardNav = () => {
           </li>
         </ul>
       </li>
-{/* 
+      {/* 
       <li>
         <span
           onClick={() => setOpenBlog(!openBlog)}
@@ -620,6 +620,19 @@ const AdminDashboardNav = () => {
           </span>
 
           <span className="">Announcement</span>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to={"seo"}
+          className="flex items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <span className="text-lg">
+            <Icon icon="charm:git-request" />
+          </span>
+
+          <span className="">SEO</span>
         </NavLink>
       </li>
       <li className="flex cursor-pointer items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300">

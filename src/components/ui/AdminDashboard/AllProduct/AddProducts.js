@@ -138,19 +138,15 @@ const AddProducts = () => {
     newTags.splice(index, 1);
     setTags(newTags);
   };
-
+  // uplaod image for product carousel
   const handleAdditionalImageUpload = (event) => {
     const files = event.target.files;
-
     const formData = new FormData();
-
     for (let i = 0; i < files.length; i++) {
       formData.append("image", files[i]);
     }
-
     multipleImageUpload(formData, setSelectedFiles);
   };
-  console.log(selectedFiles, 156);
   return (
     <div>
       <div className=" ">

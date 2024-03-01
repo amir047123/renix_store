@@ -3,6 +3,7 @@ import AdminPartner from "../components/ui/AdminDashboard/AdminDashboardSliderIm
 import AdminSideBarBanner from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminSideBarBanner";
 import AdminOrderView from "../components/ui/AdminDashboard/AdminOrders/AdminOrderView";
 import AdminOrders from "../components/ui/AdminDashboard/AdminOrders/AdminOrders";
+import AdminSeo from "../components/ui/AdminDashboard/AdminSeo/AdminSeo";
 import AdminShipping from "../components/ui/AdminDashboard/AdminShipping/AdminShipping";
 import AddProducts from "../components/ui/AdminDashboard/AllProduct/AddProducts";
 import AdminUpdateProduct from "../components/ui/AdminDashboard/AllProduct/AdminUpdateProduct";
@@ -18,7 +19,6 @@ import UpdateCoupon from "../components/ui/AdminDashboard/Coupon/UpdateCoupon";
 import Dashboard from "../components/ui/AdminDashboard/Dashboard";
 import AllNewsLatter from "../components/ui/AdminDashboard/NewsLatter/AllNewsLatter";
 
-
 const AdminRoutes = [
   { path: "dashboard", Component: Dashboard },
   { path: "add-category", Component: AddCategory },
@@ -27,19 +27,14 @@ const AdminRoutes = [
   { path: "allCategory", Component: AllCategory },
   { path: "updateCategorys/:id", Component: UpdateCategory },
 
-
   { path: "addProduct", Component: AddProducts },
-  { path: "allProduct", Component:AllProduct },
+  { path: "allProduct", Component: AllProduct },
 
   { path: "updateProducts/:id", Component: AdminUpdateProduct },
 
-
-
-
   { path: "updateShipping", Component: AdminShipping },
   { path: "updateBanner", Component: AdminDashboardSliderImg },
-  { path: "updatesidebarBanner", Component: AdminSideBarBanner},
-
+  { path: "updatesidebarBanner", Component: AdminSideBarBanner },
 
   { path: "addCoupon", Component: AddCoupon },
   { path: "allCoupon", Component: AllCoupon },
@@ -49,11 +44,10 @@ const AdminRoutes = [
 
   { path: "announcement", Component: Announcement },
   { path: "orders", Component: AdminOrders },
-  {path: 'allUsers', Component: AllUsers},
-  {path: 'partner', Component: AdminPartner},
-  {path: "orders/:id", Component: AdminOrderView},
-
-
+  { path: "allUsers", Component: AllUsers },
+  { path: "partner", Component: AdminPartner },
+  { path: "orders/:id", Component: AdminOrderView },
+  { path: "seo", Component: AdminSeo },
 ];
 
 export default AdminRoutes;
