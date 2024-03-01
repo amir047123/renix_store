@@ -70,13 +70,13 @@ const ProductCardGrid = ({ product }) => {
   
 
   return (
-    <div className="bg-white group pb-6 relative border-r border-b last:border-r-0  border-solid border-borderColor">
-      <div className="text-center">
+    <div className="bg-white group pb-6 relative border-r flex flex-col px-2 border-b last:border-r-0  border-solid border-borderColor ">
+      <div className="text-center max-h-96 h-full">
         <div className="relative overflow-hidden">
           <div>
             <Link to={`/product/${product?.slug}`}>
               <img
-                className="mx-auto group-hover:scale-125 transition-all duration-200"
+                className="mx-auto h-full group-hover:scale-125 transition-all duration-200"
                 src={product?.img}
                 alt=""
               />
@@ -108,6 +108,8 @@ const ProductCardGrid = ({ product }) => {
             </button>
           </div>
         </div>
+      </div>
+      <div className=" flex-1  text-center py-3">
         <h2 className="font-rubic text-[#292929] font-medium px-6 lg:px-0">
           <Link to={`/product/${product?.slug}`}>{product?.name}</Link>
         </h2>
@@ -127,7 +129,6 @@ const ProductCardGrid = ({ product }) => {
           <span className="text-green-500">{product?.discount}% off</span>
         </p>
       </div>
-
       <div className="text-center mt-4 flex items-center justify-center gap-3 ">
         <button
           onClick={handleAddToCart}

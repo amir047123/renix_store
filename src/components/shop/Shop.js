@@ -15,7 +15,11 @@ import { toast } from "react-toastify";
 import PageHeader from "../ui/PageHeader";
 import "./priceRange.css";
 import PartnersCarousel from "../PartnersCarousel/PartnersCarousel";
+import Pagination from "../shared/Pagination";
+import useGetSeo from "../../Hooks/useGetSeo";
+import DynamicTitle from "../shared/DynamicTitle";
 const Shop = () => {
+  const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);
   const [maxPrice, setMaxPrice] = useState(250);
   const [isGrid, setIsGrid] = useState(true);
@@ -26,21 +30,32 @@ const Shop = () => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [filterByPrice, setFilterByPrice] = useState([]);
-
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(6);
+  const [quantity, setQuantity] = useState(0);
+  // get specific data
   useEffect(() => {
     setLoading(true);
     try {
-      fetch(`http://localhost:5000/api/v1/product/getProducts`)
+      fetch(
+        `http://localhost:5000/api/v1/product/specific?page=${page}&size=${size}`
+      )
         .then((res) => res.json())
         .then((data) => {
           setData(data?.data);
+          console.log(data, 37);
+          setQuantity(data?.total);
           setLoading(false);
         });
     } catch (err) {
       setLoading(false);
     }
-  }, []);
+  }, [page, size]);
+  const totalPages = Math.ceil(quantity / size);
 
+  const handlePageChange = (pageNumber) => {
+    setPage(pageNumber - 1); // Pagination component starts from page 1
+  };
   useEffect(() => {
     async function fetchCategorys() {
       try {
@@ -209,37 +224,38 @@ const Shop = () => {
               </div>
             </div>
             {/* all product */}
-            <div className=" md:col-span-8 lg:col-span-9 md:order-2 order-1 col-span-full bg-white shadow-md">
-              {/* Banner slider */}
-              {/* <BannerSlider /> */}
-              {/* Product lists */}
-              <div className="">
-                {/* sorting */}
-                <div className="flex justify-between items-center border-y border-solid border-borderColor py-6 px-5">
-                  <div className="flex gap-2 items-center">
-                    <div
-                      className={`${
-                        isGrid
-                          ? "text-white bg-primary"
-                          : "border border-solid border-borderColor"
-                      }  p-3 `}
-                      onClick={() => setIsGrid(true)}
-                    >
-                      <BsFillGrid3X3GapFill />
+            <div className=" md:col-span-8 lg:col-span-9 md:order-2 order-1 col-span-full ">
+              <div className="bg-white shadow-md">
+                {/* Banner slider */}
+                {/* <BannerSlider /> */}
+                {/* Product lists */}
+                <div className="">
+                  {/* sorting */}
+                  <div className="flex justify-between items-center border-y border-solid border-borderColor py-6 px-5">
+                    <div className="flex gap-2 items-center">
+                      <div
+                        className={`${
+                          isGrid
+                            ? "text-white bg-primary"
+                            : "border border-solid border-borderColor"
+                        }  p-3 `}
+                        onClick={() => setIsGrid(true)}
+                      >
+                        <BsFillGrid3X3GapFill />
+                      </div>
+                      <div
+                        className={`${
+                          !isGrid
+                            ? "text-white bg-primary"
+                            : "border border-solid border-borderColor"
+                        }  p-3 `}
+                        onClick={() => setIsGrid(false)}
+                      >
+                        <FaList />
+                      </div>
                     </div>
-                    <div
-                      className={`${
-                        !isGrid
-                          ? "text-white bg-primary"
-                          : "border border-solid border-borderColor"
-                      }  p-3 `}
-                      onClick={() => setIsGrid(false)}
-                    >
-                      <FaList />
-                    </div>
-                  </div>
 
-                  {/* <div className="md:pr-5">
+                    {/* <div className="md:pr-5">
                     <select
                       name="orderby"
                       aria-label="Shop order"
@@ -256,43 +272,54 @@ const Shop = () => {
                       </option>
                     </select>
                   </div> */}
-                </div>
+                  </div>
 
-                {isGrid ? (
-                  <div className="grid   grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
-                    {id
-                      ? filterByPrice?.length > 0
+                  {isGrid ? (
+                    <div className="grid   grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+                      {id
+                        ? filterByPrice?.length > 0
+                          ? filterByPrice?.map((product, index) => (
+                              <ProductCardGrid key={index} product={product} />
+                            ))
+                          : product?.map((product, index) => (
+                              <ProductCardGrid key={index} product={product} />
+                            ))
+                        : filterByPrice?.length > 0
                         ? filterByPrice?.map((product, index) => (
                             <ProductCardGrid key={index} product={product} />
                           ))
-                        : product?.map((product, index) => (
+                        : data?.map((product, index) => (
                             <ProductCardGrid key={index} product={product} />
+                          ))}
+                    </div>
+                  ) : (
+                    <div className=" py-4">
+                      {filterByPrice?.length > 0
+                        ? filterByPrice?.map((product, index) => (
+                            <ProductListsView key={index} product={product} />
                           ))
-                      : filterByPrice?.length > 0
-                      ? filterByPrice?.map((product, index) => (
-                          <ProductCardGrid key={index} product={product} />
-                        ))
-                      : data?.map((product, index) => (
-                          <ProductCardGrid key={index} product={product} />
-                        ))}
-                  </div>
-                ) : (
-                  <div className=" py-4">
-                    {filterByPrice?.length > 0
-                      ? filterByPrice?.map((product, index) => (
-                          <ProductListsView key={index} product={product} />
-                        ))
-                      : data?.map((product, index) => (
-                          <ProductListsView key={index} product={product} />
-                        ))}
-                  </div>
-                )}
+                        : data?.map((product, index) => (
+                            <ProductListsView key={index} product={product} />
+                          ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* paginaion */}
+              <div className="text-center">
+                <Pagination
+                  currentPage={page + 1} // Pagination component starts from page 1
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
       <PartnersCarousel />
+      <DynamicTitle metaTitle={seoMetaData?.metaTitle} />
     </div>
   );
 };

@@ -7,7 +7,10 @@ import { toast } from "react-toastify";
 import AuthUser from "../Hooks/authUser";
 import UsegetUserById from "../Hooks/usegetUserById";
 import axios from "axios";
+import useGetSeo from "../Hooks/useGetSeo";
+import DynamicTitle from "../components/shared/DynamicTitle";
 const CheckOutPage = () => {
+  const seoMetaData = useGetSeo("checkOut_page");
   const { data } = UsegetUserById();
   const { userInfo } = AuthUser();
   const { cartProducts, total, setCartProducts, setTotal } =
@@ -181,6 +184,10 @@ const CheckOutPage = () => {
   console.log(shippingInfo);
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
+      <DynamicTitle
+        metaTitle={seoMetaData?.metaTitle}
+        metaDescription={seoMetaData?.metaDescription}
+      />
       <PageHeader title="CheckOut" />
       {cartProducts.length === 0 ? (
         <>
@@ -449,7 +456,6 @@ const CheckOutPage = () => {
                       )}
                     </div>
                     {/* Create an account */}
-               
                   </div>
                   {/* additonal notes */}
                   <div>

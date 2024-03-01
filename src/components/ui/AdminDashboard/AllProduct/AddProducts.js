@@ -4,7 +4,10 @@ import { useRef } from "react";
 import JoditEditor from "jodit-react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { singleImageUpload } from "../../../../Hooks/ImageUpload";
+import {
+  multipleImageUpload,
+  singleImageUpload,
+} from "../../../../Hooks/ImageUpload";
 
 const GenericCategories = ["Allopathic", "Herbal", "Airobotics", "Unani"];
 
@@ -17,7 +20,7 @@ const AddProducts = () => {
   const editor2 = useRef(null);
   const [category, setCategory] = useState([]);
   const [tags, setTags] = useState([""]);
-
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [productCode, setProductCode] = useState("");
 
   const [formData, setFormData] = useState({
@@ -37,7 +40,7 @@ const AddProducts = () => {
     canonicalUrl: "",
     metaTitle: "",
     metaDescription: "",
-    slug: "", 
+    slug: "",
   });
 
   useEffect(() => {
@@ -68,6 +71,7 @@ const AddProducts = () => {
     tags,
     productCode,
     metaImage,
+    images: selectedFiles,
   };
 
   const handleSubmit = async (event) => {
@@ -96,7 +100,7 @@ const AddProducts = () => {
         canonicalUrl: "",
         metaTitle: "",
         metaDescription: "",
-        slug: "", 
+        slug: "",
       });
       setTags([""]);
       setProductCode("");
@@ -134,7 +138,15 @@ const AddProducts = () => {
     newTags.splice(index, 1);
     setTags(newTags);
   };
-
+  // uplaod image for product carousel
+  const handleAdditionalImageUpload = (event) => {
+    const files = event.target.files;
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("image", files[i]);
+    }
+    multipleImageUpload(formData, setSelectedFiles);
+  };
   return (
     <div>
       <div className=" ">
@@ -223,6 +235,24 @@ const AddProducts = () => {
             className="block w-full text-sm text-gray-900  rounded-lg cursor-pointer bg-[#F0FDF4]  focus:outline-none    p-2"
             id="file_input"
             type="file"
+          />
+        </div>
+        {/* image start  */}
+
+        <div className="mb-1">
+          <label
+            for="repeat-password"
+            className="block mb-2 text-[13px] font-normal text-gray-900 "
+          >
+            {" "}
+            Images
+          </label>
+          <input
+            onChange={handleAdditionalImageUpload}
+            className="block w-full text-sm text-gray-900  rounded-lg cursor-pointer bg-[#F0FDF4]  focus:outline-none    p-2"
+            id="file_input"
+            type="file"
+            multiple
           />
         </div>
 
@@ -403,7 +433,7 @@ const AddProducts = () => {
         {/* Seo meta tags started */}
         <div>
           <h2 className="border-b border-solid border-gray-300 mb-5 pb-3">
-          Search Engine Optimization
+            Search Engine Optimization
           </h2>
           <div className="mb-5">
             <label
@@ -422,20 +452,19 @@ const AddProducts = () => {
             />
           </div>
           <div className="mb-5 w-full mr-0 md:mr-2">
-          <label className="block mb-2 text-[13px] font-normal text-gray-900">
-            Slug (unique)
-          </label>
-          <input
-            type="text"
-            name="slug"
-            value={formData?.slug}
-            onChange={handleChange}
-            className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5 focus:border-none"
-            placeholder="Enter a slug"
-            required
-            
-          />
-        </div>
+            <label className="block mb-2 text-[13px] font-normal text-gray-900">
+              Slug (unique)
+            </label>
+            <input
+              type="text"
+              name="slug"
+              value={formData?.slug}
+              onChange={handleChange}
+              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5 focus:border-none"
+              placeholder="Enter a slug"
+              required
+            />
+          </div>
           <div className="mb-5">
             <label
               className="block mb-2 text-[13px] font-normal text-gray-900 "

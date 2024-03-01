@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { FaFacebook, FaTwitch } from "react-icons/fa";
 import PageHeader from "../components/ui/PageHeader";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
+import useGetSeo from "../Hooks/useGetSeo";
+import DynamicTitle from "../components/shared/DynamicTitle";
 
 const WishlistPage = () => {
+  const seoMetaData = useGetSeo("shop_page");
   const [actions, setActions] = useState("");
   const [wishlist, setWishlist] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -166,6 +169,10 @@ const WishlistPage = () => {
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="Wishlist" />
+      <DynamicTitle
+        metaTitle={seoMetaData?.metaTitle}
+        metaDescription={seoMetaData?.metaDescription}
+      />
       <div className="mx-auto max-lg:overflow-x-auto w-full">
         <div className="pt-12 container">
           <div className="bg-white p-5 shadow-custom max-lg:min-w-[900px]">

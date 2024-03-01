@@ -3,8 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthUser from "../Hooks/authUser";
 import { toast } from "react-toastify";
 import UsegetUserById from "../Hooks/usegetUserById";
+import useGetSeo from "../Hooks/useGetSeo";
+import DynamicTitle from "../components/shared/DynamicTitle";
 
 const MyAccount = () => {
+  const seoMetaData = useGetSeo("shop_page");
   const { data } = UsegetUserById();
   console.log(data);
   const { userRole, logout } = AuthUser();
@@ -38,6 +41,10 @@ const MyAccount = () => {
 
   return (
     <div className="font-openSans text-sm py-3 max-w-[90%]">
+      <DynamicTitle
+        metaTitle={seoMetaData?.metaTitle}
+        metaDescription={seoMetaData?.metaDescription}
+      />
       <p className="text-sm text-[#333]">
         Hello{" "}
         <span className="font-bold">
