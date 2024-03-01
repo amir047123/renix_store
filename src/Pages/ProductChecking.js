@@ -5,8 +5,11 @@ import { Link } from "react-router-dom";
 import Rating from "react-rating";
 import { IoIosStar } from "react-icons/io";
 import { FaPlus, FaRegStar } from "react-icons/fa6";
+import DynamicTitle from "../components/shared/DynamicTitle";
+import useGetSeo from "../Hooks/useGetSeo";
 
 const ProductChecking = () => {
+  const seoMetaData = useGetSeo("product_checking_page");
   const [trackingId, setTrackingId] = useState("");
   const [myOrder, setMyOrder] = useState([]);
   const [searched, setSearched] = useState(false);
@@ -46,6 +49,10 @@ const ProductChecking = () => {
 
   return (
     <div className="mt-40 mb-10">
+      <DynamicTitle
+        metaTitle={seoMetaData?.metaTitle}
+        metaDescription={seoMetaData?.metaDescription}
+      />
       {/* <PageHeader /> */}
       <div className="flex flex-col items-center justify-center px-4 mt-10">
         <div className="text-center">

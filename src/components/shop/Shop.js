@@ -16,7 +16,10 @@ import PageHeader from "../ui/PageHeader";
 import "./priceRange.css";
 import PartnersCarousel from "../PartnersCarousel/PartnersCarousel";
 import Pagination from "../shared/Pagination";
+import useGetSeo from "../../Hooks/useGetSeo";
+import DynamicTitle from "../shared/DynamicTitle";
 const Shop = () => {
+  const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);
   const [maxPrice, setMaxPrice] = useState(250);
   const [isGrid, setIsGrid] = useState(true);
@@ -316,6 +319,7 @@ const Shop = () => {
         </div>
       </section>
       <PartnersCarousel />
+      <DynamicTitle metaTitle={seoMetaData?.metaTitle} />
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import { FaBars, FaSearch } from "react-icons/fa";
 import { IoIosBasket, IoMdClose } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
+import DynamicTitle from "../components/shared/DynamicTitle";
+import useGetSeo from "../Hooks/useGetSeo";
 
 const Cart = ({
   searchQuery,
@@ -11,10 +13,15 @@ const Cart = ({
   handleRemoveFromCart,
   total,
 }) => {
+  const seoMetaData = useGetSeo("cart_page");
   const location = useLocation();
 
   return (
     <div className="flex">
+      <DynamicTitle
+        metaTitle={seoMetaData?.metaTitle}
+        metaDescription={seoMetaData?.metaDescription}
+      />
       {/* Search bar */}
       <div className="pr-6 leading-[80px] group flex items-center relative">
         <FaSearch size={24} />

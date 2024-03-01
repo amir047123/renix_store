@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { singleImageUpload } from "../../../../Hooks/ImageUpload";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
-const AdminSeo = () => {
+const AdminUpdateSeoList = () => {
+  const { id } = useParams();
   const [metaImage, setMetaImage] = useState("");
+  const [seo, setSeo] = useState({});
   const [formData, setFormData] = useState({
     page: "",
     metaTitle: "",
@@ -25,6 +28,23 @@ const AdminSeo = () => {
       [e.target.name]: e.target.value,
     });
   };
+  useEffect(() => {
+    const fetchSingleSeo = async () => {
+      const { data } = await axios.get(
+        `http://localhost:5000/api/v1/seo/getSeoById/${id}`
+      );
+      setSeo(data?.data);
+      setFormData({
+        page: data?.data?.page || "",
+        metaTitle: data?.data?.metaTitle || "",
+        metaDescription: data?.data?.metaDescription || "",
+        canonicalUrl: data?.data?.canonicalUrl || "",
+        slug: data?.data?.slug || "",
+      });
+    };
+
+    fetchSingleSeo();
+  }, [id]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,15 +58,15 @@ const AdminSeo = () => {
     };
 
     try {
-      const { data: seoData } = await axios.post(
-        "http://localhost:5000/api/v1/seo/createSeo",
+      const { data: seoData } = await axios.patch(
+        `http://localhost:5000/api/v1/seo/updateSeo/${id}`,
         data
       );
       // console.log(seoData);
       if (seoData.status === "error") {
         toast.error(seoData.message);
       } else if (seoData.status === "success") {
-        toast.success("Seo posted!");
+        toast.success("Seo Updated!");
       }
     } catch (error) {
       toast.error(error.message || "An error occurred");
@@ -58,7 +78,7 @@ const AdminSeo = () => {
     <div>
       <div class=" ">
         <h1 class="text-4xl font-bold capitalize text-gray-900 leading-tight mb-2 border-b-2 border-gray-500 pb-2">
-          Add seo
+          Update SEO
         </h1>
       </div>
       <form
@@ -75,18 +95,62 @@ const AdminSeo = () => {
             className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none  block w-full p-2.5 focus:border-none"
             name="page"
             id=""
+            defaultValue={seo?.page}
           >
-            <option value="shop_page">Shop Page</option>
-            <option value="product_details_page">Product Details Page</option>
-            <option value="cart_page">Cart Page</option>
-            <option value="checkOut_page">CheckOut Page</option>
-            <option value="traking_order_page">Traking Order Page</option>
-            <option value="category_page">Category Page</option>
-            <option value="product_checking_page">Product Checking Page</option>
-            <option value="wishlist_page">WhisList Page</option>
-            <option value="sucess_payment_page">Payment success Page</option>
-            <option value="failed_payment_page">Payment Failed Page</option>
-            <option value="my_account">My account</option>
+            <option selected={seo?.page === "shop_page"} value="shop_page">
+              Shop Page
+            </option>
+            <option
+              selected={seo?.page === "product_details_page"}
+              value="product_details_page"
+            >
+              Product Details Page
+            </option>
+            <option selected={seo?.page === "cart_page"} value="cart_page">
+              Cart Page
+            </option>
+            <option
+              selected={seo?.page === "checkOut_page"}
+              value="checkOut_page"
+            >
+              CheckOut Page
+            </option>
+            <option
+              selected={seo?.page === "traking_order_page"}
+              value="traking_order_page"
+            >
+              Traking Order Page
+            </option>
+            <option
+              selected={seo?.page === "category_page"}
+              value="category_page"
+            >
+              Category Page
+            </option>
+            <option
+              selected={seo?.page === "product_checking_page"}
+              value="product_checking_page"
+            >
+              Product Checking Page
+            </option>
+            <option
+              selected={seo?.page === "wishlist_page"}
+              value="wishlist_page"
+            >
+              WhisList Page
+            </option>
+            <option
+              selected={seo?.page === "sucess_payment_page"}
+              value="sucess_payment_page"
+            >
+              Payment success Page
+            </option>
+            <option
+              selected={seo?.page === "failed_payment_page"}
+              value="failed_payment_page"
+            >
+              Payment Failed Page
+            </option>
           </select>
         </div>
 
@@ -179,7 +243,7 @@ const AdminSeo = () => {
             className="bg-primary hover:bg-lightPrimary text-white  py-2 rounded-lg text-lg w-fit px-8"
             type="submit"
           >
-            Add SEO Meta
+            Update SEO Meta
           </button>
         </div>
       </form>
@@ -187,4 +251,4 @@ const AdminSeo = () => {
   );
 };
 
-export default AdminSeo;
+export default AdminUpdateSeoList;

@@ -3,7 +3,9 @@ import AdminPartner from "../components/ui/AdminDashboard/AdminDashboardSliderIm
 import AdminSideBarBanner from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminSideBarBanner";
 import AdminOrderView from "../components/ui/AdminDashboard/AdminOrders/AdminOrderView";
 import AdminOrders from "../components/ui/AdminDashboard/AdminOrders/AdminOrders";
+import AdminAllSeoList from "../components/ui/AdminDashboard/AdminSeo/AdminAllSeoList";
 import AdminSeo from "../components/ui/AdminDashboard/AdminSeo/AdminSeo";
+import AdminUpdateSeoList from "../components/ui/AdminDashboard/AdminSeo/AdminUpdateSeoList";
 import AdminShipping from "../components/ui/AdminDashboard/AdminShipping/AdminShipping";
 import AddProducts from "../components/ui/AdminDashboard/AllProduct/AddProducts";
 import AdminUpdateProduct from "../components/ui/AdminDashboard/AllProduct/AdminUpdateProduct";
@@ -48,6 +50,8 @@ const AdminRoutes = [
   { path: "partner", Component: AdminPartner },
   { path: "orders/:id", Component: AdminOrderView },
   { path: "seo", Component: AdminSeo },
+  { path: "allSeo", Component: AdminAllSeoList },
+  { path: "updateSeo/:id", Component: AdminUpdateSeoList },
 ];
 
 export default AdminRoutes;

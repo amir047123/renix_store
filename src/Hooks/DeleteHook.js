@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-const DeleteHook = ({ refetch, setRefetch, url }) => {
+const DeleteHook = ({ refetch, setRefetch, setAllData = "", url, id }) => {
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -14,8 +14,17 @@ const DeleteHook = ({ refetch, setRefetch, url }) => {
       fetch(`${url}`, {
         method: "DELETE",
       }).then((res) => {
+        console.log(res, "deleted");
         if (res.status === 200) {
           setRefetch(!refetch);
+          setAllData((allData) => {
+            let arr = [...allData];
+
+            let updateData = arr.filter((el) => el._id !== id);
+
+            return updateData;
+          });
+
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         }
       });

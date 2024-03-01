@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import PageHeader from "../components/ui/PageHeader";
 import Loading from "../shared/Loading";
+import DynamicTitle from "../components/shared/DynamicTitle";
+import useGetSeo from "../Hooks/useGetSeo";
 
 const TrackingOrder = () => {
+  const seoMetaData = useGetSeo("traking_order_page");
   const [trackingId, setTrackingId] = useState("");
   const [myOrder, setMyOrder] = useState([]);
   const [searched, setSearched] = useState(false); // Track whether search button is clicked
@@ -42,6 +45,10 @@ const TrackingOrder = () => {
 
   return (
     <div className=" mt-40 mb-10">
+      <DynamicTitle
+        metaTitle={seoMetaData?.metaTitle}
+        metaDescription={seoMetaData?.metaDescription}
+      />
       {/* <PageHeader /> */}
       <div className="flex flex-col items-center justify-center px-4 mt-10">
         <div className="text-center">

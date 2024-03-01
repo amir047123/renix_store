@@ -21,7 +21,7 @@ const AdminDashboardNav = () => {
   const [openCategory, setOpenCategory] = useState(false);
   const [openInventory, setOpenInventory] = useState(false);
   const [openPrescription, setOpenPrescription] = useState(false);
-  const [openOffline, setOpenOffline] = useState(false);
+  const [openSeo, setOpenSeo] = useState(false);
 
   //show sidenav on toggle
   const handleToggle = () => {
@@ -622,19 +622,52 @@ const AdminDashboardNav = () => {
           <span className="">Announcement</span>
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to={"seo"}
-          className="flex items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
-          style={({ isActive }) => (isActive ? activeStyle : undefined)}
-        >
-          <span className="text-lg">
-            <Icon icon="charm:git-request" />
-          </span>
 
-          <span className="">SEO</span>
-        </NavLink>
+      {/* seo start */}
+
+      <li>
+        <span
+          onClick={() => setOpenSeo(!openSeo)}
+          className="flex items-center justify-between cursor-pointer gap-5 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-lg">
+              <Icon icon="charm:git-request" />
+            </span>
+
+            <span className="">SEO</span>
+          </div>
+          <span
+            className={`text-xl transition_move ${
+              openSeo === true ? "rotate-180" : ""
+            }`}
+          >
+            <Icon icon="mingcute:down-fill" />
+          </span>
+        </span>
+        <ul className={`drop_down  ${openSeo === true ? "block" : "hidden"}`}>
+          <li onClick={handleToggle}>
+            <NavLink
+              to={"seo"}
+              className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              <span className="ml-3">Add Seo</span>
+            </NavLink>
+          </li>
+          <li onClick={handleToggle}>
+            <NavLink
+              to={"allSeo"}
+              className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              <span className="ml-3">All seo list</span>
+            </NavLink>
+          </li>
+        </ul>
       </li>
+      {/* seo end */}
+
       <li className="flex cursor-pointer items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300">
         <span className="text-lg">
           <Icon icon="tabler:logout" />

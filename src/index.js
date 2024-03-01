@@ -4,13 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ProductContextProvider from "./Context/ProductContextProvider";
+import { HelmetProvider } from "react-helmet-async";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ProductContextProvider>
-      <App />
-    </ProductContextProvider>
+    <HelmetProvider>
+      <ProductContextProvider>
+        <App />
+      </ProductContextProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 
