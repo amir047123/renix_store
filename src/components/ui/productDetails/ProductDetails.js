@@ -19,10 +19,12 @@ import Description from "./Description";
 import { useParams, Link } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 import RelatedProductCard from "../../shop/RelatedProductCard";
+import Loading from "../../../shared/Loading";
 const ProductDetails = () => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
 
   const { id } = useParams();
+  console.log(id);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState([]);
   const [count, setCount] = useState(1);
@@ -33,19 +35,26 @@ const ProductDetails = () => {
   );
   console.log(product, 33);
 
-  let images = [{ original: product?.img, thumbnail: product?.img }];
+  let images = [
+    { original: product?.img, thumbnail: product?.img },
+    { original: product?.img, thumbnail: product?.img },
+    { original: product?.img, thumbnail: product?.img },
+    { original: product?.img, thumbnail: product?.img },
+    { original: product?.img, thumbnail: product?.img },
+    { original: product?.img, thumbnail: product?.img },
+    { original: product?.img, thumbnail: product?.img },
+    { original: product?.img, thumbnail: product?.img },
+  ];
 
   useEffect(() => {
+    setLoading(true);
     fetch(
       `http://localhost:5000/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`
     )
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "success" && data.data.length > 0) {
-          setProduct(data.data[0]);
-        } else {
-          console.error("No product found for ID:", id);
-        }
+        setProduct(data?.data[0]);
+        console.log(data?.data[0]);
         setLoading(false);
       })
       .catch((error) => {
@@ -197,6 +206,11 @@ const ProductDetails = () => {
       setLoading(false);
     }
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className=" mt-12 container ">
       {/* product details */}
@@ -209,7 +223,6 @@ const ProductDetails = () => {
             items={images}
             autoPlay={false}
           />
-          ;
         </div>
         <div className="flex-1">
           <h2 className="font-rubic font-medium uppercase text-[34px] text-[#333] my-2">

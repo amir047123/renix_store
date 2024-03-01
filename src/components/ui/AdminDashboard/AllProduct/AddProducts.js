@@ -37,7 +37,7 @@ const AddProducts = () => {
     canonicalUrl: "",
     metaTitle: "",
     metaDescription: "",
-    slug: "", 
+    slug: "",
   });
 
   useEffect(() => {
@@ -96,7 +96,7 @@ const AddProducts = () => {
         canonicalUrl: "",
         metaTitle: "",
         metaDescription: "",
-        slug: "", 
+        slug: "",
       });
       setTags([""]);
       setProductCode("");
@@ -403,7 +403,7 @@ const AddProducts = () => {
         {/* Seo meta tags started */}
         <div>
           <h2 className="border-b border-solid border-gray-300 mb-5 pb-3">
-          Search Engine Optimization
+            Search Engine Optimization
           </h2>
           <div className="mb-5">
             <label
@@ -422,20 +422,19 @@ const AddProducts = () => {
             />
           </div>
           <div className="mb-5 w-full mr-0 md:mr-2">
-          <label className="block mb-2 text-[13px] font-normal text-gray-900">
-            Slug (unique)
-          </label>
-          <input
-            type="text"
-            name="slug"
-            value={formData?.slug}
-            onChange={handleChange}
-            className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5 focus:border-none"
-            placeholder="Enter a slug"
-            required
-            
-          />
-        </div>
+            <label className="block mb-2 text-[13px] font-normal text-gray-900">
+              Slug (unique)
+            </label>
+            <input
+              type="text"
+              name="slug"
+              value={formData?.slug}
+              onChange={handleChange}
+              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5 focus:border-none"
+              placeholder="Enter a slug"
+              required
+            />
+          </div>
           <div className="mb-5">
             <label
               className="block mb-2 text-[13px] font-normal text-gray-900 "
