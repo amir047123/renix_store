@@ -35,16 +35,10 @@ const ProductDetails = () => {
   );
   console.log(product, 33);
 
-  let images = [
-    { original: product?.img, thumbnail: product?.img },
-    { original: product?.img, thumbnail: product?.img },
-    { original: product?.img, thumbnail: product?.img },
-    { original: product?.img, thumbnail: product?.img },
-    { original: product?.img, thumbnail: product?.img },
-    { original: product?.img, thumbnail: product?.img },
-    { original: product?.img, thumbnail: product?.img },
-    { original: product?.img, thumbnail: product?.img },
-  ];
+  const images = product?.images?.map((image) => ({
+    original: image,
+    thumbnail: image,
+  }));
 
   useEffect(() => {
     setLoading(true);
@@ -222,6 +216,9 @@ const ProductDetails = () => {
             showBullets={false}
             items={images}
             autoPlay={false}
+            disableSwipe={true}
+            slideOnThumbnailOver
+            disableThumbnailScroll
           />
         </div>
         <div className="flex-1">
