@@ -47,6 +47,7 @@ const TrackingOrder = () => {
     <div className=" mt-40 mb-10">
       <DynamicTitle
         metaTitle={seoMetaData?.metaTitle}
+        metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
       />
       {/* <PageHeader /> */}

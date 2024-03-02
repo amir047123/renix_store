@@ -134,16 +134,14 @@ const RelatedProductCard = ({ product }) => {
           className="flex items-center gap-3 text-white hover:bg-[#131e2c] bg-primary px-4 py-2 font-medium font-rubic uppercase duration-200 text-sm rounded-full"
         >
           <FaShoppingCart />
-          {cartQuantityNumber?.quantity
-            ? cartQuantityNumber?.quantity
-            : "Add to cart"}
+          {cartQuantityNumber?.quantity ? cartQuantityNumber?.quantity : "Cart"}
         </button>
         <Link
           onClick={handleAddToCart}
           to={"/checkout"}
           className="inline-block bg-primary text-white rounded-full uppercase text-sm font-openSans font-medium px-4 py-2 hover:bg-textColor transition-all duration-200"
         >
-          buy now
+          buy
         </Link>
       </div>
     </div>

@@ -7,7 +7,7 @@ import useGetSeo from "../Hooks/useGetSeo";
 import DynamicTitle from "../components/shared/DynamicTitle";
 
 const MyAccount = () => {
-  const seoMetaData = useGetSeo("shop_page");
+  const seoMetaData = useGetSeo("my_account");
   const { data } = UsegetUserById();
   console.log(data);
   const { userRole, logout } = AuthUser();
@@ -43,6 +43,7 @@ const MyAccount = () => {
     <div className="font-openSans text-sm py-3 max-w-[90%]">
       <DynamicTitle
         metaTitle={seoMetaData?.metaTitle}
+        metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
       />
       <p className="text-sm text-[#333]">

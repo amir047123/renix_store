@@ -186,6 +186,7 @@ const CheckOutPage = () => {
     <div className="bg-[#f5f5f5] overflow-hidden">
       <DynamicTitle
         metaTitle={seoMetaData?.metaTitle}
+        metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
       />
       <PageHeader title="CheckOut" />
