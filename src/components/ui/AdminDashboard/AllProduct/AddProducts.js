@@ -237,7 +237,7 @@ const AddProducts = () => {
             type="file"
           />
         </div>
-        {/* image start  */}
+        {/* array images start  */}
 
         <div className="mb-1">
           <label
