@@ -7,7 +7,7 @@ import useGetSeo from "../Hooks/useGetSeo";
 import DynamicTitle from "../components/shared/DynamicTitle";
 
 const WishlistPage = () => {
-  const seoMetaData = useGetSeo("shop_page");
+  const seoMetaData = useGetSeo("wishlist_page");
   const [actions, setActions] = useState("");
   const [wishlist, setWishlist] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -171,6 +171,7 @@ const WishlistPage = () => {
       <PageHeader title="Wishlist" />
       <DynamicTitle
         metaTitle={seoMetaData?.metaTitle}
+        metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
       />
       <div className="mx-auto max-lg:overflow-x-auto w-full">

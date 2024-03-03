@@ -80,11 +80,11 @@ const AdminSeo = () => {
             <option value="cart_page">Cart Page</option>
             <option value="checkOut_page">CheckOut Page</option>
             <option value="traking_order_page">Traking Order Page</option>
-            <option value="category_page">Category Page</option>
+            {/* <option value="category_page">Category Page</option> */}
             <option value="product_checking_page">Product Checking Page</option>
             <option value="wishlist_page">WhisList Page</option>
-            <option value="sucess_payment_page">Payment success Page</option>
-            <option value="failed_payment_page">Payment Failed Page</option>
+            {/* <option value="sucess_payment_page">Payment success Page</option>
+            <option value="failed_payment_page">Payment Failed Page</option> */}
             <option value="my_account">My account</option>
           </select>
         </div>

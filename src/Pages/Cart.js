@@ -20,6 +20,7 @@ const Cart = ({
     <div className="flex">
       <DynamicTitle
         metaTitle={seoMetaData?.metaTitle}
+        metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
       />
       {/* Search bar */}

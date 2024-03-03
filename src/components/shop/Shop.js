@@ -319,7 +319,11 @@ const Shop = () => {
         </div>
       </section>
       <PartnersCarousel />
-      <DynamicTitle metaTitle={seoMetaData?.metaTitle} />
+      <DynamicTitle
+        metaTitle={seoMetaData?.metaTitle}
+        metaImage={seoMetaData?.metaImage}
+        metaDescription={seoMetaData?.metaDescription}
+      />
     </div>
   );
 };
