@@ -77,7 +77,6 @@ const AdminSeo = () => {
             id=""
           >
             <option value="shop_page">Shop Page</option>
-            <option value="product_details_page">Product Details Page</option>
             <option value="cart_page">Cart Page</option>
             <option value="checkOut_page">CheckOut Page</option>
             <option value="traking_order_page">Traking Order Page</option>
