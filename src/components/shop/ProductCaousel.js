@@ -1,14 +1,24 @@
-// import required modules
-
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
-const ProductCaousel = () => {
-  let arr = [1, 2, 3];
+import { useEffect, useState } from "react";
+
+const ProductCarousel = () => {
+  const [images, setImages] = useState([]);
+
+  const fetchData = async () => {
+    await fetch(`http://localhost:5000/api/v1/sidebarslider/getSliders`)
+      .then((res) => res.json())
+      .then((data) => setImages(data?.data));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <div>
+    <div className="swiper-container">
       <Swiper
         grabCursor={true}
         autoplay={{
@@ -20,31 +30,18 @@ const ProductCaousel = () => {
           clickable: true,
         }}
         modules={[Pagination, Autoplay]}
-        className="swiper_product_promtion"
+        className="swiper_product_promotion"
       >
-        {arr.map((slider) => (
-          <SwiperSlide>
-            <div
-              className="2xl:py-[40%] py-[30%]  px-5 flex flex-col items-center justify-center bg-no-repeat bg-cover w-full"
-              style={{
-                background: "url('/assets/products/slide1.jpg')",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-              }}
-            >
-              <h3 className="xl:text-[26px] text-xl text-white uppercase font-oswald">
-                FRUIT SHOP
-              </h3>
-              <h2 className="xl:text-[40px] text-3xl font-medium text-white uppercase font-oswald">
-                UP TO 50% OFF
-              </h2>
-              <p className="text-center text-white font-openSans my-3">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-              <button className="font-medium uppercase font-oswald py-3 px-10 rounded-full bg-white text-primary text-base ">
-                Buy now
-              </button>
-            </div>
+        {images.map((image) => (
+          <SwiperSlide key={image._id}>
+            <img
+              src={image.sliderImg} // Directly using image URL as the src
+              alt={image.altText} // Provide alt text for accessibility
+              className="object-cover w-full h-full"
+            />
+            {/* <button className="absolute  left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-medium uppercase font-oswald py-3 px-10 rounded-full bg-white text-primary text-base ">
+              Buy now
+            </button> */}
           </SwiperSlide>
         ))}
       </Swiper>
@@ -52,4 +49,4 @@ const ProductCaousel = () => {
   );
 };
 
-export default ProductCaousel;
+export default ProductCarousel;

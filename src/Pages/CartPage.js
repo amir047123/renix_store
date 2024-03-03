@@ -1,41 +1,61 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { RiDeleteBinLine } from "react-icons/ri";
 import PageHeader from "../components/ui/PageHeader";
+import useGetCartsProduct from "../Hooks/useGetCartsProduct";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const [coupon, setCoupon] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState([]);
 
   useEffect(() => {
-    const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-
-    const itemQuantities = {};
-    storedCartItems.forEach((item) => {
-      const itemId = item._id;
-      if (itemQuantities[itemId]) {
-        itemQuantities[itemId].quantity += 1;
-      } else {
-        itemQuantities[itemId] = { ...item, quantity: 1 };
-      }
-    });
-
-    const cartItemsWithQuantity = Object.values(itemQuantities);
-    setCartItems(cartItemsWithQuantity);
+    // Load applied coupons from localStorage
+    const storedCoupons = localStorage.getItem("appliedCoupons");
+    if (storedCoupons) {
+      setAppliedCoupon(JSON.parse(storedCoupons));
+    }
   }, []);
-
+  const { cartProducts, setCartProducts, total, setTotal } =
+    useGetCartsProduct();
   const handleRemoveFromCart = (itemId) => {
-    const updatedCartItems = cartItems.filter((item) => item._id !== itemId);
-    setCartItems(updatedCartItems);
+    const updatedCartItems = cartProducts.filter((item) => item._id !== itemId);
+    setCartProducts(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
-
+  //a apply coupon
+  const handleCouponApply = () => {
+    const response = fetch(
+      `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (appliedCoupon.includes(coupon)) {
+          toast.error("Coupon already applied");
+        } else if (data?.status === "success" && data?.data?.code === coupon) {
+          setAppliedCoupon([...appliedCoupon, coupon]);
+          localStorage.setItem(
+            "appliedCoupons",
+            JSON.stringify([...appliedCoupon, coupon])
+          );
+          const discountPercent = +data.data.discount;
+          const discountAmount = (total * discountPercent) / 100;
+          const discountedPrice = total - discountAmount;
+          setTotal(discountedPrice.toFixed(2));
+          toast.success("Coupon applied successfully");
+        } else {
+          toast.error("Invalid coupon code");
+        }
+      });
+  };
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="Cart" />
       <div className="mx-auto max-lg:overflow-x-auto w-full">
         <div className="pt-12 container">
           <div className="bg-white p-5 shadow-custom max-lg:min-w-[900px]">
-            {cartItems.length === 0 ? (
+            {cartProducts.length === 0 ? (
               <>
                 <div>
                   <p className="font-rubic text-sm text-[#333] mb-6">
@@ -72,8 +92,11 @@ const CartPage = () => {
                 </div>
                 {/* Table body */}
                 <div>
-                  {cartItems.map((item) => (
-                    <div key={item._id} className="grid grid-cols-12 place-items-center border-b text-[#333] border-borderColor pb-3">
+                  {cartProducts.map((item) => (
+                    <div
+                      key={item._id}
+                      className="grid grid-cols-12 place-items-center border-b text-[#333] border-borderColor pb-3"
+                    >
                       <div className=" col-span-1">
                         <img src={item.img} alt="" />
                       </div>
@@ -86,7 +109,7 @@ const CartPage = () => {
                         </Link>
                       </div>
                       <div className="col-span-2 font-openSans">
-                        <p>  ৳ {item.onePiecePrice}</p>
+                        <p> ৳ {item.discountedPrice}</p>
                       </div>
                       <div className="col-span-2 font-openSans">
                         <p className="border border-borderColor rounded-full w-4 h-4 p-5 leading-4 flex justify-center items-center">
@@ -94,7 +117,7 @@ const CartPage = () => {
                         </p>
                       </div>
                       <div className="col-span-2 font-openSans">
-                        <p>£{item.subtotal}</p>
+                        <p>৳ {item.discountedPrice * item.quantity}</p>
                       </div>
                       <div className=" col-span-1 font-openSans">
                         <div className="border border-borderColor rounded-full w-12 h-12  leading-4 flex justify-center items-center">
@@ -111,11 +134,15 @@ const CartPage = () => {
                   <div className="flex justify-between items-center py-5 border-b border-borderColor">
                     <div>
                       <input
+                        onChange={(e) => setCoupon(e.target.value)}
                         type="text"
                         className="text-sm rounded-full border border-solid border-borderColor py-3 px-4"
                         placeholder="Coupon code"
                       />
-                      <button className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-2">
+                      <button
+                        onClick={handleCouponApply}
+                        className="hover:bg-primary bg-[#efecec] transition-all duration-300 hover:text-white text-[#333] px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm ml-2"
+                      >
                         Apply coupon{" "}
                       </button>
                     </div>
@@ -136,13 +163,12 @@ const CartPage = () => {
                       Subtotal
                     </p>
                     <p className=" border-b p-3 border-solid border-borderColor">
-                      {" "}
-                      £56.00
+                      ৳ {total}
                     </p>
                     <p className="border-r p-3 border-solid border-borderColor">
                       total
                     </p>
-                    <p className="p-3"> £56.00</p>
+                    <p className="p-3">৳ {total}</p>
                   </div>
                   <div className="text-right mt-5">
                     <Link

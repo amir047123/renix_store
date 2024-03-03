@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PageHeader from "../components/ui/PageHeader";
 
 const UserDashboardNav = ({ Outlet }) => {
+  const location = useLocation();
   return (
     <div>
       <div className="bg-[#f5f5f5]  overflow-hidden">
@@ -27,6 +28,7 @@ const UserDashboardNav = ({ Outlet }) => {
                   </li>
                   <li>
                     <Link
+                      state={location?.pathname}
                       className="text-[#333] hover:text-black hover:ml-3 transition-all duration-200 capitalize"
                       to={"/my-account/orders"}
                     >
@@ -60,7 +62,7 @@ const UserDashboardNav = ({ Outlet }) => {
                   <li>
                     <Link
                       className="text-[#333] hover:text-black hover:ml-3 transition-all duration-200 capitalize"
-                      to={"/my-account/wishlist"}
+                      to={"my-favorite"}
                     >
                       Wishlist
                     </Link>

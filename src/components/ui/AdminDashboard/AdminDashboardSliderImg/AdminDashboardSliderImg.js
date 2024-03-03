@@ -88,7 +88,7 @@ const AdminDashboardSliderImg = () => {
           Primary Image <span className="text-warning">*</span>
         </label>
         <div className=" rounded-lg flex justify-between items-center px-4 py-2 mt-1 border border-gray-400 mb-5">
-          <p className="text-sm">Browse Excel File</p>
+          <p className="text-sm">Browse Banner File</p>
           <label className="flex items-center justify-center py-2 px-6 bg-primary border-none cursor-pointer rounded-3xl ">
             <p className="font-medium uppercase text-xs text-white">Browse</p>
             <input

@@ -8,7 +8,7 @@ const TopRelatedProducts = ({product}) => {
   const discountedPrice = product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 
   return (
-    <Link to={`/productDetails/${product?._id}`} className="border-b border-solid border-borderColor">
+    <Link to={`/product/${product?.slug}`} className="border-b border-solid border-borderColor">
       <div className="flex items-center gap-3 pb-3 mb-3 border-b border-solid border-borderColor">
         <img
           className="border border-solid border-borderColor w-20"

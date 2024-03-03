@@ -4,18 +4,24 @@ import { useRef } from "react";
 import JoditEditor from "jodit-react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { singleImageUpload } from "../../../../Hooks/ImageUpload";
+import {
+  multipleImageUpload,
+  singleImageUpload,
+} from "../../../../Hooks/ImageUpload";
 
 const GenericCategories = ["Allopathic", "Herbal", "Airobotics", "Unani"];
 
 const AddProducts = () => {
   const [img, setImg] = useState("");
+  const [metaImage, setMetaImage] = useState("");
   const [dosageForm, setDosageForm] = useState("");
   const editor = useRef(null);
   const [description, setDescription] = useState("");
   const editor2 = useRef(null);
   const [category, setCategory] = useState([]);
   const [tags, setTags] = useState([""]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [productCode, setProductCode] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -32,6 +38,9 @@ const AddProducts = () => {
     oneStrip: 0,
     onePiecePrice: 0,
     canonicalUrl: "",
+    metaTitle: "",
+    metaDescription: "",
+    slug: "",
   });
 
   useEffect(() => {
@@ -46,7 +55,7 @@ const AddProducts = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  console.log(formData, 54);
   const handleCheckboxChange = (e) => {
     setFormData({
       ...formData,
@@ -54,7 +63,16 @@ const AddProducts = () => {
     });
   };
 
-  const data = { ...formData, description, dosageForm, img, tags };
+  const data = {
+    ...formData,
+    description,
+    dosageForm,
+    img,
+    tags,
+    productCode,
+    metaImage,
+    images: selectedFiles,
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -80,8 +98,13 @@ const AddProducts = () => {
         oneStrip: 0,
         onePiecePrice: 0,
         canonicalUrl: "",
+        metaTitle: "",
+        metaDescription: "",
+        slug: "",
       });
       setTags([""]);
+      setProductCode("");
+      console.log(response, "response");
     } catch (error) {
       console.error("Error making POST request:", error);
     }
@@ -92,6 +115,12 @@ const AddProducts = () => {
     const formData = new FormData();
     formData.append("image", image);
     singleImageUpload(formData, setImg);
+  };
+  const handleChangeMetaImage = async (event) => {
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    singleImageUpload(formData, setMetaImage);
   };
 
   const handleTagsChange = (index, e) => {
@@ -109,14 +138,21 @@ const AddProducts = () => {
     newTags.splice(index, 1);
     setTags(newTags);
   };
-
+  // uplaod image for product carousel
+  const handleAdditionalImageUpload = (event) => {
+    const files = event.target.files;
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("image", files[i]);
+    }
+    multipleImageUpload(formData, setSelectedFiles);
+  };
   return (
     <div>
-      <div class=" ">
-        <h1 class="text-4xl font-bold text-gray-900 leading-tight mb-2 border-b-2 border-gray-500 pb-2">
+      <div className=" ">
+        <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-2 border-b-2 border-gray-500 pb-2">
           Add Product
         </h1>
-       
       </div>
       <form
         onSubmit={handleSubmit}
@@ -129,7 +165,7 @@ const AddProducts = () => {
           <div className="mb-1  w-full  mr-0 md:mr-2">
             <label
               for="repeat-password"
-              class="block mb-2 text-[13px] font-normal text-gray-900 "
+              className="block mb-2 text-[13px] font-normal text-gray-900 "
             >
               Medicine Name
             </label>
@@ -145,35 +181,11 @@ const AddProducts = () => {
           </div>
         </div>
 
-       
-        {/* price  */}
-
-        <div className="mb-1">
-          <label
-            htmlFor="canonical-url"
-            className="block mb-2 text-[13px] font-normal text-gray-900"
-          >
-            Canonical URL
-          </label>
-          <input
-            type="text"
-            id="canonical-url"
-            name="canonicalUrl"
-            value={formData.canonicalUrl}
-            onChange={handleChange}
-            className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:border-blue-500"
-            placeholder="Enter Canonical URL"
-          />
-        </div>
-
-        
-
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="mb-1  w-full mr-0 md:mr-2">
             <label
               for="repeat-password"
-              class="block mb-2 text-[13px] font-normal text-gray-900 "
+              className="block mb-2 text-[13px] font-normal text-gray-900 "
             >
               Price
             </label>
@@ -187,8 +199,23 @@ const AddProducts = () => {
               placeholder="Enter Price"
             />
           </div>
-
-         
+          <div className="mb-1">
+            <label
+              htmlFor="product-code"
+              className="block mb-2 text-[13px] font-normal text-gray-900"
+            >
+              Product Code
+            </label>
+            <input
+              type="text"
+              id="product-code"
+              name="productCode"
+              value={productCode}
+              onChange={(e) => setProductCode(e.target.value)}
+              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:border-blue-500"
+              placeholder="Enter Product Code"
+            />
+          </div>
         </div>
 
         {/* price end  */}
@@ -198,7 +225,7 @@ const AddProducts = () => {
         <div className="mb-1">
           <label
             for="repeat-password"
-            class="block mb-2 text-[13px] font-normal text-gray-900 "
+            className="block mb-2 text-[13px] font-normal text-gray-900 "
           >
             {" "}
             Image
@@ -210,13 +237,31 @@ const AddProducts = () => {
             type="file"
           />
         </div>
+        {/* array images start  */}
+
+        <div className="mb-1">
+          <label
+            for="repeat-password"
+            className="block mb-2 text-[13px] font-normal text-gray-900 "
+          >
+            {" "}
+            Images
+          </label>
+          <input
+            onChange={handleAdditionalImageUpload}
+            className="block w-full text-sm text-gray-900  rounded-lg cursor-pointer bg-[#F0FDF4]  focus:outline-none    p-2"
+            id="file_input"
+            type="file"
+            multiple
+          />
+        </div>
 
         <div className="md:flex items-center">
           {/* generic catagory */}
           <div className="mb-1  w-full md:w-[50%] mr-0 md:mr-2">
             <label
               for="repeat-password"
-              class="block mb-2 text-[13px] font-normal text-gray-900 "
+              className="block mb-2 text-[13px] font-normal text-gray-900 "
             >
               Generic Category
             </label>
@@ -241,7 +286,7 @@ const AddProducts = () => {
           <div className="mb-1  w-full md:w-[50%] mr-0 md:mr-2">
             <label
               for="repeat-password"
-              class="block mb-2 text-[13px] font-normal text-gray-900 "
+              className="block mb-2 text-[13px] font-normal text-gray-900 "
             >
               Generic Name
             </label>
@@ -261,7 +306,7 @@ const AddProducts = () => {
         {/* general catagory start  */}
 
         <div className="mb-1  w-full  mr-0 md:mr-2">
-          <label class="block mb-2 text-[13px] font-normal text-gray-900 ">
+          <label className="block mb-2 text-[13px] font-normal text-gray-900 ">
             Category
           </label>
           <select
@@ -283,7 +328,7 @@ const AddProducts = () => {
 
         {/* strength start  */}
         <div className="mb-1">
-          <label class="block mb-2 text-[13px] font-normal text-gray-900 ">
+          <label className="block mb-2 text-[13px] font-normal text-gray-900 ">
             {" "}
             Strength
           </label>
@@ -302,7 +347,7 @@ const AddProducts = () => {
         <div className="mb-1">
           <label
             for="supplier name"
-            class="block mb-2 text-[13px] font-normal text-gray-900 "
+            className="block mb-2 text-[13px] font-normal text-gray-900 "
           >
             {" "}
             Company name
@@ -323,7 +368,7 @@ const AddProducts = () => {
         <div className="mb-1">
           <label
             for="repeat-password"
-            class="block mb-2 text-[13px] font-normal text-gray-900 "
+            className="block mb-2 text-[13px] font-normal text-gray-900 "
           >
             Dosage From
           </label>
@@ -341,7 +386,7 @@ const AddProducts = () => {
         <div className="mb-1">
           <label
             for="repeat-password"
-            class="block mb-2 text-[13px] font-normal text-gray-900 "
+            className="block mb-2 text-[13px] font-normal text-gray-900 "
           >
             Medicine description
           </label>
@@ -357,7 +402,7 @@ const AddProducts = () => {
 
         {/* medicine stock */}
         <div className="mb-1">
-          <label class="block mb-2 text-[13px] font-normal text-gray-900 ">
+          <label className="block mb-2 text-[13px] font-normal text-gray-900 ">
             {" "}
             Stock
           </label>
@@ -371,9 +416,7 @@ const AddProducts = () => {
           />
         </div>
         <div className="mb-1">
-          <label
-            class="block mb-2 text-[13px] font-normal text-gray-900 "
-          >
+          <label className="block mb-2 text-[13px] font-normal text-gray-900 ">
             {" "}
             Discount (%)
           </label>
@@ -386,47 +429,138 @@ const AddProducts = () => {
             placeholder="Medicine Stock"
           />
         </div>
-        {tags.map((tag, index) => (
-          <div key={index} className="mb-1">
+
+        {/* Seo meta tags started */}
+        <div>
+          <h2 className="border-b border-solid border-gray-300 mb-5 pb-3">
+            Search Engine Optimization
+          </h2>
+          <div className="mb-5">
             <label
-              htmlFor={`tags-${index}`}
               className="block mb-2 text-[13px] font-normal text-gray-900 "
+              htmlFor=""
             >
-              Tags
+              Meta Title
             </label>
-            <div className="flex items-center">
-              <input
-                type="text"
-                id={`tags-${index}`}
-                name={`tags-${index}`}
-                value={tag}
-                onChange={(e) => handleTagsChange(index, e)}
-                className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5    focus:border-blue-500 mr-2"
-                placeholder="Enter tags"
-              />
-              {index > 0 && (
-                <button
-                  type="button"
-                  onClick={() => handleRemoveTagField(index)}
-                  className="px-2 py-1 rounded-lg bg-red-500 text-white text-xs"
+            <input
+              name="metaTitle"
+              value={formData?.metaTitle}
+              onChange={handleChange}
+              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5    focus:border-blue-500"
+              type="text"
+              placeholder="Meta title"
+            />
+          </div>
+          <div className="mb-5 w-full mr-0 md:mr-2">
+            <label className="block mb-2 text-[13px] font-normal text-gray-900">
+              Slug (unique)
+            </label>
+            <input
+              type="text"
+              name="slug"
+              value={formData?.slug}
+              onChange={handleChange}
+              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5 focus:border-none"
+              placeholder="Enter a slug"
+              required
+            />
+          </div>
+          <div className="mb-5">
+            <label
+              className="block mb-2 text-[13px] font-normal text-gray-900 "
+              htmlFor=""
+            >
+              Meta Description
+            </label>
+            <textarea
+              name="metaDescription"
+              value={formData?.metaDescription}
+              onChange={handleChange}
+              rows={7}
+              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 focus:border-blue-500"
+              type="text"
+              placeholder="Meta description"
+            />
+          </div>
+          <div className="mb-5">
+            <label
+              className="block mb-2 text-[13px] font-normal text-gray-900 "
+              htmlFor=""
+            >
+              Meta Image
+            </label>
+            <input
+              onChange={handleChangeMetaImage}
+              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:border-blue-500"
+              type="file"
+              placeholder="Meta description"
+            />
+          </div>
+
+          <div className="mb-5">
+            {/* Canonical  */}
+
+            <label
+              htmlFor="canonical-url"
+              className="block mb-2 text-[13px] font-normal text-gray-900"
+            >
+              Canonical URL
+            </label>
+            <input
+              type="text"
+              id="canonical-url"
+              name="canonicalUrl"
+              value={formData.canonicalUrl}
+              onChange={handleChange}
+              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:border-blue-500"
+              placeholder="Enter Canonical URL"
+            />
+          </div>
+          <div className="mb-5">
+            {tags.map((tag, index) => (
+              <div key={index} className="mb-1">
+                <label
+                  htmlFor={`tags-${index}`}
+                  className="block mb-2 text-[13px] font-normal text-gray-900 "
                 >
-                  Remove
-                </button>
-              )}
+                  Tags
+                </label>
+                <div className="flex items-center">
+                  <input
+                    type="text"
+                    id={`tags-${index}`}
+                    name={`tags-${index}`}
+                    value={tag}
+                    onChange={(e) => handleTagsChange(index, e)}
+                    className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5    focus:border-blue-500 mr-2"
+                    placeholder="Enter tags"
+                  />
+                  {index > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTagField(index)}
+                      className="px-2 py-1 rounded-lg bg-red-500 text-white text-xs"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            <div className="mb-1">
+              <button
+                type="button"
+                onClick={handleAddTagField}
+                className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg mr-2"
+              >
+                Add Tag Field
+              </button>
             </div>
           </div>
-        ))}
-       
-       <div className="mb-1">
-          <button
-            type="button"
-            onClick={handleAddTagField}
-            className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg mr-2"
-          >
-            Add Tag Field
-          </button>
         </div>
 
+        {/* Seo meta tags ended */}
         <div className="text-center pt-3">
           <button
             className="bg-primary hover:bg-lightPrimary text-white  py-2 rounded-lg text-lg w-fit px-8"

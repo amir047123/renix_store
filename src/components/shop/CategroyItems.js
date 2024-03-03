@@ -4,7 +4,6 @@ import { FaPlus } from "react-icons/fa";
 
 const CategoryItems = ({ category }) => {
   const [openSubCategory, setOpenSubCategory] = useState(false);
-  console.log("category",category)
 
   return (
     <div>

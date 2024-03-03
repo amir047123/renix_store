@@ -28,31 +28,30 @@ const BannerSlider = () => {
 
 
   return (
-   <div>
-       <>
-      <Swiper
-        spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper"
-      >
-        {
-          images?.map(i=><SwiperSlide className=' overflow-hidden' key={i?._id}>
-            <img className='w-full' src={i?.sliderImg} alt="img"></img>
-          </SwiperSlide>)
-        }
-        
-      </Swiper>
-    </>
-   </div>
+    <div className="pt-[140px] md:pt-[200px] xl:pt-[112px]">
+      <>
+        <Swiper
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Autoplay, Pagination, Navigation]}
+          className="mySwiper"
+        >
+          {images?.map((i) => (
+            <SwiperSlide className=" overflow-hidden  " key={i?._id}>
+              <img className="w-full" src={i?.sliderImg} alt="img"></img>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </>
+    </div>
   );
 };
 

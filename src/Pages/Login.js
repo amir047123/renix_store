@@ -79,7 +79,7 @@ const Login = () => {
               setToken(
                 addUserData?.data?.phone,
                 addUserData?.data?.role,
-                addUserData?.data,
+                addUserData?.data
               );
               toast.success("You have successfully created an account!");
               setUser(addUserData.data); // Set the 'user' state variable
@@ -96,6 +96,7 @@ const Login = () => {
               userData?.data
             );
             toast.success("You are successfully logged in!");
+
             setUser(userData.data); // Set the 'user' state variable
           }
         } else {
@@ -116,11 +117,11 @@ const Login = () => {
     <div>
       <div className="bg-[#f5f5f5]  overflow-hidden">
         <PageHeader title="My Account" />
-        <div className=" mx-auto max-lg:overflow-x-auto w-full">
+        <div className="  w-full">
           <div className="pt-12 container">
-            <div className="bg-white shadow-custom max-lg:min-w-[900px]">
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="border-r border-solid border-borderColor  py-16 px-10">
+            <div className="bg-white lg:w-1/2 w-full mx-auto shadow-custom  mb-5">
+              <div className="">
+                <div className=" py-16 px-10">
                   <h2 className="font-rubic font-medium text-lg uppercase text-[#333] mb-5">
                     LOGIN
                   </h2>
@@ -184,8 +185,6 @@ const Login = () => {
                       </button>
                     )}
                     {user && <p>OTP verified successfully!</p>}
-                   
-                
                   </div>
                 </div>
               </div>

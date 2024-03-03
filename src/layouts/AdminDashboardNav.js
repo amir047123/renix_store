@@ -1,10 +1,12 @@
 import { Icon } from "@iconify/react";
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import AuthUser from "../Hooks/authUser";
 const AdminDashboardNav = () => {
   const [issideNavOpen, setSidenavOpen] = useState(false);
-
+  const navigate = useNavigate();
+  const { userRole, logout } = AuthUser();
   //show  notice
   const [openNotice, setOpenNotice] = useState(false);
   const [openNotice2, setOpenNotice2] = useState(false);
@@ -19,7 +21,7 @@ const AdminDashboardNav = () => {
   const [openCategory, setOpenCategory] = useState(false);
   const [openInventory, setOpenInventory] = useState(false);
   const [openPrescription, setOpenPrescription] = useState(false);
-  const [openOffline, setOpenOffline] = useState(false);
+  const [openSeo, setOpenSeo] = useState(false);
 
   //show sidenav on toggle
   const handleToggle = () => {
@@ -29,6 +31,29 @@ const AdminDashboardNav = () => {
   let activeStyle = {
     backgroundColor: "#01AEEF",
   };
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is logged in
+    if (!userRole) {
+      // If not logged in, redirect to login page
+      toast.error("Unauthorized access!");
+      navigate("/login");
+      return;
+    }
+
+    // Check if the user is not an admin
+    if (userRole !== "admin") {
+      // If the user is not an admin, show an error message and redirect to another page
+      toast.error("You do not have permission to access this page!");
+      navigate("/adminDashboard"); // or wherever you want to redirect non-admin users
+      return;
+    }
+
+    // If the user is an admin, continue rendering the AdminDashboardNav component
+  }, [userRole, navigate]);
+
   return (
     <ul className="space-y-2 pt-8">
       <li>
@@ -58,7 +83,7 @@ const AdminDashboardNav = () => {
         </NavLink>
       </li>
 
-      <li>
+      {/* <li>
         <span
           onClick={() => setOpenInventory(!openInventory)}
           className="flex items-center justify-between cursor-pointer gap-5 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
@@ -108,9 +133,9 @@ const AdminDashboardNav = () => {
             </NavLink>
           </li>
         </ul>
-      </li>
+      </li> */}
 
-      <li>
+      {/* <li>
         <span
           onClick={() => setOpenPrescription(!openPrescription)}
           className="flex items-center justify-between cursor-pointer gap-5 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
@@ -160,7 +185,7 @@ const AdminDashboardNav = () => {
             </NavLink>
           </li>
         </ul>
-      </li>
+      </li> */}
 
       {/* <li>
         <span
@@ -381,7 +406,7 @@ const AdminDashboardNav = () => {
       {/* Category  */}
 
       {/* Complain */}
-      <li>
+      {/* <li>
         <span
           onClick={() => setOpenComplain(!openComplain)}
           className="flex items-center justify-between cursor-pointer gap-5 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
@@ -436,7 +461,7 @@ const AdminDashboardNav = () => {
             </NavLink>
           </li>
         </ul>
-      </li>
+      </li> */}
 
       {/* order */}
 
@@ -477,7 +502,7 @@ const AdminDashboardNav = () => {
           </li>
         </ul>
       </li>
-
+      {/* 
       <li>
         <span
           onClick={() => setOpenBlog(!openBlog)}
@@ -517,7 +542,7 @@ const AdminDashboardNav = () => {
             </NavLink>
           </li>
         </ul>
-      </li>
+      </li> */}
       {/* frontend */}
       <li>
         <span
@@ -552,31 +577,28 @@ const AdminDashboardNav = () => {
           </li>
           <li onClick={handleToggle}>
             <NavLink
-              to={"updateHowToOrder"}
+              to={"updatesidebarBanner"}
               className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
               style={({ isActive }) => (isActive ? activeStyle : undefined)}
             >
-              <span className="ml-3">Update How to order</span>
+              <span className="ml-3">Update Sidebar Banner</span>
             </NavLink>
           </li>
-         
           <li onClick={handleToggle}>
             <NavLink
-              to={"updateFooter"}
+              to={"partner"}
               className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
               style={({ isActive }) => (isActive ? activeStyle : undefined)}
             >
-              <span className="ml-3">Update Footer</span>
+              <span className="ml-3">Update Partner</span>
             </NavLink>
           </li>
         </ul>
       </li>
 
-      
-
       <li>
         <NavLink
-          to={"request-medicine"}
+          to={"all-news-latter"}
           className="flex items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -584,18 +606,76 @@ const AdminDashboardNav = () => {
             <Icon icon="charm:git-request" />
           </span>
 
-          <span className="">Request Medicine</span>
+          <span className="">Subscribe Email</span>
         </NavLink>
       </li>
-      <li
-         
-        className="flex cursor-pointer items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
-      >
+      <li>
+        <NavLink
+          to={"announcement"}
+          className="flex items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <span className="text-lg">
+            <Icon icon="charm:git-request" />
+          </span>
+
+          <span className="">Announcement</span>
+        </NavLink>
+      </li>
+
+      {/* seo start */}
+
+      <li>
+        <span
+          onClick={() => setOpenSeo(!openSeo)}
+          className="flex items-center justify-between cursor-pointer gap-5 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-lg">
+              <Icon icon="charm:git-request" />
+            </span>
+
+            <span className="">SEO</span>
+          </div>
+          <span
+            className={`text-xl transition_move ${
+              openSeo === true ? "rotate-180" : ""
+            }`}
+          >
+            <Icon icon="mingcute:down-fill" />
+          </span>
+        </span>
+        <ul className={`drop_down  ${openSeo === true ? "block" : "hidden"}`}>
+          <li onClick={handleToggle}>
+            <NavLink
+              to={"seo"}
+              className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              <span className="ml-3">Add Seo</span>
+            </NavLink>
+          </li>
+          <li onClick={handleToggle}>
+            <NavLink
+              to={"allSeo"}
+              className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              <span className="ml-3">All seo list</span>
+            </NavLink>
+          </li>
+        </ul>
+      </li>
+      {/* seo end */}
+
+      <li className="flex cursor-pointer items-center gap-2 px-2 py-2.5 text-[14px] font-normal rounded  text-white hover:bg-primary duration-300">
         <span className="text-lg">
           <Icon icon="tabler:logout" />
         </span>
 
-        <span className="">LogOut</span>
+        <span onClick={logout} className="">
+          LogOut
+        </span>
       </li>
     </ul>
   );

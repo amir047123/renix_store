@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const OrderDetails = () => {
+  const { id } = useParams();
+  const [orderDetails, setOrderDetails] = useState({});
+  useEffect(() => {
+    const getMyOrder = async () => {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/order/getOrdersById/${id}`
+      );
+      const res = await response.json();
+      setOrderDetails(res.data);
+    };
+    getMyOrder();
+  }, [id]);
+  const grandTotal = orderDetails?.products?.reduce(
+    (accumulator, item) => accumulator + item.quantity * item.discountPrice,
+    0
+  );
+
   return (
     <div>
       <p className="text-xs font-openSans mb-3 text-[#333]">
-        Order <mark>#981</mark> was placed on <mark>15 February 2024</mark> and
-        is currently <mark>On hold</mark>.
+        Order <mark>{orderDetails?.tracking_id}</mark> was placed on <mark>  {orderDetails.date ? new Date(orderDetails.date).toLocaleDateString() : ''}
+</mark>{" "}
+        and is currently <mark>{orderDetails?.status}</mark>.
       </p>
       <h4 className="text-base font-openSans  text-[#333]">Order details</h4>
       <table
@@ -29,17 +48,19 @@ const OrderDetails = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th
-              scope="row"
-              className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200   text-primary "
-            >
-              Fresh Organic Mustard Leaves × 1
-            </th>
-            <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200    text-[#333]">
-              15 February 2024
-            </td>
-          </tr>
+          {orderDetails?.products?.map((product) => (
+            <tr key={product._id}>
+              <th
+                scope="row"
+                className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200   text-primary "
+              >
+                {product.name} × {product.quantity}
+              </th>
+              <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200    text-[#333]">
+                {product.quantity * product.discountPrice}
+              </td>
+            </tr>
+          ))}
         </tbody>
         <tfoot>
           <tr>
@@ -50,7 +71,7 @@ const OrderDetails = () => {
               Subtotal:
             </th>
             <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200   text-[#333] ">
-              £6.00
+              {grandTotal}
             </td>
           </tr>
           <tr>
@@ -61,7 +82,7 @@ const OrderDetails = () => {
               Payment method:
             </th>
             <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200   text-[#333] ">
-              Direct bank transfer
+              {orderDetails.onlinePay ? "Online pay" : "Cash on delivery"}
             </td>
           </tr>
           <tr>
@@ -72,7 +93,7 @@ const OrderDetails = () => {
               Total:
             </th>
             <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200   text-[#333] ">
-              £6.00
+              {grandTotal}
             </td>
           </tr>
           <tr>
@@ -83,7 +104,7 @@ const OrderDetails = () => {
               Note:
             </th>
             <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200   text-[#333] ">
-              Dolor suscipit offic
+              {orderDetails?.user?.notes}
             </td>
           </tr>
         </tfoot>
@@ -93,23 +114,24 @@ const OrderDetails = () => {
           Billing address
         </h2>
         <address className=" font-openSans text-sm text-[#999]">
-          Lois Ingram
+      {orderDetails?.user?.firstName}   {orderDetails?.user?.lastName}
           <br />
-          Nichols Cain Trading
+         {orderDetails?.user?.city}
           <br />
-          68 White Old Extension
+          {orderDetails?.user?.postcode}
+<br/>
+
+          {orderDetails?.user?.streetAddress}
           <br />
-          Libero quibusdam vol
+        
+         
+      
+          {orderDetails?.user?.postcode}
           <br />
-          Omnis et aut iste ar
-          <br />
-          FATA
-          <br />
-          MAGNAMAUTVITAESED
-          <br />
-          Pakistan
-          <p className="my-4">+1 (692) 261-2789</p>
-          <p className="">qilenodi@mailinator.com</p>
+       
+          {orderDetails?.user?.country}
+          <p className="my-4">{orderDetails?.user?.phone}</p>
+          <p className="">{orderDetails?.user?.email}</p>
         </address>
       </div>
     </div>
