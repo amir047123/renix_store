@@ -112,14 +112,16 @@ const ProductListsView = ({ product }) => {
               add your Review
             </Link>
           </div>
-          <p
+          {/* <p
             className="py-5"
             dangerouslySetInnerHTML={{
               __html: product?.description
                 ? truncate(product.description, 20)
                 : "",
             }}
-          ></p>
+          ></p> */}
+                    <span className="text-green-500">{product?.discount}% off</span>
+
 
           <p className="font-medium font-rubic text-sm">
             <span className="line-through">৳ {product?.onePiecePrice}</span> ৳{" "}

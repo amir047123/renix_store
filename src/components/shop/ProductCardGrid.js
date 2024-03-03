@@ -121,11 +121,11 @@ const ProductCardGrid = ({ product }) => {
         />
         <p className="font-medium font-rubic text-sm">
           <span className="line-through">৳ {product?.onePiecePrice}</span>{" "}
-          {product?.discount > 0 && (
+   
             <>
               ৳ {discountedPrice} <br />
             </>
-          )}
+     
           <span className="text-green-500">{product?.discount}% off</span>
         </p>
       </div>
