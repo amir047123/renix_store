@@ -18,6 +18,7 @@ import PartnersCarousel from "../PartnersCarousel/PartnersCarousel";
 import Pagination from "../shared/Pagination";
 import useGetSeo from "../../Hooks/useGetSeo";
 import DynamicTitle from "../shared/DynamicTitle";
+import HomeContent from "../Home Description/HomeContent";
 const Shop = () => {
   const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);
@@ -319,10 +320,14 @@ const Shop = () => {
         </div>
       </section>
       <PartnersCarousel />
+      <HomeContent></HomeContent>
       <DynamicTitle
         metaTitle={seoMetaData?.metaTitle}
         metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
+        canonicalUrl={seoMetaData?.canonicalUrl}
+
+
       />
     </div>
   );

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import PageHeader from "../components/ui/PageHeader";
-import Loading from "../shared/Loading";
 import { Link } from "react-router-dom";
 import Rating from "react-rating";
 import { IoIosStar } from "react-icons/io";
-import { FaPlus, FaRegStar } from "react-icons/fa6";
+import { FaRegStar } from "react-icons/fa6";
 import DynamicTitle from "../components/shared/DynamicTitle";
 import useGetSeo from "../Hooks/useGetSeo";
+import Loading from "../shared/Loading";
 
 const ProductChecking = () => {
   const seoMetaData = useGetSeo("product_checking_page");
@@ -15,36 +14,42 @@ const ProductChecking = () => {
   const [searched, setSearched] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!searched || !trackingId) return;
+  const handleSearch = async () => {
+    if (!trackingId) return;
 
-    const getMyOrder = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/v1/product/specific?fieldName=productCode&fieldValue=${trackingId}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch order data");
-        }
-        const res = await response.json();
-        setMyOrder(res.data);
-      } catch (error) {
-        console.error("Error fetching order data:", error.message);
-      } finally {
-        setLoading(false); // Set loading to false after fetch request is completed
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/product/specific?fieldName=productCode&fieldValue=${trackingId}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch order data");
       }
-    };
+      const res = await response.json();
+      setMyOrder(res.data);
 
-    getMyOrder();
-  }, [searched, trackingId]);
+      // Push data to the dataLayer
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "productChecked",
+        products: res.data.map((order) => ({
+          id: order._id,
+          name: order.name,
+          price: order.onePiecePrice,
+          // Add more product attributes as needed
+        })),
+      });
+
+      setSearched(true);
+    } catch (error) {
+      console.error("Error fetching order data:", error.message);
+    } finally {
+      setLoading(false); // Set loading to false after fetch request is completed
+    }
+  };
 
   const handleInputChange = (event) => {
     setTrackingId(event.target.value);
-  };
-
-  const handleSearch = () => {
-    setSearched(true); // Set searched to true when search button is clicked
   };
 
   return (
@@ -53,8 +58,9 @@ const ProductChecking = () => {
         metaTitle={seoMetaData?.metaTitle}
         metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
+        canonicalUrl={seoMetaData?.canonicalUrl}
+
       />
-      {/* <PageHeader /> */}
       <div className="flex flex-col items-center justify-center px-4 mt-10">
         <div className="text-center">
           <h1 className="font-bold uppercase text-3xl text-primary">
@@ -124,18 +130,6 @@ const ProductChecking = () => {
                           <span className="">৳ {order?.onePiecePrice}</span>{" "}
                         </p>
                       </div>
-                      {/* <div
-        className="absolute opacity-0 group-hover:opacity-100 bg-primary hover:bg-secondary duration-200 p-2 rounded-full text-white border-solid border-[3px] border-white -translate-x-1/2 left-1/2 bottom-32 cursor-pointer"
-        // onClick={handleAddToCart}
-      >
-        {cartQuantityNumber?.quantity ? (
-          <span className="w-6 h-6 leading-6 inline-block text-center">
-            {cartQuantityNumber?.quantity}
-          </span>
-        ) : (
-          <FaPlus size={30} />
-        )}
-      </div> */}
                     </div>
                   </p>
                 </li>

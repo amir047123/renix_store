@@ -1,15 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { IoIosStar, IoMdSearch } from "react-icons/io";
-import {
-  FaHeart,
-  FaPlus,
-  FaRegHeart,
-  FaRegStar,
-  FaShoppingCart,
-} from "react-icons/fa";
+import { IoIosStar } from "react-icons/io";
+import { FaHeart, FaRegHeart, FaRegStar, FaShoppingCart } from "react-icons/fa";
 import Rating from "react-rating";
-
 import useGetCartsProduct from "../../Hooks/useGetCartsProduct";
 import AuthUser from "../../Hooks/authUser";
 import { toast } from "react-toastify";
@@ -18,9 +11,7 @@ const ProductCardGrid = ({ product }) => {
   const { userInfo } = AuthUser();
   const userId = userInfo?._id;
   const { cartProducts, setCartProducts } = useGetCartsProduct();
-  const [error, setError] = useState(null);
   const [isInWishlist, setIsInWishlist] = useState(() => {
-  
     const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
     return wishlistItems.some(item => item._id === product._id);
   });
@@ -30,7 +21,6 @@ const ProductCardGrid = ({ product }) => {
 
   const handleAddToCart = () => {
     let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-
     const existingProductIndex = existingCartItems.findIndex(
       (item) => item._id === product._id
     );
@@ -42,6 +32,15 @@ const ProductCardGrid = ({ product }) => {
     }
     setCartProducts([...existingCartItems]);
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+    
+    // Push data to DataLayer
+    window.dataLayer.push({
+      event: "add_to_cart",
+      product_id: product._id,
+      product_name: product.name,
+      product_price: product.onePiecePrice,
+      product_quantity: 1, // Since it's added to cart
+    });
   };
 
   const cartQuantityNumber = cartProducts?.find(
@@ -50,7 +49,6 @@ const ProductCardGrid = ({ product }) => {
 
   const handleAddToWishlist = () => {
     let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
-  
     const existingProductIndex = wishlistItems.findIndex(
       (item) => item._id === product._id
     );
@@ -59,10 +57,24 @@ const ProductCardGrid = ({ product }) => {
       wishlistItems.push(product);
       setIsInWishlist(true); 
       toast.success("Product added to wishlist");
+
+      // Push data to DataLayer
+      window.dataLayer.push({
+        event: "add_to_wishlist",
+        product_id: product._id,
+        product_name: product.name,
+      });
     } else {
       wishlistItems = wishlistItems.filter((item) => item._id !== product._id);
       setIsInWishlist(false); 
       toast.info("Product removed from wishlist");
+
+      // Push data to DataLayer
+      window.dataLayer.push({
+        event: "remove_from_wishlist",
+        product_id: product._id,
+        product_name: product.name,
+      });
     }
   
     localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
@@ -82,22 +94,7 @@ const ProductCardGrid = ({ product }) => {
               />
             </Link>
           </div>
-          {/* <div
-            className="absolute opacity-0 group-hover:opacity-100 bg-primary hover:bg-secondary duration-200 p-2 rounded-full text-white border-solid border-[3px] border-white -translate-x-1/2 left-1/2 bottom-0 cursor-pointer"
-            onClick={handleAddToCart}
-          >
-            {cartQuantityNumber?.quantity ? (
-              <span className="w-6 h-6 leading-6 inline-block text-center">
-                {cartQuantityNumber?.quantity}
-              </span>
-            ) : (
-              <FaPlus size={30} />
-            )}
-          </div> */}
           <div className="absolute flex items-center justify-center gap-2 opacity-100 p-2 rounded-full border-white  right-3 top-5">
-            {/*  <div className="cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white">
-              <IoMdSearch /> 
-            </div>*/}
             <button
               onClick={handleAddToWishlist}
               className={`cursor-pointer bg-white hover:bg-black duration-200 p-2 rounded-full text-black hover:text-white ${
@@ -137,7 +134,7 @@ const ProductCardGrid = ({ product }) => {
           <FaShoppingCart />
           {cartQuantityNumber?.quantity
             ? cartQuantityNumber?.quantity
-            : "Add to cart"}
+            : "কার্টে যোগ করুন"}
         </button>
         <Link
           onClick={handleAddToCart}

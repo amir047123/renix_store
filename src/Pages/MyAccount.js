@@ -45,6 +45,8 @@ const MyAccount = () => {
         metaTitle={seoMetaData?.metaTitle}
         metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
+        canonicalUrl={seoMetaData?.canonicalUrl}
+
       />
       <p className="text-sm text-[#333]">
         Hello{" "}

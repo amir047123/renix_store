@@ -7,7 +7,7 @@ const AdminOrderView = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
-  
+
   useEffect(() => {
     setLoading(true);
     try {
@@ -33,13 +33,37 @@ const AdminOrderView = () => {
         <table className="w-full text-left rounded" cellspacing="0">
           <tbody>
             <tr>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">No</th>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">Name</th>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">Phone</th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                No
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Name
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Phone
+              </th>
 
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">City</th>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">Email</th>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">Street Address</th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Street Address
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Notes
+              </th>
             </tr>
             <tr className="shadow">
               <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
@@ -51,29 +75,59 @@ const AdminOrderView = () => {
               <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
                 {data?.user?.phone}
               </td>
-              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                {data?.user?.city}
-              </td>
-              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                {data?.user?.email}
-              </td>
+
               <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
                 {data?.user?.streetAddress}
+              </td>
+              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
+                {data?.user?.notes}
               </td>
             </tr>
           </tbody>
         </table>
-        <h2 className="text-xl uppercase font-semibold mb-4 mt-4">All Products</h2>
+        <h2 className="text-xl uppercase font-semibold mb-4 mt-4">
+          All Products
+        </h2>
 
         <table className="w-full text-left rounded" cellspacing="0">
           <tbody>
             <tr>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">No</th>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">Image</th>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">Name</th>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">Discount Price</th>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">Original Price</th>
-              <th scope="col" className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100">Quantity</th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                No
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Image
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Name
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Discount Price
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Original Price
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Quantity
+              </th>
             </tr>
             {data?.products?.map((product, index) => (
               <tr key={product.productId} className="shadow">
@@ -81,7 +135,11 @@ const AdminOrderView = () => {
                   {index + 1}
                 </td>
                 <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                  <img className="w-12 border p-1 rounded-md shadow" src={product.img} alt={product.name} />
+                  <img
+                    className="w-12 border p-1 rounded-md shadow"
+                    src={product.img}
+                    alt={product.name}
+                  />
                 </td>
                 <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
                   {product.name}

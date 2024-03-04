@@ -26,13 +26,6 @@ const ProductListsView = ({ product }) => {
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 
-  const truncate = (text, limit) => {
-    if (!text) return "";
-    const words = text.split(" ");
-    const truncated = words.slice(0, limit).join(" ");
-    return truncated + (words.length > limit ? "..." : "");
-  };
-
   useEffect(() => {
     const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
     const found = wishlistItems.some(item => item._id === product._id);
@@ -53,6 +46,15 @@ const ProductListsView = ({ product }) => {
     }
     setCartProducts([...existingCartItems]);
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+    
+    // Push data to DataLayer
+    window.dataLayer.push({
+      event: "add_to_cart",
+      product_id: product._id,
+      product_name: product.name,
+      product_price: product.onePiecePrice,
+      product_quantity: 1, // Since it's added to cart
+    });
   };
 
   const handleAddToWishlist = () => {
@@ -67,10 +69,24 @@ const ProductListsView = ({ product }) => {
       setIsInWishlist(true);
       toast.success("Product added to wishlist");
 
+      // Push data to DataLayer
+      window.dataLayer.push({
+        event: "add_to_wishlist",
+        product_id: product._id,
+        product_name: product.name,
+      });
+
     } else {
       wishlistItems = wishlistItems.filter(item => item._id !== product._id);
       setIsInWishlist(false);
       toast.info("Product removed from wishlist");
+
+      // Push data to DataLayer
+      window.dataLayer.push({
+        event: "remove_from_wishlist",
+        product_id: product._id,
+        product_name: product.name,
+      });
 
     }
     
@@ -112,16 +128,6 @@ const ProductListsView = ({ product }) => {
               add your Review
             </Link>
           </div>
-          {/* <p
-            className="py-5"
-            dangerouslySetInnerHTML={{
-              __html: product?.description
-                ? truncate(product.description, 20)
-                : "",
-            }}
-          ></p> */}
-                    <span className="text-green-500">{product?.discount}% off</span>
-
 
           <p className="font-medium font-rubic text-sm">
             <span className="line-through">৳ {product?.onePiecePrice}</span> ৳{" "}
@@ -135,7 +141,7 @@ const ProductListsView = ({ product }) => {
               <FaShoppingCart />
               {cartQuantityNumber?.quantity
                 ? cartQuantityNumber?.quantity
-                : "Add to cart"}
+                : "কার্টে যোগ করুন"}
             </button>
             <button
               onClick={handleAddToWishlist}
@@ -153,7 +159,8 @@ const ProductListsView = ({ product }) => {
               to={"/checkout"}
               className="inline-block bg-primary text-white rounded-full uppercase text-sm font-openSans font-medium px-4 py-2 hover:bg-textColor transition-all duration-200"
             >
-              buy now
+            অর্ডার করুন
+
             </Link>
           </div>
         </div>

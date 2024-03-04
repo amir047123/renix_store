@@ -394,7 +394,11 @@ const WebNavbar = () => {
                     </p>
                     <ul>
                       {searchResults.map((result) => (
-                        <li key={result.id}>{result.name}</li>
+                        <li key={result.id}>
+                          <Link className=" cursor-pointer" to={`/product/${result.slug}`}>
+                            {result.name}
+                          </Link>
+                        </li>
                       ))}
                     </ul>
                   </div>

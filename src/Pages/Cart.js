@@ -22,6 +22,8 @@ const Cart = ({
         metaTitle={seoMetaData?.metaTitle}
         metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
+        canonicalUrl={seoMetaData?.canonicalUrl}
+
       />
       {/* Search bar */}
       <div className="pr-6 leading-[80px] group flex items-center relative">

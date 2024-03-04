@@ -57,6 +57,11 @@ const ProductDetails = () => {
         setLoading(false);
       });
   }, [id]);
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top when component mounts
+  }, []);
+
+ 
 
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
@@ -88,6 +93,14 @@ const ProductDetails = () => {
 
     // Update the cart items in local storage
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+       // Push data to DataLayer
+       window.dataLayer.push({
+        event: "add_to_cart",
+        product_id: product._id,
+        product_name: product.name,
+        product_price: product.onePiecePrice,
+        product_quantity: productQuantity?.quantity || 1,
+      });
   };
   const handleIncreaseCartItem = () => {
     setCount((prev) => {
@@ -130,6 +143,7 @@ const ProductDetails = () => {
       localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
       setCartProducts([...existingCartItems]);
     }
+ 
   };
 
   // Function to share product on Facebook
@@ -202,16 +216,33 @@ const ProductDetails = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Push data to dataLayer when product changes
+    if (product) {
+      window.dataLayer.push({
+        event: "view_product",
+        product_id: product._id,
+        product_name: product.name,
+        product_category: product.category,
+        product_price: product.onePiecePrice,
+        product_discounted_price: discountedPrice,
+        product_quantity: productQuantity?.quantity || 1,
+      });
+    }
+  }, [product, discountedPrice, productQuantity]);
+
   if (loading) {
     return <Loading />;
   }
 
+  console.log("metaescription",product?.metaDescription)
   return (
     <div className=" mt-12 container ">
       <DynamicTitle
         metaTitle={product?.metaTitle}
         metaImage={product?.metaImage}
         metaDescription={product?.metaDescription}
+        canonicalUrl={product?.canonicalUrl}
       />
       {/* product details */}
       <div className="flex md:flex-row flex-col bg-white p-5 shadow-custom gap-8">
@@ -298,14 +329,15 @@ const ProductDetails = () => {
               onClick={handleAddToCart}
               className="uppercase bg-secondary hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
             >
-              add to cart
+            কার্টে যোগ করুন
+
             </button>
             <Link
               to={"/checkout"}
               onClick={handleAddToCart}
               className="uppercase bg-secondary hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
             >
-              Buy now
+             অর্ডার করুন
             </Link>
           </div>
 

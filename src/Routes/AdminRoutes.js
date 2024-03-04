@@ -1,3 +1,5 @@
+import AdminAllBlog from "../components/ui/AdminDashboard/AdminBlog/AdminAllBlog";
+import AdminBlog from "../components/ui/AdminDashboard/AdminBlog/AdminBlog";
 import AdminDashboardSliderImg from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminDashboardSliderImg";
 import AdminPartner from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminPartner";
 import AdminSideBarBanner from "../components/ui/AdminDashboard/AdminDashboardSliderImg/AdminSideBarBanner";
@@ -52,6 +54,10 @@ const AdminRoutes = [
   { path: "seo", Component: AdminSeo },
   { path: "allSeo", Component: AdminAllSeoList },
   { path: "updateSeo/:id", Component: AdminUpdateSeoList },
+
+  { path: "add-home-content", Component: AdminBlog },
+  { path: "all-home-content", Component: AdminAllBlog },
+  { path: "update-home-content/:id", Component: AdminBlog },
 ];
 
 export default AdminRoutes;

@@ -173,6 +173,8 @@ const WishlistPage = () => {
         metaTitle={seoMetaData?.metaTitle}
         metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
+        canonicalUrl={seoMetaData?.canonicalUrl}
+
       />
       <div className="mx-auto max-lg:overflow-x-auto w-full">
         <div className="pt-12 container">

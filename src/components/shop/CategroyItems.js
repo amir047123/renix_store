@@ -5,6 +5,17 @@ import { FaPlus } from "react-icons/fa";
 const CategoryItems = ({ category }) => {
   const [openSubCategory, setOpenSubCategory] = useState(false);
 
+  const handleToggleSubCategory = () => {
+    setOpenSubCategory(!openSubCategory);
+    
+    // Push category data to the dataLayer
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "toggleSubCategory",
+      category: category
+    });
+  };
+
   return (
     <div>
       <ul className="flex flex-col gap-3 relative">
@@ -20,7 +31,6 @@ const CategoryItems = ({ category }) => {
             style={{
               transition: "max-height 0.5s ease-in-out",
               maxHeight: openSubCategory ? "1000px" : "0",
-
               overflow: "hidden",
             }}
           >
@@ -47,7 +57,7 @@ const CategoryItems = ({ category }) => {
           {category.subCategory && (
             <FaPlus
               className="absolute right-5 top-4 cursor-pointer"
-              onClick={() => setOpenSubCategory(!openSubCategory)}
+              onClick={handleToggleSubCategory}
             />
           )}
         </li>

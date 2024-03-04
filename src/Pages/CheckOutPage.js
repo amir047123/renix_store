@@ -18,10 +18,12 @@ const CheckOutPage = () => {
   const [coupon, setCoupon] = useState("");
   const [openCupponField, setOpenCupponField] = useState(false);
   const [newUser, setNewUser] = useState(false);
-  const [selectedPayment, setSelectedPayment] = useState("bank");
+  const [selectedPayment, setSelectedPayment] = useState("cash");
   const [appliedCoupon, setAppliedCoupon] = useState([]);
   const [shippingInfo, setShippingInfo] = useState({});
-
+  const [selectedDeliveryArea, setSelectedDeliveryArea] = useState("");
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [shippingCharge, setShippingCharge] = useState(0);
   useEffect(() => {
     // Load applied coupons from localStorage
     const storedCoupons = localStorage.getItem("appliedCoupons");
@@ -33,7 +35,18 @@ const CheckOutPage = () => {
     let isChecked = e.target.checked;
     setNewUser(isChecked);
   };
+  useEffect(() => {
+    const calculateTotalAmount = () => {
+      const tax = (total * (+shippingInfo?.tax || 0)) / 100;
+      const shippingCharge = shippingInfo?.[selectedDeliveryArea] || 0; // Define shippingCharge here
+      setShippingCharge(shippingCharge);
+      const newTotalAmount =
+        tax + parseFloat(total) + parseFloat(shippingCharge);
+      setTotalAmount(newTotalAmount.toFixed(2));
+    };
 
+    calculateTotalAmount();
+  }, [selectedDeliveryArea, total, shippingInfo]);
   const handlePaymentOnChange = (event) => {
     setSelectedPayment(event.target.id);
   };
@@ -44,11 +57,12 @@ const CheckOutPage = () => {
     formState: { errors },
   } = useForm();
 
-  // total amount add tax shhiping charge
-  const tax = (total * (+shippingInfo?.tax || 0)) / 100;
+ 
+  // // total amount add tax shhiping charge
+  // const tax = (total * (+shippingInfo?.tax || 0)) / 100;
+  // const shippingCharge = shippingInfo?.[selectedDeliveryArea] || 0;
 
-  const totalAmount =
-    tax + parseFloat(total) + parseFloat(shippingInfo?.outsideDhaka);
+  // const totalAmount = tax + parseFloat(total) + parseFloat(shippingCharge);
   // order data submit
   const onSubmit = async (data) => {
     try {
@@ -103,7 +117,6 @@ const CheckOutPage = () => {
         email: data.email,
         notes: data.notes,
         password: data.password,
-        phone: data.phone,
         postcode: data.postcode,
         streetAddress: data.streetAddress,
         displayName: data.userName,
@@ -139,6 +152,26 @@ const CheckOutPage = () => {
       } else {
         console.log("Cash on delivery selected");
       }
+
+      // Push data to GTM data layer
+      window.dataLayer.push({
+        event: "purchase",
+        ecommerce: {
+          checkout: {
+            actionField: { step: 1, option: selectedPayment },
+            products: cartProducts.map((product) => ({
+              id: product._id,
+              name: product.name,
+              price: product.discountedPrice,
+              quantity: product.quantity,
+            })),
+          },
+          currencyCode: "BDT", // Add currency code if needed
+          total: totalAmount.toFixed(2), // Total amount including tax and shipping charge
+          shipping: shippingCharge.toFixed(2), // Shipping charge
+          tax: ((total * (+shippingInfo?.tax || 0)) / 100).toFixed(2), // Tax
+        },
+      });
     } catch (error) {
       console.error("Error placing order:", error);
     }
@@ -181,7 +214,42 @@ const CheckOutPage = () => {
     };
     fetchShippingData();
   }, []);
-  console.log(shippingInfo);
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top when component mounts
+  }, []);
+
+
+  useEffect(() => {
+    // Extract necessary data for products from cartProducts
+    const productsData = cartProducts.map((product) => ({
+      id: product._id,
+      name: product.name,
+      price: product.discountedPrice,
+      quantity: product.quantity,
+    }));
+  
+    // Calculate total amount including tax and shipping charge
+    const tax = (total * (+shippingInfo?.tax || 0)) / 100;
+    const totalAmount =
+      tax + parseFloat(total) + parseFloat(shippingCharge);
+  
+    // Push data to GTM Data Layer
+    window.dataLayer.push({
+      event: "begin_checkout",
+      ecommerce: {
+        currencyCode: "BDT", // Add currency code if needed
+        checkout: {
+          actionField: { step: 1 },
+          products: productsData,
+        },
+        total: totalAmount.toFixed(2), // Total amount including tax and shipping charge
+        shipping: shippingCharge.toFixed(2), // Shipping charge
+        tax: tax.toFixed(2), // Tax
+      },
+    });
+  }, [cartProducts, total, shippingInfo, shippingCharge]); // Dependency array includes relevant state variables
+  
+
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <DynamicTitle
@@ -262,16 +330,17 @@ const CheckOutPage = () => {
                     {/* First name */}
                     <div className="mb-4">
                       <label className="mb-2 inline-block" htmlFor="firstName">
-                        First name <span className="text-secondary">*</span>
+                         নাম
+                        <span className="text-secondary">*</span>
                       </label>
 
                       <input
                         {...register("firstName", { required: true })}
                         id="firstName"
                         name="firstName"
+                        placeholder="আপনার নাম"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
-                        defaultValue={data?.firstName}
                       />
                       {errors.firstName && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -279,76 +348,15 @@ const CheckOutPage = () => {
                         </span>
                       )}
                     </div>
-                    {/* Last name */}
-                    <div className="mb-4">
-                      <label className="mb-2 inline-block" htmlFor="lastName">
-                        Last name <span className="text-secondary">*</span>
-                      </label>
 
-                      <input
-                        {...register("lastName", { required: true })}
-                        id="lastName"
-                        name="lastName"
-                        className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                        type="text"
-                        defaultValue={data?.lastName}
-                      />
-                      {errors.lastName && (
-                        <span className="text-xs text-red-500 font-semibold mt-1">
-                          This field is required
-                        </span>
-                      )}
-                    </div>
-                    {/* Company name */}
-                    <div className="mb-4">
-                      <label className="mb-2 inline-block" htmlFor="company">
-                        Company name (optional)
-                      </label>
-
-                      <input
-                        {...register("company")}
-                        id="company"
-                        name="company"
-                        className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                        type="text"
-                        defaultValue={data?.company}
-                      />
-                    </div>
-                    {/* Country  */}
-                    <div className="mb-4">
-                      <label className="mb-2 inline-block" htmlFor="country">
-                        Country / Region{" "}
-                        <span className="text-secondary">*</span>
-                      </label>
-
-                      <select
-                        {...register("country", { required: true })}
-                        value={"United"}
-                        id="country"
-                        className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                        name="country"
-                        defaultValue={data?.country}
-                      >
-                        <option value="bd"> Bangladesh</option>
-                        <option value="india"> India</option>
-                        <option selected value="Usa">
-                          {" "}
-                          United States
-                        </option>
-                      </select>
-                      {errors.country && (
-                        <span className="text-xs text-red-500 font-semibold mt-1">
-                          This field is required
-                        </span>
-                      )}
-                    </div>
                     {/* Street address */}
                     <div className="mb-4">
                       <label
                         className="mb-2 inline-block"
                         htmlFor="streetAddress"
                       >
-                        Street address <span className="text-secondary">*</span>
+                         সম্পূর্ণ ঠিকানা
+                        <span className="text-secondary">*</span>
                       </label>
 
                       <input
@@ -356,69 +364,22 @@ const CheckOutPage = () => {
                         id="streetAddress"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
-                        placeholder="House number and street name"
+                        placeholder="আপনার সম্পূর্ণ ঠিকানা"
                         name="streetAddress"
-                        defaultValue={data?.streetAddress}
                       />
                       {errors.streetAddress && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
                           This field is required
                         </span>
                       )}
-                      <input
-                        {...register("apartment")}
-                        className="w-full mt-3 py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                        type="text"
-                        placeholder="Apartment, suite, unit, etc. (optional)"
-                        name="apartment"
-                        defaultValue={data?.apartment}
-                      />
                     </div>
                     {/* Town / City  */}
-                    <div className="mb-4">
-                      <label className="mb-2 inline-block" htmlFor="city">
-                        Town / City <span className="text-secondary">*</span>
-                      </label>
 
-                      <input
-                        {...register("city", { required: true })}
-                        id="city"
-                        className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                        type="text"
-                        name="city"
-                        defaultValue={data?.city}
-                      />
-                      {errors.city && (
-                        <span className="text-xs text-red-500 font-semibold mt-1">
-                          This field is required
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Postcode  */}
-                    <div className="mb-4">
-                      <label className="mb-2 inline-block" htmlFor="postcode">
-                        Postcode <span className="text-secondary">*</span>
-                      </label>
-
-                      <input
-                        {...register("postcode", { required: true })}
-                        id="postcode"
-                        className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                        type="text"
-                        name="postcode"
-                        defaultValue={data?.postcode}
-                      />
-                      {errors.postcode && (
-                        <span className="text-xs text-red-500 font-semibold mt-1">
-                          This field is required
-                        </span>
-                      )}
-                    </div>
                     {/* Phone   */}
                     <div className="mb-4">
                       <label className="mb-2 inline-block" htmlFor="phone">
-                        Phone <span className="text-secondary">*</span>
+                         মোবাইল নাম্বার
+                        <span className="text-secondary">*</span>
                       </label>
 
                       <input
@@ -427,8 +388,7 @@ const CheckOutPage = () => {
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
                         type="text"
                         name="phone"
-                        defaultValue={data?.phone}
-                        disabled
+                        placeholder="আপনার মোবাইল নাম্বার"
                       />
                       {errors.phone && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
@@ -436,26 +396,41 @@ const CheckOutPage = () => {
                         </span>
                       )}
                     </div>
-                    {/* Email address   */}
                     <div className="mb-4">
-                      <label className="mb-2 inline-block" htmlFor="email">
-                        Email address <span className="text-secondary">*</span>
+                      <label
+                        className="mb-2 inline-block"
+                        htmlFor="deliveryArea"
+                      >
+                       ডেলিভারি এলাকা
+                        <span className="text-secondary">*</span>
                       </label>
-
-                      <input
-                        {...register("email", { required: true })}
-                        id="email"
+                      <select
+                        value={selectedDeliveryArea}
+                        onChange={(e) =>
+                          setSelectedDeliveryArea(e.target.value)
+                        }
+                        required
+                        id="deliveryArea"
                         className="w-full py-3 px-5 rounded-full border border-solid border-borderColor outline-0"
-                        type="text"
-                        name="email"
-                        defaultValue={data?.email}
-                      />
-                      {errors.email && (
+                      >
+                        <option value="">ডেলিভারি এলাকা নির্বাচন করুন</option>
+                        <option value="insideDhaka">
+                          ঢাকার ভিতর ডেলিভারি চার্জ {shippingInfo?.insideDhaka}{" "}
+                          টাকা{" "}
+                        </option>
+                        <option value="outsideDhaka">
+                          ঢাকার বাহিরে ডেলিভারি চার্জ{" "}
+                          {shippingInfo?.outsideDhaka} টাকা
+                        </option>
+                        {/* Add other delivery areas as options */}
+                      </select>
+                      {errors.deliveryArea && (
                         <span className="text-xs text-red-500 font-semibold mt-1">
                           This field is required
                         </span>
                       )}
                     </div>
+
                     {/* Create an account */}
                   </div>
                   {/* additonal notes */}
@@ -464,7 +439,7 @@ const CheckOutPage = () => {
                       ADDITIONAL INFORMATION
                     </h2>
                     <label className="mb-2 inline-block" htmlFor="notes">
-                      Order notes (optional)
+                      স্পেশাল নোট (optional)
                     </label>
                     <textarea
                       {...register("notes")}
@@ -474,7 +449,6 @@ const CheckOutPage = () => {
                       cols="2"
                       rows="2"
                       placeholder="Notes about your order, e.g. special notes for delivery."
-                      defaultValue={data?.notes}
                     ></textarea>
                   </div>
                 </div>
@@ -523,10 +497,9 @@ const CheckOutPage = () => {
                         <div className="col-span-2 p-3 border-solid border-r border-borderColor">
                           Shipping charge
                         </div>
-                        <div className="col-span-1 p-3">
-                          ৳ {shippingInfo?.outsideDhaka}
-                        </div>
+                        <div className="col-span-1 p-3">৳ {shippingCharge}</div>
                       </div>
+
                       {/* Tax */}
                       <div className="grid grid-cols-3 border-solid border-b border-borderColor">
                         <div className="col-span-2 p-3 border-solid border-r border-borderColor">
@@ -541,15 +514,36 @@ const CheckOutPage = () => {
                         <div className="col-span-2 p-3 border-solid border-r border-borderColor">
                           Total
                         </div>
-                        <div className="col-span-1 p-3">
-                          ৳ {totalAmount.toFixed(2)}
-                        </div>
+                        <div className="col-span-1 p-3">৳ {totalAmount}</div>
                       </div>
                     </div>
                   </div>
                   {/* Payment method */}
                   <div className="mt-6">
                     <div>
+                        <div className="">
+                        <input
+                          type="radio"
+                          name="payment"
+                          id="cash"
+                          onChange={handlePaymentOnChange}
+                          checked={selectedPayment === "cash"}
+                        />
+                        <label
+                          className="mb-2 inline-block ml-2"
+                          htmlFor="cash"
+                        >
+                          Cash on delivery
+                        </label>
+                        <p
+                          className={` transition-all duration-200 ${
+                            selectedPayment === "cash"
+                              ? "pt-1 pb-5 max-h-96 "
+                              : "py-0 invisible max-h-0"
+                          }`}
+                        >
+                          Pay with cash upon delivery.
+                        </p>
                       <div className="relative">
                         <input
                           onChange={handlePaymentOnChange}
@@ -577,31 +571,8 @@ const CheckOutPage = () => {
                           cleared in our account.
                         </p>
                       </div>
-                      <div className="">
-                        <input
-                          type="radio"
-                          name="payment"
-                          id="cash"
-                          onChange={handlePaymentOnChange}
-                          checked={selectedPayment === "cash"}
-                        />
-                        <label
-                          className="mb-2 inline-block ml-2"
-                          htmlFor="cash"
-                        >
-                          Cash on delivery
-                        </label>
-                        <p
-                          className={` transition-all duration-200 ${
-                            selectedPayment === "cash"
-                              ? "pt-1 pb-5 max-h-96 "
-                              : "py-0 invisible max-h-0"
-                          }`}
-                        >
-                          Pay with cash upon delivery.
-                        </p>
+                    
                       </div>
-                      {/* <p>Selected Payment Option: {selectedPayment}</p> */}
                     </div>
                     <p className="mt-5">
                       Your personal data will be used to process your order,
@@ -609,10 +580,11 @@ const CheckOutPage = () => {
                       other purposes described in our privacy policy.
                     </p>
                   </div>
+
                   {/* button order */}
                   <div>
                     <button className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-8">
-                      Place order
+                    অর্ডার করুন
                     </button>
                   </div>
                 </div>
