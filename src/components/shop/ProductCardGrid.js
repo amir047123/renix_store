@@ -144,7 +144,7 @@ const ProductCardGrid = ({ product }) => {
           to={"/checkout"}
           className="inline-block bg-primary text-white rounded-full uppercase text-sm font-openSans font-medium px-4 py-2 hover:bg-textColor transition-all duration-200"
         >
-          buy now
+        অর্ডার করুন
         </Link>
       </div>
     </div>
