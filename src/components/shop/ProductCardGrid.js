@@ -83,12 +83,12 @@ const ProductCardGrid = ({ product }) => {
 
   return (
     <div className="bg-white group pb-6 relative border-r flex flex-col px-2 border-b last:border-r-0  border-solid border-borderColor ">
-      <div className="text-center max-h-96 h-full">
+      <div className="text-center ">
         <div className="relative overflow-hidden">
           <div>
             <Link to={`/product/${product?.slug}`}>
               <img
-                className="mx-auto h-full group-hover:scale-125 transition-all duration-200"
+                className="mx-auto max-h-96 h-full  group-hover:scale-125 transition-all duration-200"
                 src={product?.img}
                 alt=""
               />

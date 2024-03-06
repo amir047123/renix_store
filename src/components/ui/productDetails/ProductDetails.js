@@ -220,7 +220,7 @@ const ProductDetails = () => {
     // Push data to dataLayer when product changes
     if (product) {
       window.dataLayer.push({
-        event: "view_product",
+        event: "view_item",
         product_id: product._id,
         product_name: product.name,
         product_category: product.category,
@@ -335,7 +335,7 @@ const ProductDetails = () => {
             <Link
               to={"/checkout"}
               onClick={handleAddToCart}
-              className="uppercase bg-secondary hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
+              className="uppercase bg-secondary text-center hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
             >
              অর্ডার করুন
             </Link>
