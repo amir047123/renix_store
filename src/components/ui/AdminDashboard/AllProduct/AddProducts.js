@@ -154,6 +154,8 @@ const AddProducts = () => {
           Add Product
         </h1>
       </div>
+
+    
       <form
         onSubmit={handleSubmit}
         className=" shadow-gray-300 px-8 py-10 rounded flex flex-col gap-4 text-left"

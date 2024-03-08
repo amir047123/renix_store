@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
+import DynamicTitle from "../shared/DynamicTitle";
 
 const CategoryItems = ({ category }) => {
   const [openSubCategory, setOpenSubCategory] = useState(false);
@@ -18,6 +19,14 @@ const CategoryItems = ({ category }) => {
 
   return (
     <div>
+        <DynamicTitle
+        metaTitle={category?.metaTitle}
+        metaImage={category?.metaImage}
+        metaDescription={category?.metaDescription}
+        canonicalUrl={category?.canonicalUrl}
+
+
+      />
       <ul className="flex flex-col gap-3 relative">
         <li className="relative border-b border-solid border-borderColor px-5">
           <Link

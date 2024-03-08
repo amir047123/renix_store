@@ -23,7 +23,7 @@ const PublicRoutes = [
   { path: "/checkout", Component: CheckOutPage },
   { path: "/login", Component: Login },
   { path: "/tracking-order", Component: TrackingOrder },
-  { path: "/category", Component: Category },
+  { path: "/category/:id", Component: Category },
   { path: "/product-checking", Component: ProductChecking },
   { path: "wishlist", Component: WishlistPage },
 

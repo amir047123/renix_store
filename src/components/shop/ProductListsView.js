@@ -129,10 +129,16 @@ const ProductListsView = ({ product }) => {
             </Link>
           </div>
 
-          <p className="font-medium font-rubic text-sm">
-            <span className="line-through">৳ {product?.onePiecePrice}</span> ৳{" "}
-            {discountedPrice}
-          </p>
+          <div className="font-medium font-rubic text-sm">
+      {product.discount ? (
+        <>
+          <span className="line-through">৳ {product?.onePiecePrice}</span> ৳{" "}
+          {discountedPrice}
+        </>
+      ) : (
+        <>৳ {product?.onePiecePrice}</>
+      )}
+    </div>
           <div className="mt-6 flex flex-col md:flex-row items-center gap-4">
             <button
               onClick={handleAddToCart}
@@ -152,7 +158,7 @@ const ProductListsView = ({ product }) => {
               } px-5 py-3 font-medium font-rubic uppercase duration-200 text-sm rounded-full`}
             >
               {isInWishlist ? <FaHeart /> : <FaRegHeart />}
-              {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+              {isInWishlist ? " ইচ্ছেতালিকা অপসারণ করুন" : "ইচ্ছেতালিকায় যোগ করুন"}
             </button>
             <Link
               onClick={handleAddToCart}

@@ -9,6 +9,7 @@ import AdminAllSeoList from "../components/ui/AdminDashboard/AdminSeo/AdminAllSe
 import AdminSeo from "../components/ui/AdminDashboard/AdminSeo/AdminSeo";
 import AdminUpdateSeoList from "../components/ui/AdminDashboard/AdminSeo/AdminUpdateSeoList";
 import AdminShipping from "../components/ui/AdminDashboard/AdminShipping/AdminShipping";
+import AddProductFaq from "../components/ui/AdminDashboard/AllProduct/AddProductFaq";
 import AddProducts from "../components/ui/AdminDashboard/AllProduct/AddProducts";
 import AdminUpdateProduct from "../components/ui/AdminDashboard/AllProduct/AdminUpdateProduct";
 import AllProduct from "../components/ui/AdminDashboard/AllProduct/AllProduct";
@@ -58,6 +59,9 @@ const AdminRoutes = [
   { path: "add-home-content", Component: AdminBlog },
   { path: "all-home-content", Component: AdminAllBlog },
   { path: "update-home-content/:id", Component: AdminBlog },
+
+  { path: "product-faq/:id", Component: AddProductFaq },
+
 ];
 
 export default AdminRoutes;

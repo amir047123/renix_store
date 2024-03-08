@@ -276,23 +276,24 @@ const Shop = () => {
                   </div>
 
                   {isGrid ? (
-                    <div className="grid   grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
-                      {id
-                        ? filterByPrice?.length > 0
-                          ? filterByPrice?.map((product, index) => (
-                              <ProductCardGrid key={index} product={product} />
-                            ))
-                          : product?.map((product, index) => (
-                              <ProductCardGrid key={index} product={product} />
-                            ))
-                        : filterByPrice?.length > 0
-                        ? filterByPrice?.map((product, index) => (
-                            <ProductCardGrid key={index} product={product} />
-                          ))
-                        : data?.map((product, index) => (
-                            <ProductCardGrid key={index} product={product} />
-                          ))}
-                    </div>
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                   {id
+                     ? filterByPrice?.length > 0
+                       ? filterByPrice?.reverse().map((product, index) => (
+                           <ProductCardGrid key={index} product={product} />
+                         ))
+                       : product?.reverse().map((product, index) => (
+                           <ProductCardGrid key={index} product={product} />
+                         ))
+                     : filterByPrice?.length > 0
+                     ? filterByPrice?.reverse().map((product, index) => (
+                         <ProductCardGrid key={index} product={product} />
+                       ))
+                     : data?.reverse().map((product, index) => (
+                         <ProductCardGrid key={index} product={product} />
+                       ))}
+                 </div>
+                 
                   ) : (
                     <div className=" py-4">
                       {filterByPrice?.length > 0

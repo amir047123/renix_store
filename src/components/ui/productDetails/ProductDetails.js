@@ -21,6 +21,7 @@ import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 import RelatedProductCard from "../../shop/RelatedProductCard";
 import Loading from "../../../shared/Loading";
 import DynamicTitle from "../../shared/DynamicTitle";
+import ProductFAQ from "./ProductFAQ";
 const ProductDetails = () => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
 
@@ -61,8 +62,6 @@ const ProductDetails = () => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
 
- 
-
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 
@@ -93,14 +92,14 @@ const ProductDetails = () => {
 
     // Update the cart items in local storage
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
-       // Push data to DataLayer
-       window.dataLayer.push({
-        event: "add_to_cart",
-        product_id: product._id,
-        product_name: product.name,
-        product_price: product.onePiecePrice,
-        product_quantity: productQuantity?.quantity || 1,
-      });
+    // Push data to DataLayer
+    window.dataLayer.push({
+      event: "add_to_cart",
+      product_id: product._id,
+      product_name: product.name,
+      product_price: product.onePiecePrice,
+      product_quantity: productQuantity?.quantity || 1,
+    });
   };
   const handleIncreaseCartItem = () => {
     setCount((prev) => {
@@ -143,7 +142,6 @@ const ProductDetails = () => {
       localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
       setCartProducts([...existingCartItems]);
     }
- 
   };
 
   // Function to share product on Facebook
@@ -235,7 +233,7 @@ const ProductDetails = () => {
     return <Loading />;
   }
 
-  console.log("metaescription",product?.metaDescription)
+  console.log("metaescription", product?.metaDescription);
   return (
     <div className=" mt-12 container ">
       <DynamicTitle
@@ -291,16 +289,22 @@ const ProductDetails = () => {
               (1 customer review)
             </span>
           </div>
-          <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5  line-through ">
-            ৳ {product?.onePiecePrice}
-          </h2>
-          <p className="border border-solid border-borderColor inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
+        
+          <p className="border border-solid mt-3 border-borderColor inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
             {product?.companyName}
           </p>
 
           <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5">
-            ৳ {discountedPrice}
+            {product?.discount ? (
+              <>
+                <span className="line-through">৳ {product?.onePiecePrice}</span>{" "}
+                ৳ {discountedPrice}
+              </>
+            ) : (
+              <>৳ {product?.onePiecePrice}</>
+            )}
           </h2>
+
           <div className="flex md:flex-row flex-col gap-5">
             <div className="flex w-[150px]  items-center border border-solid border-borderColor rounded-full ">
               <div
@@ -329,15 +333,14 @@ const ProductDetails = () => {
               onClick={handleAddToCart}
               className="uppercase bg-secondary hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
             >
-            কার্টে যোগ করুন
-
+              কার্টে যোগ করুন
             </button>
             <Link
               to={"/checkout"}
               onClick={handleAddToCart}
               className="uppercase bg-secondary text-center hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
             >
-             অর্ডার করুন
+              অর্ডার করুন
             </Link>
           </div>
 
@@ -409,11 +412,23 @@ const ProductDetails = () => {
           >
             <span className="mt-1 inline-block"> Reviews </span>
           </div>
+          <div
+            className={`px-5 py-3 rounded-tr-lg rounded-tl-lg  font-rubic font-medium text-sm uppercase ${
+              activeTab === 4
+                ? "bg-primary text-white "
+                : "bg-[#efecec] text-[#292929] hover:bg-white"
+            }`}
+            onClick={() => handleTabClick(4)}
+          >
+            <span className="mt-1 inline-block"> FAQ </span>
+          </div>
         </div>
         <div className="tab-content">
           {activeTab === 1 && <Description product={product} />}
           {activeTab === 2 && <AdditionalInfo product={product} />}
           {activeTab === 3 && <Reviews product={product} />}
+          {activeTab === 4 && <ProductFAQ product={product} />}
+
         </div>
       </div>
       {/* Related products */}

@@ -166,7 +166,7 @@ function AllProduct() {
               scope="col"
               className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
             >
-              Pieces Price
+            Price
             </th>
             <th
               scope="col"
@@ -235,7 +235,11 @@ function AllProduct() {
                 >
                   <Icon icon="material-symbols:delete-outline" />
                 </div>
-
+                <Link to={`/adminDashboard/product-faq/${product._id}`}>
+                  <div className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300">
+                    <Icon icon="flat-color-icons:faq"></Icon>
+                  </div>
+                </Link>
                 <Link to={`/adminDashboard/updateProducts/${product._id}`}>
                   <div className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300">
                     <Icon icon="uil:edit"></Icon>

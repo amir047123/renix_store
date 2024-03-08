@@ -12,10 +12,11 @@ const ProductCardGrid = ({ product }) => {
   const userId = userInfo?._id;
   const { cartProducts, setCartProducts } = useGetCartsProduct();
   const [isInWishlist, setIsInWishlist] = useState(() => {
-    const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
-    return wishlistItems.some(item => item._id === product._id);
+    const wishlistItems =
+      JSON.parse(localStorage.getItem("wishlistItems")) || [];
+    return wishlistItems.some((item) => item._id === product._id);
   });
-  
+
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 
@@ -32,7 +33,7 @@ const ProductCardGrid = ({ product }) => {
     }
     setCartProducts([...existingCartItems]);
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
-    
+
     // Push data to DataLayer
     window.dataLayer.push({
       event: "add_to_cart",
@@ -52,10 +53,10 @@ const ProductCardGrid = ({ product }) => {
     const existingProductIndex = wishlistItems.findIndex(
       (item) => item._id === product._id
     );
-  
+
     if (existingProductIndex === -1) {
       wishlistItems.push(product);
-      setIsInWishlist(true); 
+      setIsInWishlist(true);
       toast.success("Product added to wishlist");
 
       // Push data to DataLayer
@@ -66,7 +67,7 @@ const ProductCardGrid = ({ product }) => {
       });
     } else {
       wishlistItems = wishlistItems.filter((item) => item._id !== product._id);
-      setIsInWishlist(false); 
+      setIsInWishlist(false);
       toast.info("Product removed from wishlist");
 
       // Push data to DataLayer
@@ -76,10 +77,9 @@ const ProductCardGrid = ({ product }) => {
         product_name: product.name,
       });
     }
-  
+
     localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
   };
-  
 
   return (
     <div className="bg-white group pb-6 relative border-r flex flex-col px-2 border-b last:border-r-0  border-solid border-borderColor ">
@@ -117,13 +117,15 @@ const ProductCardGrid = ({ product }) => {
           readonly
         />
         <p className="font-medium font-rubic text-sm">
-          <span className="line-through">৳ {product?.onePiecePrice}</span>{" "}
-   
+          {product.discount ? (
             <>
-              ৳ {discountedPrice} <br />
+              <span className="line-through">৳ {product?.onePiecePrice}</span>৳{" "}
+              {discountedPrice} <br />
+              <span className="text-green-500">{product?.discount}% off</span>
             </>
-     
-          <span className="text-green-500">{product?.discount}% off</span>
+          ) : (
+            <>৳ {product?.onePiecePrice}</>
+          )}
         </p>
       </div>
       <div className="text-center mt-4 flex items-center justify-center gap-3 ">
@@ -141,7 +143,7 @@ const ProductCardGrid = ({ product }) => {
           to={"/checkout"}
           className="inline-block bg-primary text-white rounded-full uppercase text-sm font-openSans font-medium px-4 py-2 hover:bg-textColor transition-all duration-200"
         >
-        অর্ডার করুন
+          অর্ডার করুন
         </Link>
       </div>
     </div>
