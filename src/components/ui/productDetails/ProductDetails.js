@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ProductSlide from "./ProductSlide";
 import Rating from "react-rating";
 import { IoIosStar } from "react-icons/io";
@@ -22,6 +22,8 @@ import RelatedProductCard from "../../shop/RelatedProductCard";
 import Loading from "../../../shared/Loading";
 import DynamicTitle from "../../shared/DynamicTitle";
 import ProductFAQ from "./ProductFAQ";
+import axios from "axios";
+import { toast } from "react-toastify";
 const ProductDetails = () => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
   const location = useLocation();
@@ -32,6 +34,7 @@ const ProductDetails = () => {
   const [count, setCount] = useState(1);
   const [activeTab, setActiveTab] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [allFaqs, setAllFaqs] = useState([]);
   const productQuantity = cartProducts?.find(
     (item) => item?._id === product?._id
   );
@@ -41,6 +44,23 @@ const ProductDetails = () => {
     original: image,
     thumbnail: image,
   }));
+
+  //
+
+  const fetchUpdatedFaqs = useCallback(async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:5000/api/v1/productFAQs/getProductFAQById/${product?._id}`
+      );
+      setAllFaqs(data?.data?.faqs);
+    } catch (error) {
+      console.error("Error fetching FAQs:", error);
+      toast.error("Failed to fetch FAQs");
+    }
+  }, [product?._id]);
+  useEffect(() => {
+    fetchUpdatedFaqs();
+  }, [fetchUpdatedFaqs]);
 
   useEffect(() => {
     setLoading(true);
@@ -239,6 +259,10 @@ const ProductDetails = () => {
       if (faqSection) {
         faqSection.scrollIntoView({ behavior: "smooth", top: 600 });
       }
+    }
+
+    if (location.hash === "#reviews") {
+      setActiveTab(3);
     }
   }, [location]);
 
@@ -440,7 +464,9 @@ const ProductDetails = () => {
           {activeTab === 1 && <Description product={product} />}
           {activeTab === 2 && <AdditionalInfo product={product} />}
           {activeTab === 3 && <Reviews product={product} />}
-          {activeTab === 4 && <ProductFAQ product={product} />}
+          {activeTab === 4 && (
+            <ProductFAQ allFaqs={allFaqs} product={product} />
+          )}
         </div>
       </div>
       {/* Related products */}

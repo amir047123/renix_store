@@ -118,7 +118,7 @@ const ProductCardGrid = ({ product }) => {
         />
         <div className="my-1">
           <Link
-            to={`/product/${product?.slug}`}
+            to={`/product/${product?.slug}#reviews`}
             className="capitalize text-primary border-r pr-2 mr-2 border-primary border-solid  font-openSans text-sm hover:text-secondary"
           >
             add your Review

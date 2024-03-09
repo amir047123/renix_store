@@ -3,6 +3,7 @@ import { IoIosBasket, IoMdClose } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import DynamicTitle from "../components/shared/DynamicTitle";
 import useGetSeo from "../Hooks/useGetSeo";
+import { IoSearchOutline } from "react-icons/io5";
 
 const Cart = ({
   searchQuery,
@@ -12,6 +13,7 @@ const Cart = ({
   totalCartItemsNum,
   handleRemoveFromCart,
   total,
+  setSearchQuery,
 }) => {
   const seoMetaData = useGetSeo("cart_page");
   const location = useLocation();
@@ -23,7 +25,6 @@ const Cart = ({
         metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
         canonicalUrl={seoMetaData?.canonicalUrl}
-
       />
       {/* Search bar */}
       <div className="pr-6 leading-[80px] group flex items-center relative">
@@ -31,22 +32,33 @@ const Cart = ({
         {/* Search dropdown */}
         <div className="absolute top-full right-0 bg-white w-[270px] border-t-[3px] border-solid border-primary px-5 py-4 opacity-0 invisible group-hover:visible group-hover:opacity-100 duration-200 transform scale-0 group-hover:scale-100 rotate-0 shadow-custom">
           <div>
-            <input
-              type="text"
-              name="productName"
-              placeholder="search product"
-              className="border-2 border-solid border-borderColor h-full py-2 px-5"
-              value={searchQuery}
-              onChange={handleSearch}
-            />
+            <div className="relative">
+              <input
+                type="text"
+                name="productName"
+                placeholder="search product"
+                className="border-2 outline-0 w-full border-solid border-borderColor h-full py-2 pl-7"
+                value={searchQuery}
+                onChange={handleSearch}
+              />
+              <IoSearchOutline className="absolute left-[10px] top-1/2 -translate-y-1/2 " />
+            </div>
             {searchQuery && (
-              <div>
+              <div className="absolute top-full bg-white pl-5 h-[400px] shadow-xl  overflow-y-auto">
                 <p className="text-sm mb-2">
-                  Showing {searchResults?.length} results
+                  Showing {searchResults.length} results
                 </p>
-                <ul>
-                  {searchResults?.map((result) => (
-                    <li key={result.id}>{result.name}</li>
+                <ul className="flex flex-col gap-4">
+                  {searchResults.map((result) => (
+                    <li key={result.slug} className="leading-[2px]">
+                      <Link
+                        onClick={() => setSearchQuery("")}
+                        className=" cursor-pointer text-sm hover:text-primary"
+                        to={`/product/${result.slug}`}
+                      >
+                        {result.name}
+                      </Link>
+                    </li>
                   ))}
                 </ul>
               </div>

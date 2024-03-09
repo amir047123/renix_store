@@ -5,9 +5,11 @@ import Rating from "react-rating";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthUser from "../../../Hooks/authUser";
+import { useLocation } from "react-router-dom";
 
 const Reviews = ({ product }) => {
-  const {userInfo}=AuthUser()
+  const location = useLocation();
+  const { userInfo } = AuthUser();
   const productId = product?._id;
   const [reviews, setReviews] = useState([]);
   const [formData, setFormData] = useState({
@@ -46,7 +48,7 @@ const Reviews = ({ product }) => {
         toast.error("You need to be logged in to submit a review");
         return;
       }
-  
+
       const response = await fetch(
         "http://localhost:5000/api/v1/reviews/addReviews",
         {
@@ -57,11 +59,11 @@ const Reviews = ({ product }) => {
           body: JSON.stringify(formData),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Failed to submit review");
       }
-  
+
       // Reset form data after successful submission
       setFormData({
         rating: 0,
@@ -70,9 +72,9 @@ const Reviews = ({ product }) => {
         email: "",
         productId: productId,
       });
-  
+
       toast.success("Review submitted successfully");
-  
+
       // Refetch reviews data
       const getReviews = async () => {
         const response = await fetch(
@@ -87,14 +89,25 @@ const Reviews = ({ product }) => {
       toast.error("Failed to submit review");
     }
   };
-  
 
+  useEffect(() => {
+    // Check if the URL contains the FAQ hash fragment
+    if (location.hash === "#reviews") {
+      const faqSection = document.getElementById("review");
+      if (faqSection) {
+        const offset = 150; // Adjust this value as needed
+        const topPos =
+          faqSection.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: topPos, behavior: "smooth" });
+      }
+    }
+  }, [location]);
   return (
-    <div className="bg-white p-6 shadow-custom">
-      
+    <div id="review" className="bg-white p-6 shadow-custom">
       <div>
-      <p className="font-rubic text-xl text-[#333] font-medium py-6">
-          {reviews.length} review{reviews.length !== 1 ? "s" : ""} {product?.name}
+        <p className="font-rubic text-xl text-[#333] font-medium py-6">
+          {reviews.length} review{reviews.length !== 1 ? "s" : ""}{" "}
+          {product?.name}
         </p>
         {reviews.map((review, index) => (
           <div
@@ -112,9 +125,7 @@ const Reviews = ({ product }) => {
             <div className="flex-1">
               <Rating
                 fullSymbol={<IoIosStar className="text-primary" />}
-                emptySymbol={
-                  <FaRegStar className="text-primary text-center" />
-                }
+                emptySymbol={<FaRegStar className="text-primary text-center" />}
                 initialRating={review.rating}
                 readonly
               />
@@ -132,8 +143,7 @@ const Reviews = ({ product }) => {
         <p className="text-[#333] mb-6 text-sm md:text-base ">
           <span>Your email address will not be published.</span>{" "}
           <span className="md:inline block md:mt-0 mt-3">
-            Required fields are marked{" "}
-            <span className="text-secondary">*</span>
+            Required fields are marked <span className="text-secondary">*</span>
           </span>{" "}
         </p>
         <div>
@@ -145,9 +155,7 @@ const Reviews = ({ product }) => {
             <Rating
               onChange={handleRatingChange}
               fullSymbol={<IoIosStar className="text-black" />}
-              emptySymbol={
-                <FaRegStar className="text-black text-center" />
-              }
+              emptySymbol={<FaRegStar className="text-black text-center" />}
               fractions={2}
             />
           </div>

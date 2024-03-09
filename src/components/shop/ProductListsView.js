@@ -122,7 +122,7 @@ const ProductListsView = ({ product }) => {
               {reviews.length} Review
             </p>
             <Link
-              to={`/product/${product?.slug}`}
+              to={`/product/${product?.slug}#reviews`}
               className="capitalize text-primary border-r pr-4 border-primary border-solid  font-openSans text-sm hover:text-secondary"
             >
               add your Review
