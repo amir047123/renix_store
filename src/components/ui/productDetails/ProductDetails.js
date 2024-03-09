@@ -16,7 +16,7 @@ import ImageGallery from "react-image-gallery";
 import AdditionalInfo from "./AdditionalInfo";
 import Reviews from "./Reviews";
 import Description from "./Description";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 import RelatedProductCard from "../../shop/RelatedProductCard";
 import Loading from "../../../shared/Loading";
@@ -24,7 +24,7 @@ import DynamicTitle from "../../shared/DynamicTitle";
 import ProductFAQ from "./ProductFAQ";
 const ProductDetails = () => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
-
+  const location = useLocation();
   const { id } = useParams();
   console.log(id);
   const [product, setProduct] = useState(null);
@@ -229,6 +229,19 @@ const ProductDetails = () => {
     }
   }, [product, discountedPrice, productQuantity]);
 
+  useEffect(() => {
+    // Check if the URL contains the FAQ hash fragment
+
+    if (location.hash === "#faq") {
+      setActiveTab(4);
+      const faqSection = document.getElementById("product_faq");
+      console.log(faqSection, "faq section", location.hash);
+      if (faqSection) {
+        faqSection.scrollIntoView({ behavior: "smooth", top: 600 });
+      }
+    }
+  }, [location]);
+
   if (loading) {
     return <Loading />;
   }
@@ -289,7 +302,7 @@ const ProductDetails = () => {
               (1 customer review)
             </span>
           </div>
-        
+
           <p className="border border-solid mt-3 border-borderColor inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
             {product?.companyName}
           </p>
@@ -380,7 +393,7 @@ const ProductDetails = () => {
       </div>
       {/* Additional infomation */}
 
-      <div className="my-10">
+      <div id="product_faq" className="my-10">
         <div className="flex md:flex-row flex-col border-b border-borderColor gap-2">
           <div
             className={`px-5 py-3 rounded-tr-lg rounded-tl-lg  font-rubic font-medium text-sm uppercase ${
@@ -428,7 +441,6 @@ const ProductDetails = () => {
           {activeTab === 2 && <AdditionalInfo product={product} />}
           {activeTab === 3 && <Reviews product={product} />}
           {activeTab === 4 && <ProductFAQ product={product} />}
-
         </div>
       </div>
       {/* Related products */}

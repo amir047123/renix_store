@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import { useLocation } from "react-router-dom";
 const ProductFAQ = () => {
+  const location = useLocation();
+  useEffect(() => {
+    // Check if the URL contains the FAQ hash fragment
+    if (location.hash === "#faq") {
+      const faqSection = document.getElementById("product_faq");
+      if (faqSection) {
+        const offset = 150; // Adjust this value as needed
+        const topPos =
+          faqSection.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: topPos, behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
   return (
-    <div>
+    <div id="product_faq">
       <ul class="mx-auto  divide-y mt-5 shadow shadow-blue-600 rounded-xl">
         <li>
           <details class="group">

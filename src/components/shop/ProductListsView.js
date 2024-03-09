@@ -99,7 +99,7 @@ const ProductListsView = ({ product }) => {
 
   return (
     <div className="flex px-5 lg:px-0 flex-col lg:flex-row items-center gap-8 pr-2 lg:pr-20 border-b last:border-b-0 border-solid border-borderColor pb-4 mb-4">
-      <Link   to={`/product/${product?.slug}`} className="basis-[28%] ">
+      <Link to={`/product/${product?.slug}`} className="basis-[28%] ">
         <img
           className="mx-auto  group-hover:scale-125  transition-all duration-200"
           src={product?.img}
@@ -123,22 +123,28 @@ const ProductListsView = ({ product }) => {
             </p>
             <Link
               to={`/product/${product?.slug}`}
-              className="capitalize text-primary font-openSans text-sm hover:text-secondary"
+              className="capitalize text-primary border-r pr-4 border-primary border-solid  font-openSans text-sm hover:text-secondary"
             >
               add your Review
+            </Link>
+            <Link
+              to={`/product/${product?.slug}#faq`}
+              className="uppercase text-primary font-openSans text-sm hover:text-secondary"
+            >
+              FAQ
             </Link>
           </div>
 
           <div className="font-medium font-rubic text-sm">
-      {product.discount ? (
-        <>
-          <span className="line-through">৳ {product?.onePiecePrice}</span> ৳{" "}
-          {discountedPrice}
-        </>
-      ) : (
-        <>৳ {product?.onePiecePrice}</>
-      )}
-    </div>
+            {product.discount ? (
+              <>
+                <span className="line-through">৳ {product?.onePiecePrice}</span>{" "}
+                ৳ {discountedPrice}
+              </>
+            ) : (
+              <>৳ {product?.onePiecePrice}</>
+            )}
+          </div>
           <div className="mt-6 flex flex-col md:flex-row items-center gap-4">
             <button
               onClick={handleAddToCart}
@@ -158,15 +164,16 @@ const ProductListsView = ({ product }) => {
               } px-5 py-3 font-medium font-rubic uppercase duration-200 text-sm rounded-full`}
             >
               {isInWishlist ? <FaHeart /> : <FaRegHeart />}
-              {isInWishlist ? " ইচ্ছেতালিকা অপসারণ করুন" : "ইচ্ছেতালিকায় যোগ করুন"}
+              {isInWishlist
+                ? " ইচ্ছেতালিকা অপসারণ করুন"
+                : "ইচ্ছেতালিকায় যোগ করুন"}
             </button>
             <Link
               onClick={handleAddToCart}
               to={"/checkout"}
               className="inline-block bg-primary text-white rounded-full uppercase text-sm font-openSans font-medium px-4 py-2 hover:bg-textColor transition-all duration-200"
             >
-            অর্ডার করুন
-
+              অর্ডার করুন
             </Link>
           </div>
         </div>

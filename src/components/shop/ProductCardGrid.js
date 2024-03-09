@@ -51,7 +51,7 @@ const ProductCardGrid = ({ product }) => {
   const handleAddToWishlist = () => {
     let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
     const existingProductIndex = wishlistItems.findIndex(
-      (item) => item._id === product._id
+      (item) => item?._id === product?._id
     );
 
     if (existingProductIndex === -1) {
@@ -116,15 +116,34 @@ const ProductCardGrid = ({ product }) => {
           initialRating={5}
           readonly
         />
+        <div className="my-1">
+          <Link
+            to={`/product/${product?.slug}`}
+            className="capitalize text-primary border-r pr-2 mr-2 border-primary border-solid  font-openSans text-sm hover:text-secondary"
+          >
+            add your Review
+          </Link>
+
+          <Link
+            to={`/product/${product?.slug}#faq`}
+            className="uppercase text-primary font-openSans text-sm
+              hover:text-secondary"
+          >
+            {" "}
+            FAQ
+          </Link>
+        </div>
         <p className="font-medium font-rubic text-sm">
           {product.discount ? (
             <>
-              <span className="line-through">৳ {product?.onePiecePrice}</span>৳{" "}
-              {discountedPrice} <br />
-              <span className="text-green-500">{product?.discount}% off</span>
+              <span className="line-through mr-2">
+                ৳ {product?.onePiecePrice}
+              </span>
+              ৳ {discountedPrice} <br />
+              <span className="text-green-500 ">{product?.discount}% off</span>
             </>
           ) : (
-            <>৳ {product?.onePiecePrice}</>
+            <span className=" inline-block">৳ {product?.onePiecePrice}</span>
           )}
         </p>
       </div>
