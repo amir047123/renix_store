@@ -27,8 +27,10 @@ const Shop = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categorys, setCategorys] = useState([]);
+  const [categorysById, setCategorysBYId] = useState({});
   const [category, setCategory] = useState([]);
   const { id } = useParams();
+  console.log(categorys, "32");
   const [product, setProduct] = useState([]);
   const [filterByPrice, setFilterByPrice] = useState([]);
   const [page, setPage] = useState(0);
@@ -64,6 +66,7 @@ const Shop = () => {
           "http://localhost:5000/api/v1/category/getCategorys"
         );
         setCategorys(response?.data?.data);
+        console.log(response?.data?.data, 67);
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -71,6 +74,22 @@ const Shop = () => {
     }
     fetchCategorys();
   }, []);
+
+  useEffect(() => {
+    async function fetchCategorys() {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:5000/api/v1/category/specific?fieldName=name&fieldValue=${id}`
+        );
+        setCategorysBYId(data?.data[0]);
+        console.log(data, 84);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    }
+    fetchCategorys();
+  }, [id]);
 
   useEffect(() => {
     fetch(
@@ -155,7 +174,15 @@ const Shop = () => {
                 {categorys?.length && (
                   <>
                     {categorys?.map((category) => (
-                      <CategroyItems className="" category={category?.name} />
+                      <>
+                        {" "}
+                        <CategroyItems
+                          key={category._id}
+                          className=""
+                          category={category?.name}
+                        />
+                        <DynamicTitle metaTitle={category.metaTitle} />
+                      </>
                     ))}
                   </>
                 )}
@@ -276,24 +303,35 @@ const Shop = () => {
                   </div>
 
                   {isGrid ? (
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                   {id
-                     ? filterByPrice?.length > 0
-                       ? filterByPrice?.reverse().map((product, index) => (
-                           <ProductCardGrid key={index} product={product} />
-                         ))
-                       : product?.reverse().map((product, index) => (
-                           <ProductCardGrid key={index} product={product} />
-                         ))
-                     : filterByPrice?.length > 0
-                     ? filterByPrice?.reverse().map((product, index) => (
-                         <ProductCardGrid key={index} product={product} />
-                       ))
-                     : data?.reverse().map((product, index) => (
-                         <ProductCardGrid key={index} product={product} />
-                       ))}
-                 </div>
-                 
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                      {id ? (
+                        filterByPrice?.length > 0 ? (
+                          <>
+                            {filterByPrice.reverse().map((product, index) => (
+                              <ProductCardGrid key={index} product={product} />
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            {product?.reverse().map((product, index) => (
+                              <ProductCardGrid key={index} product={product} />
+                            ))}
+                          </>
+                        )
+                      ) : filterByPrice?.length > 0 ? (
+                        filterByPrice
+                          ?.reverse()
+                          .map((product, index) => (
+                            <ProductCardGrid key={index} product={product} />
+                          ))
+                      ) : (
+                        data
+                          ?.reverse()
+                          .map((product, index) => (
+                            <ProductCardGrid key={index} product={product} />
+                          ))
+                      )}
+                    </div>
                   ) : (
                     <div className=" py-4">
                       {filterByPrice?.length > 0
@@ -322,14 +360,24 @@ const Shop = () => {
       </section>
       <PartnersCarousel />
       <HomeContent></HomeContent>
-      <DynamicTitle
-        metaTitle={seoMetaData?.metaTitle}
-        metaImage={seoMetaData?.metaImage}
-        metaDescription={seoMetaData?.metaDescription}
-        canonicalUrl={seoMetaData?.canonicalUrl}
 
-
-      />
+      {id ? (
+        <>
+          <DynamicTitle
+            metaTitle={categorysById?.metaTitle}
+            metaImage={categorysById?.metaImage}
+            metaDescription={categorysById?.metaDescription}
+            canonicalUrl={categorysById?.canonicalUrl}
+          />
+        </>
+      ) : (
+        <DynamicTitle
+          metaTitle={seoMetaData?.metaTitle}
+          metaImage={seoMetaData?.metaImage}
+          metaDescription={seoMetaData?.metaDescription}
+          canonicalUrl={seoMetaData?.canonicalUrl}
+        />
+      )}
     </div>
   );
 };
