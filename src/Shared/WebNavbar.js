@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaAngleDown, FaBars, FaSearch } from "react-icons/fa";
 import { IoIosBasket, IoMdClose } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoSearchOutline } from "react-icons/io5";
 import Cart from "../Pages/Cart";
 import axios from "axios";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
@@ -14,6 +14,7 @@ const WebNavbar = () => {
   const [loading, setLoading] = useState(false);
   const [openCartMenu, setOpenCartMenu] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [isShowSearch, setIsShowSearch] = useState(false);
   const [categorys, setCategorys] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -296,6 +297,7 @@ const WebNavbar = () => {
             total={total}
             totalCartItemsNum={totalCartItemsNum}
             cartProducts={cartProducts}
+            setSearchQuery={setSearchQuery}
           ></Cart>
         </nav>
         <div className=" hidden md:block lg:hidden bg-white border-t border-solid border-[#eaeaea] py-5 px-6 ">
@@ -367,8 +369,8 @@ const WebNavbar = () => {
               <p className=" uppercase font-bold text-primary">Renix Store</p>
             </Link>
           </div>
-          <div className="flex justify-between items-center px-5 gap-10 -mt-2">
-            <div>
+          <div className="flex justify-between items-center px-5  -mt-2">
+            <div className="mr-5">
               <FaBars
                 onClick={() => setIsOpen(!isOpen)}
                 className="text-primary"
@@ -377,25 +379,32 @@ const WebNavbar = () => {
             </div>
             {/* Search bar */}
 
-            <div className=" flex-1">
+            <div className=" flex-1 relative">
               <div>
-                <input
-                  type="text"
-                  name="productName"
-                  placeholder="search product"
-                  className="border-2 outline-0 w-full border-solid border-borderColor h-full py-2 px-5"
-                  value={searchQuery}
-                  onChange={handleSearch}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="productName"
+                    placeholder="search product"
+                    className="border-2 outline-0 w-full border-solid border-borderColor h-full py-2 pl-7"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                  />
+                  <IoSearchOutline className="absolute left-[10px] top-[58%] -translate-y-1/2 " />
+                </div>
                 {searchQuery && (
-                  <div>
+                  <div className="absolute top-full bg-white px-3 h-[200px] shadow-xl  overflow-y-auto">
                     <p className="text-sm mb-2">
                       Showing {searchResults.length} results
                     </p>
-                    <ul>
+                    <ul className="flex flex-col gap-4">
                       {searchResults.map((result) => (
-                        <li key={result.id}>
-                          <Link className=" cursor-pointer" to={`/product/${result.slug}`}>
+                        <li key={result.slug}>
+                          <Link
+                            onClick={() => setSearchQuery("")}
+                            className=" cursor-pointer text-xs hover:text-primary"
+                            to={`/product/${result.slug}`}
+                          >
                             {result.name}
                           </Link>
                         </li>

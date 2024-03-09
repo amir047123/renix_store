@@ -9,6 +9,8 @@ import UsegetUserById from "../Hooks/usegetUserById";
 import axios from "axios";
 import useGetSeo from "../Hooks/useGetSeo";
 import DynamicTitle from "../components/shared/DynamicTitle";
+import { HiClipboardDocumentList } from "react-icons/hi2";
+import { IoBagCheck } from "react-icons/io5";
 const CheckOutPage = () => {
   const seoMetaData = useGetSeo("checkOut_page");
   const { data } = UsegetUserById();
@@ -57,7 +59,6 @@ const CheckOutPage = () => {
     formState: { errors },
   } = useForm();
 
- 
   // // total amount add tax shhiping charge
   // const tax = (total * (+shippingInfo?.tax || 0)) / 100;
   // const shippingCharge = shippingInfo?.[selectedDeliveryArea] || 0;
@@ -218,7 +219,6 @@ const CheckOutPage = () => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
 
-
   useEffect(() => {
     // Extract necessary data for products from cartProducts
     const productsData = cartProducts.map((product) => ({
@@ -227,12 +227,11 @@ const CheckOutPage = () => {
       price: product.discountedPrice,
       quantity: product.quantity,
     }));
-  
+
     // Calculate total amount including tax and shipping charge
     const tax = (total * (+shippingInfo?.tax || 0)) / 100;
-    const totalAmount =
-      tax + parseFloat(total) + parseFloat(shippingCharge);
-  
+    const totalAmount = tax + parseFloat(total) + parseFloat(shippingCharge);
+
     // Push data to GTM Data Layer
     window.dataLayer.push({
       event: "begin_checkout",
@@ -248,7 +247,6 @@ const CheckOutPage = () => {
       },
     });
   }, [cartProducts, total, shippingInfo, shippingCharge]); // Dependency array includes relevant state variables
-  
 
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
@@ -259,8 +257,32 @@ const CheckOutPage = () => {
       />
       <PageHeader title="CheckOut" />
       {cartProducts.length === 0 ? (
-        <>
-          <div className="bg-white p-8 shadow-custom container mt-10">
+        <div className="bg-white p-8 shadow-custom container lg:mt-10">
+          <div>
+            <>
+              {/*<!-- Component: Card with icon --> */}
+              <div className="overflow-hidden text-center max-w-[515px] mx-auto  rounded text-slate-500 shadow-slate-200">
+                {/*  <!-- Icon --> */}
+                <figure className="p-6 pb-0">
+                  <IoBagCheck size={50} className="mx-auto text-primary" />
+                </figure>
+                {/*  <!-- Body--> */}
+                <div className="p-6">
+                  <h3 className="mb-4 text-xl font-medium text-slate-700">
+                    Order placed successfully!!
+                  </h3>
+
+                  <h2 className="text-4xl my-4 text-primary font-bold capitalize">
+                    Thanks For Your order
+                  </h2>
+                  <p>শীঘ্রই আমাদের একজন প্রতিনিধি আপনার সাথে যোগাযোগ করবে 😍</p>
+                </div>
+              </div>
+              {/*<!-- End Card with icon --> */}
+            </>
+          </div>
+
+          <div className=" text-center mt-4">
             <p className="font-rubic text-sm text-[#333]">
               Checkout is not available whilst your cart is empty.
             </p>
@@ -274,7 +296,7 @@ const CheckOutPage = () => {
               Return to shop
             </Link>
           </div>
-        </>
+        </div>
       ) : (
         <div className="container py-12">
           <div className="bg-white p-8 shadow-custom ">
@@ -330,7 +352,7 @@ const CheckOutPage = () => {
                     {/* First name */}
                     <div className="mb-4">
                       <label className="mb-2 inline-block" htmlFor="firstName">
-                         নাম
+                        নাম
                         <span className="text-secondary">*</span>
                       </label>
 
@@ -355,7 +377,7 @@ const CheckOutPage = () => {
                         className="mb-2 inline-block"
                         htmlFor="streetAddress"
                       >
-                         সম্পূর্ণ ঠিকানা
+                        সম্পূর্ণ ঠিকানা
                         <span className="text-secondary">*</span>
                       </label>
 
@@ -378,7 +400,7 @@ const CheckOutPage = () => {
                     {/* Phone   */}
                     <div className="mb-4">
                       <label className="mb-2 inline-block" htmlFor="phone">
-                         মোবাইল নাম্বার
+                        মোবাইল নাম্বার
                         <span className="text-secondary">*</span>
                       </label>
 
@@ -401,7 +423,7 @@ const CheckOutPage = () => {
                         className="mb-2 inline-block"
                         htmlFor="deliveryArea"
                       >
-                       ডেলিভারি এলাকা
+                        ডেলিভারি এলাকা
                         <span className="text-secondary">*</span>
                       </label>
                       <select
@@ -521,7 +543,7 @@ const CheckOutPage = () => {
                   {/* Payment method */}
                   <div className="mt-6">
                     <div>
-                        <div className="">
+                      <div className="">
                         <input
                           type="radio"
                           name="payment"
@@ -544,34 +566,33 @@ const CheckOutPage = () => {
                         >
                           Pay with cash upon delivery.
                         </p>
-                      <div className="relative">
-                        <input
-                          onChange={handlePaymentOnChange}
-                          type="radio"
-                          name="payment"
-                          id="bank"
-                          checked={selectedPayment === "bank"}
-                        />
-                        <label
-                          className="mb-2 inline-block ml-2"
-                          htmlFor="bank"
-                        >
-                          Online Payment
-                        </label>
-                        <p
-                          className={` transition-all duration-200 ${
-                            selectedPayment === "bank"
-                              ? "pt-1 pb-5 max-h-96 "
-                              : "py-0 invisible max-h-0"
-                          }`}
-                        >
-                          Make your payment directly into our bank account.
-                          Please use your Order ID as the payment reference.
-                          Your order will not be shipped until the funds have
-                          cleared in our account.
-                        </p>
-                      </div>
-                    
+                        <div className="relative">
+                          <input
+                            onChange={handlePaymentOnChange}
+                            type="radio"
+                            name="payment"
+                            id="bank"
+                            checked={selectedPayment === "bank"}
+                          />
+                          <label
+                            className="mb-2 inline-block ml-2"
+                            htmlFor="bank"
+                          >
+                            Online Payment
+                          </label>
+                          <p
+                            className={` transition-all duration-200 ${
+                              selectedPayment === "bank"
+                                ? "pt-1 pb-5 max-h-96 "
+                                : "py-0 invisible max-h-0"
+                            }`}
+                          >
+                            Make your payment directly into our bank account.
+                            Please use your Order ID as the payment reference.
+                            Your order will not be shipped until the funds have
+                            cleared in our account.
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <p className="mt-5">
@@ -584,7 +605,7 @@ const CheckOutPage = () => {
                   {/* button order */}
                   <div>
                     <button className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-8">
-                    অর্ডার করুন
+                      অর্ডার করুন
                     </button>
                   </div>
                 </div>
