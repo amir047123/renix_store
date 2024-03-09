@@ -17,6 +17,7 @@ import MyContext from "./Context/MyContext";
 import UserProtectedRoute from "./Routes/UserProtectedRoute";
 import AdminProtectedRoute from "./Routes/AdminProtectedRoute";
 import DataLayer from './components/DataLayer/DataLayer';
+import Bot from './components/Bot/Bot';
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
             </Route>
           </Routes>
           <ToastContainer />
+          <Bot></Bot>
         </div>
       </Router>
     </MyContext.Provider>

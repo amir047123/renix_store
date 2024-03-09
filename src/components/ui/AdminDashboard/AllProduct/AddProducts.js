@@ -206,7 +206,7 @@ const AddProducts = () => {
               htmlFor="product-code"
               className="block mb-2 text-[13px] font-normal text-gray-900"
             >
-              Product Code
+              Product Secret Code
             </label>
             <input
               type="text"
@@ -247,7 +247,7 @@ const AddProducts = () => {
             className="block mb-2 text-[13px] font-normal text-gray-900 "
           >
             {" "}
-            Images
+            Feature Image
           </label>
           <input
             onChange={handleAdditionalImageUpload}
