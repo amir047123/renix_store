@@ -216,14 +216,14 @@ const AddProductFaq = () => {
                     <td className="border border-gray-500 px-4 py-2">
                       {item.question}
                     </td>
-                    <td className="border border-gray-500 px-4 py-2">
+                    <td className="border border-gray-500 px-4 py-8">
                       {item.answer}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div className="absolute top-1/2 -translate-y-1/2 right-10 mr-4 mt-4 flex gap-2">
+            <div className="absolute top-1/2 -translate-y-1/2 right-10 mr-4 mt-4 flex gap-2 py-3">
               <div
                 onClick={() => handleEditFaq(allFaqs)} // Assuming you want to edit the first FAQ
                 className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300"
