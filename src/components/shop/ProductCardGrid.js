@@ -40,6 +40,7 @@ const ProductCardGrid = ({ product }) => {
       product_id: product._id,
       product_name: product.name,
       product_price: product.onePiecePrice,
+      currencyCode: "BDT",
       product_quantity: 1, // Since it's added to cart
     });
   };

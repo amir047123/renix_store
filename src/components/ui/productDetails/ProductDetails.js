@@ -242,6 +242,7 @@ const ProductDetails = () => {
         product_id: product._id,
         product_name: product.name,
         product_category: product.category,
+        currencyCode: "BDT",
         product_price: product.onePiecePrice,
         product_discounted_price: discountedPrice,
         product_quantity: productQuantity?.quantity || 1,

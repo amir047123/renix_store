@@ -52,6 +52,7 @@ const ProductListsView = ({ product }) => {
       event: "add_to_cart",
       product_id: product._id,
       product_name: product.name,
+      currencyCode: "BDT",
       product_price: product.onePiecePrice,
       product_quantity: 1, // Since it's added to cart
     });
