@@ -27,7 +27,7 @@ const WebNavbar = () => {
     (acc, item) => acc + item.quantity,
     0
   );
-
+  console.log(categorys, "categorys");
   // Increment the index of the current title to display the next one
   useEffect(() => {
     const interval = setInterval(() => {
@@ -76,7 +76,7 @@ const WebNavbar = () => {
     },
     {
       title: "CATEGORIES",
-      href: "/category",
+      // href: "/category",
       subCategory: categorys,
     },
     {
@@ -334,7 +334,7 @@ const WebNavbar = () => {
                       <li className="pb-2" key={subca.title}>
                         <Link
                           className="text-textColor font-medium hover:text-primary hover:ml-3 duration-500 transition-all mb-3 inline-block uppercase text-sm tracking-[0.5px] "
-                          to={subca.href}
+                          to={`/shop/${subca.name}`}
                         >
                           {subca.title}
                         </Link>
@@ -525,7 +525,6 @@ const WebNavbar = () => {
             <ul className="flex flex-col items-start  gap-7">
               {mobileMenuItems.map((item, i) => (
                 <li
-                  onClick={() => setIsOpen(false)}
                   key={i}
                   className="font-rubic  font-medium uppercase text-sm w-full pr-10"
                 >
@@ -536,7 +535,7 @@ const WebNavbar = () => {
                         setOpenDropdown(!openDropdown);
                       })
                     }
-                    to={item.href}
+                    to={item.href ? item.href : "javascript:void(0)"}
                     className={({ isActive }) =>
                       `${isActive ? "text-[#ed6663]" : "text-primary"}  
                     tracking-[1px] flex justify-between 
@@ -567,10 +566,15 @@ const WebNavbar = () => {
                       }}
                     >
                       {item?.subCategory?.map((subca) => (
-                        <li className="pb-2" key={subca.name}>
+                        <li
+                          onClick={() => setIsOpen(false)}
+                          className="pb-2"
+                          key={subca.name}
+                        >
                           <Link
                             className="text-textColor font-medium hover:text-primary hover:ml-3 duration-500 transition-all mb-1 inline-block uppercase text-sm tracking-[0.5px] "
-                            to={subca.href}
+                            // to={subca.href}
+                            to={`/shop/${subca.name}`}
                           >
                             {subca.name}
                           </Link>
@@ -578,7 +582,10 @@ const WebNavbar = () => {
                           {subca?.nestedCategory && (
                             <ul className="space-y-2">
                               {subca?.nestedCategory.map((nestedCate) => (
-                                <li key={nestedCate.title}>
+                                <li
+                                  onClick={() => setIsOpen(false)}
+                                  key={nestedCate.title}
+                                >
                                   <Link
                                     className="text-[#7a7a7a] font-normal hover:text-primary hover:ml-3 duration-500 transition-all  text-xs "
                                     to={nestedCate.href}
