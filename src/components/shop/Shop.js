@@ -55,9 +55,16 @@ const Shop = () => {
   }, [page, size]);
   const totalPages = Math.ceil(quantity / size);
 
-  const handlePageChange = (pageNumber) => {
-    setPage(pageNumber - 1); // Pagination component starts from page 1
-  };
+ const handlePageChange = (pageNumber) => {
+   setPage(pageNumber - 1); // Pagination component starts from page 1
+
+   // Scroll to the top of the page
+   window.scrollTo({
+     top: 0,
+     behavior: "smooth", // Optional: Adds smooth scrolling behavior
+   });
+ };
+
   useEffect(() => {
     async function fetchCategorys() {
       try {

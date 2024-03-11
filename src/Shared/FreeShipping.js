@@ -1,4 +1,4 @@
-import { MdOutlineLocalShipping } from "react-icons/md";
+import { BiSupport } from "react-icons/bi";
 import { IoCallSharp } from "react-icons/io5";
 import { FaApple, FaBriefcase, FaDollarSign } from "react-icons/fa";
 import { TiVendorAndroid } from "react-icons/ti";
@@ -9,10 +9,10 @@ const FreeShipping = () => {
         {/* shipping */}
         <div className="py-[25px] px-[30px] border-b md:border-r border-solid border-[#eaeaea] text-center">
           <div className="border-2 inline-table border-dotted border-primary rounded-full w-6 md:w-10 md:h-10 h-6 mx-auto p-2.5 md:p-5">
-            <MdOutlineLocalShipping className="mx-auto text-xl md:text-[30px] text-primary leading-10" />
+            <BiSupport className="mx-auto text-xl md:text-[30px] text-primary leading-10" />
           </div>
           <p className="uppercase font-rubic font-medium text-textColor tracking-[0.5px] w-full md:max-w-[185px] mx-auto text-sm mt-6">
-            FREE SHIPPING ON ORDER OVER ৳ 5000
+            100% Organic <br /> 24/7 Support
           </p>
         </div>
         {/* Questions */}
