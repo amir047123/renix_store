@@ -16,7 +16,6 @@ const AdminPartner = () => {
       .then((res) => res.json())
       .then((data) => setSliders(data?.data));
   }, [refresh]);
-  // console.log(sliders);
   const handleChangeUploadImage = async (event) => {
     const image = event.target.files[0];
     const formData = new FormData();

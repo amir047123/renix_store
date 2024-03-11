@@ -62,7 +62,6 @@ const AdminUpdateSeoList = () => {
         `http://localhost:5000/api/v1/seo/updateSeo/${id}`,
         data
       );
-      // console.log(seoData);
       if (seoData.status === "error") {
         toast.error(seoData.message);
       } else if (seoData.status === "success") {

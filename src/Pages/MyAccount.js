@@ -9,7 +9,7 @@ import DynamicTitle from "../components/shared/DynamicTitle";
 const MyAccount = () => {
   const seoMetaData = useGetSeo("my_account");
   const { data } = UsegetUserById();
-  console.log(data);
+
   const { userRole, logout } = AuthUser();
   const navigate = useNavigate();
   const [isMounted, setIsMounted] = useState(false);

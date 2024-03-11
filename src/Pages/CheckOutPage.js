@@ -144,7 +144,6 @@ const CheckOutPage = () => {
       );
 
       const responseData = await response.json();
-      console.log("Order placed successfully:", responseData);
       toast.success("  Order place successfully ");
       setCartProducts([]);
       localStorage.removeItem("appliedCoupons");

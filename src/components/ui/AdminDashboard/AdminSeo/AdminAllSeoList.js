@@ -15,7 +15,6 @@ const AdminAllSeoList = () => {
       const { data } = await axios.get(
         "http://localhost:5000/api/v1/seo/getAllSeo"
       );
-      console.log(data);
       setAllSeo(data?.data);
     };
     fetchAllSeo();

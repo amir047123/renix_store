@@ -36,8 +36,7 @@ endDate:"",
         "http://localhost:5000/api/v1/coupon/addCoupons",
         formData
       );
-      toast.success("Coupon posted!")
-      console.log("POST request successful:", response);
+      toast.success("Coupon posted!");
     } catch (error) {
       toast?.error(error)
       console.error("Error making POST request:", error);

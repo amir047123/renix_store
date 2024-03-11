@@ -21,9 +21,8 @@ const HomeContent = () => {
 
     // Fetch data when the component mounts
     useEffect(() => {
-        fetchHomeContent();
+      fetchHomeContent();
     }, []);
-    console.log("home contnent",HomeContent)
 
     if (loading) {
         return <Loading />;

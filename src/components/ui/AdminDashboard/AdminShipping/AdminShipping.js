@@ -45,7 +45,6 @@ const AdminShipping = () => {
           formData
         );
         toast.success("Shipping posted!");
-        console.log("POST request successful:", response);
       } catch (error) {
         toast?.error(error);
         console.error("Error making POST request:", error);

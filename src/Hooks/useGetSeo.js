@@ -9,7 +9,6 @@ const useGetSeo = (pageName) => {
         `http://localhost:5000/api/v1/seo/specific?fieldName=page&fieldValue=${pageName}`
       );
       setGetSeo(data?.data[0]);
-      console.log(data?.data[0]);
     };
 
     fetchSeo();

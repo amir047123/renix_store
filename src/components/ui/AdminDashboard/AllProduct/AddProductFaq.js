@@ -41,7 +41,6 @@ const AddProductFaq = () => {
             faqs: faqs.map(({ question, answer }) => ({ question, answer })),
           }
         );
-        console.log(response.data, "helo");
         if (response.data.status === "error") {
           toast.error(response.data.message);
         } else {
@@ -61,7 +60,7 @@ const AddProductFaq = () => {
           }
         );
         toast.success("Question Updated Successfully!");
-        console.log(response.data, "helo");
+       
 
         fetchUpdatedFaqs();
       }
@@ -101,7 +100,6 @@ const AddProductFaq = () => {
       );
 
       if (data.status === "success") {
-        console.log(data);
         toast.success("Delete successful");
         setAllFaqs([]);
       } else {

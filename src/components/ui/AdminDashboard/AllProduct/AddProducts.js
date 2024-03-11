@@ -55,7 +55,6 @@ const AddProducts = () => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(formData, 54);
   const handleCheckboxChange = (e) => {
     setFormData({
       ...formData,
@@ -104,7 +103,6 @@ const AddProducts = () => {
       });
       setTags([""]);
       setProductCode("");
-      console.log(response, "response");
     } catch (error) {
       console.error("Error making POST request:", error);
     }
