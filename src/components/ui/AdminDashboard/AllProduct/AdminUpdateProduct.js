@@ -72,7 +72,6 @@ const AdminUpdateProduct = () => {
           setImg(data?.data?.img);
           setTags(data?.data?.tags);
           setMetaImage(data?.data?.metaImage);
-          console.log(data.data);
         })
     );
   }, [id]);

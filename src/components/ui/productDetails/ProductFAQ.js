@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 const ProductFAQ = ({ allFaqs }) => {
-  console.log(allFaqs, "allfaq");
   const location = useLocation();
   useEffect(() => {
     // Check if the URL contains the FAQ hash fragment

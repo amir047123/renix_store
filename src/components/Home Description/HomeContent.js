@@ -21,26 +21,28 @@ const HomeContent = () => {
 
     // Fetch data when the component mounts
     useEffect(() => {
-        fetchHomeContent();
+      fetchHomeContent();
     }, []);
-    console.log("home contnent",HomeContent)
 
     if (loading) {
         return <Loading />;
     }
 
     return (
-        <div className="">
-            <div className='px-10 py-5'>
-                {contents.map((content, index) => (
-                    <div key={index}>
-                        <h2 className='text-2xl font-bold'>{content.title}</h2>
-                        <p className='text-justify py-2' dangerouslySetInnerHTML={{ __html: content?.description }}></p>
-                        {/* Render other content properties as needed */}
-                    </div>
-                ))}
+      <div className="container">
+        <div className=" pb-5 pt-8">
+          {contents.map((content, index) => (
+            <div key={index}>
+              <h2 className="text-2xl font-bold">{content.title}</h2>
+              <p
+                className="text-justify py-2"
+                dangerouslySetInnerHTML={{ __html: content?.description }}
+              ></p>
+              {/* Render other content properties as needed */}
             </div>
+          ))}
         </div>
+      </div>
     );
 };
 

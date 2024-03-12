@@ -30,7 +30,6 @@ const Shop = () => {
   const [categorysById, setCategorysBYId] = useState({});
   const [category, setCategory] = useState([]);
   const { id } = useParams();
-  console.log(categorys, "32");
   const [product, setProduct] = useState([]);
   const [filterByPrice, setFilterByPrice] = useState([]);
   const [page, setPage] = useState(0);
@@ -46,7 +45,7 @@ const Shop = () => {
         .then((res) => res.json())
         .then((data) => {
           setData(data?.data);
-          console.log(data, 37);
+
           setQuantity(data?.total);
           setLoading(false);
         });
@@ -56,9 +55,16 @@ const Shop = () => {
   }, [page, size]);
   const totalPages = Math.ceil(quantity / size);
 
-  const handlePageChange = (pageNumber) => {
-    setPage(pageNumber - 1); // Pagination component starts from page 1
-  };
+ const handlePageChange = (pageNumber) => {
+   setPage(pageNumber - 1); // Pagination component starts from page 1
+
+   // Scroll to the top of the page
+   window.scrollTo({
+     top: 0,
+     behavior: "smooth", // Optional: Adds smooth scrolling behavior
+   });
+ };
+
   useEffect(() => {
     async function fetchCategorys() {
       try {
@@ -66,7 +72,6 @@ const Shop = () => {
           "http://localhost:5000/api/v1/category/getCategorys"
         );
         setCategorys(response?.data?.data);
-        console.log(response?.data?.data, 67);
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -82,7 +87,7 @@ const Shop = () => {
           `http://localhost:5000/api/v1/category/specific?fieldName=name&fieldValue=${id}`
         );
         setCategorysBYId(data?.data[0]);
-        console.log(data, 84);
+
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -307,29 +312,25 @@ const Shop = () => {
                       {id ? (
                         filterByPrice?.length > 0 ? (
                           <>
-                            {filterByPrice.reverse().map((product, index) => (
+                            {filterByPrice?.map((product, index) => (
                               <ProductCardGrid key={index} product={product} />
                             ))}
                           </>
                         ) : (
                           <>
-                            {product?.reverse().map((product, index) => (
+                            {product?.map((product, index) => (
                               <ProductCardGrid key={index} product={product} />
                             ))}
                           </>
                         )
                       ) : filterByPrice?.length > 0 ? (
-                        filterByPrice
-                          ?.reverse()
-                          .map((product, index) => (
-                            <ProductCardGrid key={index} product={product} />
-                          ))
+                        filterByPrice?.map((product, index) => (
+                          <ProductCardGrid key={index} product={product} />
+                        ))
                       ) : (
-                        data
-                          ?.reverse()
-                          .map((product, index) => (
-                            <ProductCardGrid key={index} product={product} />
-                          ))
+                        data?.map((product, index) => (
+                          <ProductCardGrid key={index} product={product} />
+                        ))
                       )}
                     </div>
                   ) : (

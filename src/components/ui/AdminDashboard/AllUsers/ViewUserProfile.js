@@ -13,7 +13,6 @@ const ViewUserProfile = () => {
       });
   }, [id]);
 
-  console.log(u);
   return (
     <div>
       <div>

@@ -27,7 +27,6 @@ const WebNavbar = () => {
     (acc, item) => acc + item.quantity,
     0
   );
-  console.log(categorys, "categorys");
   // Increment the index of the current title to display the next one
   useEffect(() => {
     const interval = setInterval(() => {

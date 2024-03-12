@@ -28,7 +28,6 @@ const ProductDetails = () => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
   const location = useLocation();
   const { id } = useParams();
-  console.log(id);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState([]);
   const [count, setCount] = useState(1);
@@ -38,7 +37,6 @@ const ProductDetails = () => {
   const productQuantity = cartProducts?.find(
     (item) => item?._id === product?._id
   );
-  console.log(product, 33);
 
   const images = product?.images?.map((image) => ({
     original: image,
@@ -70,7 +68,6 @@ const ProductDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         setProduct(data?.data[0]);
-        console.log(data?.data[0]);
         setLoading(false);
       })
       .catch((error) => {
@@ -256,7 +253,6 @@ const ProductDetails = () => {
     if (location.hash === "#faq") {
       setActiveTab(4);
       const faqSection = document.getElementById("product_faq");
-      console.log(faqSection, "faq section", location.hash);
       if (faqSection) {
         faqSection.scrollIntoView({ behavior: "smooth", top: 600 });
       }
@@ -271,7 +267,6 @@ const ProductDetails = () => {
     return <Loading />;
   }
 
-  console.log("metaescription", product?.metaDescription);
   return (
     <div className=" mt-12 container ">
       <DynamicTitle
