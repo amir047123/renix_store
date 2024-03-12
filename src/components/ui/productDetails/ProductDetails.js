@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ProductSlide from "./ProductSlide";
 import Rating from "react-rating";
 import { IoIosStar } from "react-icons/io";
@@ -16,30 +16,49 @@ import ImageGallery from "react-image-gallery";
 import AdditionalInfo from "./AdditionalInfo";
 import Reviews from "./Reviews";
 import Description from "./Description";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 import RelatedProductCard from "../../shop/RelatedProductCard";
 import Loading from "../../../shared/Loading";
 import DynamicTitle from "../../shared/DynamicTitle";
+import ProductFAQ from "./ProductFAQ";
+import axios from "axios";
+import { toast } from "react-toastify";
 const ProductDetails = () => {
   const { cartProducts, setCartProducts } = useGetCartsProduct();
-
+  const location = useLocation();
   const { id } = useParams();
-  console.log(id);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState([]);
   const [count, setCount] = useState(1);
   const [activeTab, setActiveTab] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [allFaqs, setAllFaqs] = useState([]);
   const productQuantity = cartProducts?.find(
     (item) => item?._id === product?._id
   );
-  console.log(product, 33);
 
   const images = product?.images?.map((image) => ({
     original: image,
     thumbnail: image,
   }));
+
+  //
+
+  const fetchUpdatedFaqs = useCallback(async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:5000/api/v1/productFAQs/getProductFAQById/${product?._id}`
+      );
+      setAllFaqs(data?.data?.faqs);
+    } catch (error) {
+      console.error("Error fetching FAQs:", error);
+      toast.error("Failed to fetch FAQs");
+    }
+  }, [product?._id]);
+  useEffect(() => {
+    fetchUpdatedFaqs();
+  }, [fetchUpdatedFaqs]);
 
   useEffect(() => {
     setLoading(true);
@@ -49,7 +68,6 @@ const ProductDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         setProduct(data?.data[0]);
-        console.log(data?.data[0]);
         setLoading(false);
       })
       .catch((error) => {
@@ -57,6 +75,9 @@ const ProductDetails = () => {
         setLoading(false);
       });
   }, [id]);
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top when component mounts
+  }, []);
 
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
@@ -88,6 +109,14 @@ const ProductDetails = () => {
 
     // Update the cart items in local storage
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+    // Push data to DataLayer
+    window.dataLayer.push({
+      event: "add_to_cart",
+      product_id: product._id,
+      product_name: product.name,
+      product_price: product.onePiecePrice,
+      product_quantity: productQuantity?.quantity || 1,
+    });
   };
   const handleIncreaseCartItem = () => {
     setCount((prev) => {
@@ -202,6 +231,38 @@ const ProductDetails = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Push data to dataLayer when product changes
+    if (product) {
+      window.dataLayer.push({
+        event: "view_item",
+        product_id: product._id,
+        product_name: product.name,
+        product_category: product.category,
+        currencyCode: "BDT",
+        product_price: product.onePiecePrice,
+        product_discounted_price: discountedPrice,
+        product_quantity: productQuantity?.quantity || 1,
+      });
+    }
+  }, [product, discountedPrice, productQuantity]);
+
+  useEffect(() => {
+    // Check if the URL contains the FAQ hash fragment
+
+    if (location.hash === "#faq") {
+      setActiveTab(4);
+      const faqSection = document.getElementById("product_faq");
+      if (faqSection) {
+        faqSection.scrollIntoView({ behavior: "smooth", top: 600 });
+      }
+    }
+
+    if (location.hash === "#reviews") {
+      setActiveTab(3);
+    }
+  }, [location]);
+
   if (loading) {
     return <Loading />;
   }
@@ -212,6 +273,7 @@ const ProductDetails = () => {
         metaTitle={product?.metaTitle}
         metaImage={product?.metaImage}
         metaDescription={product?.metaDescription}
+        canonicalUrl={product?.canonicalUrl}
       />
       {/* product details */}
       <div className="flex md:flex-row flex-col bg-white p-5 shadow-custom gap-8">
@@ -260,16 +322,22 @@ const ProductDetails = () => {
               (1 customer review)
             </span>
           </div>
-          <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5  line-through ">
-            ৳ {product?.onePiecePrice}
-          </h2>
-          <p className="border border-solid border-borderColor inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
+
+          <p className="border border-solid mt-3 border-borderColor inline-block px-3 py-1 capitalize font-openSans text-[#333] mb-3">
             {product?.companyName}
           </p>
 
           <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5">
-            ৳ {discountedPrice}
+            {product?.discount ? (
+              <>
+                <span className="line-through">৳ {product?.onePiecePrice}</span>{" "}
+                ৳ {discountedPrice}
+              </>
+            ) : (
+              <>৳ {product?.onePiecePrice}</>
+            )}
           </h2>
+
           <div className="flex md:flex-row flex-col gap-5">
             <div className="flex w-[150px]  items-center border border-solid border-borderColor rounded-full ">
               <div
@@ -298,14 +366,14 @@ const ProductDetails = () => {
               onClick={handleAddToCart}
               className="uppercase bg-secondary hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
             >
-              add to cart
+              কার্টে যোগ করুন
             </button>
             <Link
               to={"/checkout"}
               onClick={handleAddToCart}
-              className="uppercase bg-secondary hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
+              className="uppercase bg-secondary text-center hover:bg-primary px-6 py-3 rounded-full text-white font-rubic font-medium text-lg transition-all duration-300"
             >
-              Buy now
+              অর্ডার করুন
             </Link>
           </div>
 
@@ -345,7 +413,7 @@ const ProductDetails = () => {
       </div>
       {/* Additional infomation */}
 
-      <div className="my-10">
+      <div id="product_faq" className="my-10">
         <div className="flex md:flex-row flex-col border-b border-borderColor gap-2">
           <div
             className={`px-5 py-3 rounded-tr-lg rounded-tl-lg  font-rubic font-medium text-sm uppercase ${
@@ -377,11 +445,24 @@ const ProductDetails = () => {
           >
             <span className="mt-1 inline-block"> Reviews </span>
           </div>
+          <div
+            className={`px-5 py-3 rounded-tr-lg rounded-tl-lg  font-rubic font-medium text-sm uppercase ${
+              activeTab === 4
+                ? "bg-primary text-white "
+                : "bg-[#efecec] text-[#292929] hover:bg-white"
+            }`}
+            onClick={() => handleTabClick(4)}
+          >
+            <span className="mt-1 inline-block"> FAQ </span>
+          </div>
         </div>
         <div className="tab-content">
           {activeTab === 1 && <Description product={product} />}
           {activeTab === 2 && <AdditionalInfo product={product} />}
           {activeTab === 3 && <Reviews product={product} />}
+          {activeTab === 4 && (
+            <ProductFAQ allFaqs={allFaqs} product={product} />
+          )}
         </div>
       </div>
       {/* Related products */}

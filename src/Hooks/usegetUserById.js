@@ -13,7 +13,6 @@ const UsegetUserById = () => {
             `http://localhost:5000/api/v1/user/getUsersById/${userInfo?._id}`
           );
           const resData = await response.json();
-          console.log(resData, "resData");
           setUser(resData);
         }
       } catch (error) {

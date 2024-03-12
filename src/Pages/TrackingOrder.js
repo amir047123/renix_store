@@ -33,6 +33,12 @@ const TrackingOrder = () => {
     };
 
     getMyOrder();
+    
+    // Push data to DataLayer when search button is clicked
+    window.dataLayer.push({
+      event: "search_order",
+      tracking_id: trackingId,
+    });
   }, [searched, trackingId]);
 
   const handleInputChange = (event) => {
@@ -49,8 +55,9 @@ const TrackingOrder = () => {
         metaTitle={seoMetaData?.metaTitle}
         metaImage={seoMetaData?.metaImage}
         metaDescription={seoMetaData?.metaDescription}
+        canonicalUrl={seoMetaData?.canonicalUrl}
+
       />
-      {/* <PageHeader /> */}
       <div className="flex flex-col items-center justify-center px-4 mt-10">
         <div className="text-center">
           <h1 className="font-bold uppercase text-3xl text-primary">

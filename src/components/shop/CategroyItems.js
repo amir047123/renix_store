@@ -1,12 +1,30 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
+import DynamicTitle from "../shared/DynamicTitle";
 
 const CategoryItems = ({ category }) => {
   const [openSubCategory, setOpenSubCategory] = useState(false);
 
+  const handleToggleSubCategory = () => {
+    setOpenSubCategory(!openSubCategory);
+    
+    // Push category data to the dataLayer
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "toggleSubCategory",
+      category: category
+    });
+  };
+
   return (
     <div>
+      {/* <DynamicTitle
+        metaTitle={category?.metaTitle}
+        metaImage={category?.metaImage}
+        metaDescription={category?.metaDescription}
+        canonicalUrl={category?.canonicalUrl}
+      /> */}
       <ul className="flex flex-col gap-3 relative">
         <li className="relative border-b border-solid border-borderColor px-5">
           <Link
@@ -20,7 +38,6 @@ const CategoryItems = ({ category }) => {
             style={{
               transition: "max-height 0.5s ease-in-out",
               maxHeight: openSubCategory ? "1000px" : "0",
-
               overflow: "hidden",
             }}
           >
@@ -47,7 +64,7 @@ const CategoryItems = ({ category }) => {
           {category.subCategory && (
             <FaPlus
               className="absolute right-5 top-4 cursor-pointer"
-              onClick={() => setOpenSubCategory(!openSubCategory)}
+              onClick={handleToggleSubCategory}
             />
           )}
         </li>

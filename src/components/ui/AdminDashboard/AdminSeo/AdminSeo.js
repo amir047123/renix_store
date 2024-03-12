@@ -42,7 +42,6 @@ const AdminSeo = () => {
         "http://localhost:5000/api/v1/seo/createSeo",
         data
       );
-      // console.log(seoData);
       if (seoData.status === "error") {
         toast.error(seoData.message);
       } else if (seoData.status === "success") {

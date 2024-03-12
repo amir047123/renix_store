@@ -5,7 +5,6 @@ const Address = () => {
   // const isShippingAddress = false;
   const { data } = UsegetUserById();
 
-  console.log(data);
   return (
     <div>
       <p className="font-openSans text-sm mb-4 text-[#333]">

@@ -14,7 +14,6 @@ const DeleteHook = ({ refetch, setRefetch, setAllData = "", url, id }) => {
       fetch(`${url}`, {
         method: "DELETE",
       }).then((res) => {
-        console.log(res, "deleted");
         if (res.status === 200) {
           setRefetch(!refetch);
           setAllData((allData) => {

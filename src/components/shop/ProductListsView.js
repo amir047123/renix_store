@@ -26,13 +26,6 @@ const ProductListsView = ({ product }) => {
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 
-  const truncate = (text, limit) => {
-    if (!text) return "";
-    const words = text.split(" ");
-    const truncated = words.slice(0, limit).join(" ");
-    return truncated + (words.length > limit ? "..." : "");
-  };
-
   useEffect(() => {
     const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
     const found = wishlistItems.some(item => item._id === product._id);
@@ -53,6 +46,16 @@ const ProductListsView = ({ product }) => {
     }
     setCartProducts([...existingCartItems]);
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+    
+    // Push data to DataLayer
+    window.dataLayer.push({
+      event: "add_to_cart",
+      product_id: product._id,
+      product_name: product.name,
+      currencyCode: "BDT",
+      product_price: product.onePiecePrice,
+      product_quantity: 1, // Since it's added to cart
+    });
   };
 
   const handleAddToWishlist = () => {
@@ -67,10 +70,24 @@ const ProductListsView = ({ product }) => {
       setIsInWishlist(true);
       toast.success("Product added to wishlist");
 
+      // Push data to DataLayer
+      window.dataLayer.push({
+        event: "add_to_wishlist",
+        product_id: product._id,
+        product_name: product.name,
+      });
+
     } else {
       wishlistItems = wishlistItems.filter(item => item._id !== product._id);
       setIsInWishlist(false);
       toast.info("Product removed from wishlist");
+
+      // Push data to DataLayer
+      window.dataLayer.push({
+        event: "remove_from_wishlist",
+        product_id: product._id,
+        product_name: product.name,
+      });
 
     }
     
@@ -83,7 +100,7 @@ const ProductListsView = ({ product }) => {
 
   return (
     <div className="flex px-5 lg:px-0 flex-col lg:flex-row items-center gap-8 pr-2 lg:pr-20 border-b last:border-b-0 border-solid border-borderColor pb-4 mb-4">
-      <Link   to={`/product/${product?.slug}`} className="basis-[28%] ">
+      <Link to={`/product/${product?.slug}`} className="basis-[28%] ">
         <img
           className="mx-auto  group-hover:scale-125  transition-all duration-200"
           src={product?.img}
@@ -106,27 +123,29 @@ const ProductListsView = ({ product }) => {
               {reviews.length} Review
             </p>
             <Link
-              to={`/product/${product?.slug}`}
-              className="capitalize text-primary font-openSans text-sm hover:text-secondary"
+              to={`/product/${product?.slug}#reviews`}
+              className="capitalize text-primary border-r pr-4 border-primary border-solid  font-openSans text-sm hover:text-secondary"
             >
               add your Review
             </Link>
+            <Link
+              to={`/product/${product?.slug}#faq`}
+              className="uppercase text-primary font-openSans text-sm hover:text-secondary"
+            >
+              FAQ
+            </Link>
           </div>
-          {/* <p
-            className="py-5"
-            dangerouslySetInnerHTML={{
-              __html: product?.description
-                ? truncate(product.description, 20)
-                : "",
-            }}
-          ></p> */}
-                    <span className="text-green-500">{product?.discount}% off</span>
 
-
-          <p className="font-medium font-rubic text-sm">
-            <span className="line-through">৳ {product?.onePiecePrice}</span> ৳{" "}
-            {discountedPrice}
-          </p>
+          <div className="font-medium font-rubic text-sm">
+            {product.discount ? (
+              <>
+                <span className="line-through">৳ {product?.onePiecePrice}</span>{" "}
+                ৳ {discountedPrice}
+              </>
+            ) : (
+              <>৳ {product?.onePiecePrice}</>
+            )}
+          </div>
           <div className="mt-6 flex flex-col md:flex-row items-center gap-4">
             <button
               onClick={handleAddToCart}
@@ -135,7 +154,7 @@ const ProductListsView = ({ product }) => {
               <FaShoppingCart />
               {cartQuantityNumber?.quantity
                 ? cartQuantityNumber?.quantity
-                : "Add to cart"}
+                : "কার্টে যোগ করুন"}
             </button>
             <button
               onClick={handleAddToWishlist}
@@ -146,14 +165,16 @@ const ProductListsView = ({ product }) => {
               } px-5 py-3 font-medium font-rubic uppercase duration-200 text-sm rounded-full`}
             >
               {isInWishlist ? <FaHeart /> : <FaRegHeart />}
-              {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+              {isInWishlist
+                ? " ইচ্ছেতালিকা অপসারণ করুন"
+                : "ইচ্ছেতালিকায় যোগ করুন"}
             </button>
             <Link
               onClick={handleAddToCart}
               to={"/checkout"}
               className="inline-block bg-primary text-white rounded-full uppercase text-sm font-openSans font-medium px-4 py-2 hover:bg-textColor transition-all duration-200"
             >
-              buy now
+              অর্ডার করুন
             </Link>
           </div>
         </div>

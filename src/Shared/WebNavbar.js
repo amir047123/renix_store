@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaAngleDown, FaBars, FaSearch } from "react-icons/fa";
 import { IoIosBasket, IoMdClose } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoSearchOutline } from "react-icons/io5";
 import Cart from "../Pages/Cart";
 import axios from "axios";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
@@ -14,6 +14,7 @@ const WebNavbar = () => {
   const [loading, setLoading] = useState(false);
   const [openCartMenu, setOpenCartMenu] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [isShowSearch, setIsShowSearch] = useState(false);
   const [categorys, setCategorys] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -26,7 +27,6 @@ const WebNavbar = () => {
     (acc, item) => acc + item.quantity,
     0
   );
-
   // Increment the index of the current title to display the next one
   useEffect(() => {
     const interval = setInterval(() => {
@@ -75,7 +75,7 @@ const WebNavbar = () => {
     },
     {
       title: "CATEGORIES",
-      href: "/category",
+      // href: "/category",
       subCategory: categorys,
     },
     {
@@ -296,6 +296,7 @@ const WebNavbar = () => {
             total={total}
             totalCartItemsNum={totalCartItemsNum}
             cartProducts={cartProducts}
+            setSearchQuery={setSearchQuery}
           ></Cart>
         </nav>
         <div className=" hidden md:block lg:hidden bg-white border-t border-solid border-[#eaeaea] py-5 px-6 ">
@@ -332,7 +333,7 @@ const WebNavbar = () => {
                       <li className="pb-2" key={subca.title}>
                         <Link
                           className="text-textColor font-medium hover:text-primary hover:ml-3 duration-500 transition-all mb-3 inline-block uppercase text-sm tracking-[0.5px] "
-                          to={subca.href}
+                          to={`/shop/${subca.name}`}
                         >
                           {subca.title}
                         </Link>
@@ -367,8 +368,8 @@ const WebNavbar = () => {
               <p className=" uppercase font-bold text-primary">Renix Store</p>
             </Link>
           </div>
-          <div className="flex justify-between items-center px-5 gap-10 -mt-2">
-            <div>
+          <div className="flex justify-between items-center px-5  -mt-2">
+            <div className="mr-5">
               <FaBars
                 onClick={() => setIsOpen(!isOpen)}
                 className="text-primary"
@@ -377,24 +378,35 @@ const WebNavbar = () => {
             </div>
             {/* Search bar */}
 
-            <div className=" flex-1">
+            <div className=" flex-1 relative">
               <div>
-                <input
-                  type="text"
-                  name="productName"
-                  placeholder="search product"
-                  className="border-2 outline-0 w-full border-solid border-borderColor h-full py-2 px-5"
-                  value={searchQuery}
-                  onChange={handleSearch}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="productName"
+                    placeholder="search product"
+                    className="border-2 outline-0 w-full border-solid border-borderColor h-full py-2 pl-7"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                  />
+                  <IoSearchOutline className="absolute left-[10px] top-[58%] -translate-y-1/2 " />
+                </div>
                 {searchQuery && (
-                  <div>
+                  <div className="absolute top-full bg-white px-3 h-[200px] shadow-xl  overflow-y-auto">
                     <p className="text-sm mb-2">
                       Showing {searchResults.length} results
                     </p>
-                    <ul>
+                    <ul className="flex flex-col gap-4">
                       {searchResults.map((result) => (
-                        <li key={result.id}>{result.name}</li>
+                        <li key={result.slug}>
+                          <Link
+                            onClick={() => setSearchQuery("")}
+                            className=" cursor-pointer text-xs hover:text-primary"
+                            to={`/product/${result.slug}`}
+                          >
+                            {result.name}
+                          </Link>
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -512,7 +524,6 @@ const WebNavbar = () => {
             <ul className="flex flex-col items-start  gap-7">
               {mobileMenuItems.map((item, i) => (
                 <li
-                  onClick={() => setIsOpen(false)}
                   key={i}
                   className="font-rubic  font-medium uppercase text-sm w-full pr-10"
                 >
@@ -523,7 +534,7 @@ const WebNavbar = () => {
                         setOpenDropdown(!openDropdown);
                       })
                     }
-                    to={item.href}
+                    to={item.href ? item.href : "javascript:void(0)"}
                     className={({ isActive }) =>
                       `${isActive ? "text-[#ed6663]" : "text-primary"}  
                     tracking-[1px] flex justify-between 
@@ -554,10 +565,15 @@ const WebNavbar = () => {
                       }}
                     >
                       {item?.subCategory?.map((subca) => (
-                        <li className="pb-2" key={subca.name}>
+                        <li
+                          onClick={() => setIsOpen(false)}
+                          className="pb-2"
+                          key={subca.name}
+                        >
                           <Link
                             className="text-textColor font-medium hover:text-primary hover:ml-3 duration-500 transition-all mb-1 inline-block uppercase text-sm tracking-[0.5px] "
-                            to={subca.href}
+                            // to={subca.href}
+                            to={`/shop/${subca.name}`}
                           >
                             {subca.name}
                           </Link>
@@ -565,7 +581,10 @@ const WebNavbar = () => {
                           {subca?.nestedCategory && (
                             <ul className="space-y-2">
                               {subca?.nestedCategory.map((nestedCate) => (
-                                <li key={nestedCate.title}>
+                                <li
+                                  onClick={() => setIsOpen(false)}
+                                  key={nestedCate.title}
+                                >
                                   <Link
                                     className="text-[#7a7a7a] font-normal hover:text-primary hover:ml-3 duration-500 transition-all  text-xs "
                                     to={nestedCate.href}

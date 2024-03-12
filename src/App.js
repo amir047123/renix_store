@@ -1,6 +1,7 @@
+// App.js
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-
 import { PublicRoutes } from "./Routes/PublicRoutes";
 import RootLayout from "./layouts/RootLayout";
 import UserDashboardLayout from "./layouts/UserDashboardLayout";
@@ -15,11 +16,14 @@ import { UserRoutes } from "./Routes/UserRoutes";
 import MyContext from "./Context/MyContext";
 import UserProtectedRoute from "./Routes/UserProtectedRoute";
 import AdminProtectedRoute from "./Routes/AdminProtectedRoute";
+import DataLayer from './components/DataLayer/DataLayer';
+import Bot from './components/Bot/Bot';
 
 function App() {
   return (
     <MyContext.Provider>
       <Router>
+        <DataLayer data={{ event: 'page_view', page: window.location.pathname }} />
         <div>
           <Routes>
             {/* Public routes */}
@@ -53,7 +57,7 @@ function App() {
                   path={path}
                   element={
                     <AdminProtectedRoute>
-                    <Component />
+                      <Component />
                     </AdminProtectedRoute>
                   }
                 />
@@ -61,6 +65,7 @@ function App() {
             </Route>
           </Routes>
           <ToastContainer />
+          <Bot></Bot>
         </div>
       </Router>
     </MyContext.Provider>

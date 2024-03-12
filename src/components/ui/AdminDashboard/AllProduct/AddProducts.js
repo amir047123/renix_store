@@ -55,7 +55,6 @@ const AddProducts = () => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(formData, 54);
   const handleCheckboxChange = (e) => {
     setFormData({
       ...formData,
@@ -104,7 +103,6 @@ const AddProducts = () => {
       });
       setTags([""]);
       setProductCode("");
-      console.log(response, "response");
     } catch (error) {
       console.error("Error making POST request:", error);
     }
@@ -154,6 +152,8 @@ const AddProducts = () => {
           Add Product
         </h1>
       </div>
+
+    
       <form
         onSubmit={handleSubmit}
         className=" shadow-gray-300 px-8 py-10 rounded flex flex-col gap-4 text-left"
@@ -204,7 +204,7 @@ const AddProducts = () => {
               htmlFor="product-code"
               className="block mb-2 text-[13px] font-normal text-gray-900"
             >
-              Product Code
+              Product Secret Code
             </label>
             <input
               type="text"
@@ -245,7 +245,7 @@ const AddProducts = () => {
             className="block mb-2 text-[13px] font-normal text-gray-900 "
           >
             {" "}
-            Images
+            Feature Image
           </label>
           <input
             onChange={handleAdditionalImageUpload}

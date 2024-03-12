@@ -45,7 +45,6 @@ const AdminShipping = () => {
           formData
         );
         toast.success("Shipping posted!");
-        console.log("POST request successful:", response);
       } catch (error) {
         toast?.error(error);
         console.error("Error making POST request:", error);
@@ -54,7 +53,7 @@ const AdminShipping = () => {
   };
 
   const percentese = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
     41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
     60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78,
@@ -72,7 +71,7 @@ const AdminShipping = () => {
       </div>
 
       <div class="grid grid-cols-1 gap-4 px-4  sm:grid-cols-4 sm:px-8">
-        {/* <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
+        <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
           <div class="p-4 bg-green-400">
            <Icon className=" h-12 w-12 text-white" icon="fa-solid:shipping-fast"></Icon> 
           </div>
@@ -80,13 +79,13 @@ const AdminShipping = () => {
             <h3 class="text-sm tracking-wider">Inside Dhaka  </h3>
             <p class="text-3xl">  {formData?.insideDhaka} BDT</p>
           </div>
-        </div> */}
+        </div>
         <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
           <div class="p-4 bg-green-400">
            <Icon className=" h-12 w-12 text-white" icon="fa-solid:shipping-fast"></Icon> 
           </div>
           <div class="px-4 text-gray-700">
-            <h3 class="text-sm tracking-wider"> Shipping </h3>
+            <h3 class="text-sm tracking-wider">OutSide Shipping </h3>
             <p class="text-3xl">{formData?.outsideDhaka} BDT</p>
           </div>
         </div>
@@ -108,7 +107,7 @@ const AdminShipping = () => {
         {/* date */}
 
         <div className="md:flex items-center">
-          {/* <div className="mb-1  w-full md:w-[50%] mr-0 md:mr-2">
+          <div className="mb-1  w-full md:w-[50%] mr-0 md:mr-2">
             <label class="block mb-2 text-[13px] font-normal text-gray-900 ">
               Inside Dhaka
             </label>
@@ -120,7 +119,7 @@ const AdminShipping = () => {
               onChange={handleChange}
               className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none  block w-full p-2.5 focus:border-none"
             />
-          </div> */}
+          </div>
 
           <div className="mb-1  w-full md:w-[50%] mr-0 md:mr-2">
             <label class="block mb-2 text-[13px] font-normal text-gray-900 ">

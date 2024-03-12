@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import AllProductWithDetails from "./AllProductWithDetails";
 import DeleteHook from "../../../../Hooks/DeleteHook";
 import Loading from "../../../../shared/Loading";
+import Pagination from "../../../shared/Pagination";
 
 function AllProduct() {
   const [products, setProducts] = useState([]);
@@ -16,16 +17,19 @@ function AllProduct() {
   const [uniqueCompanies, setUniqueCompanies] = useState([]);
   const [uniqueCategories, setUniqueCategories] = useState([]);
   const [uniqueGenericCategories, setUniqueGenericCategories] = useState([]);
-
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
+  const [quantity, setQuantity] = useState(0);
   useEffect(() => {
     async function fetchProducts() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/product/getProducts"
+          `http://localhost:5000/api/v1/product/specific?page=${page}&size=${size}`
         );
         setProducts(response?.data?.data);
         setFilteredProducts(response?.data?.data);
         setLoading(false);
+        setQuantity(response?.data?.total);
       } catch (err) {
         setError(err.message);
         setLoading(false);
@@ -33,8 +37,11 @@ function AllProduct() {
     }
 
     fetchProducts();
-  }, [refetch]);
-
+  }, [refetch, page, size]);
+  const totalPages = Math.ceil(quantity / size);
+  const handlePageChange = (pageNumber) => {
+    setPage(pageNumber - 1); // Pagination component starts from page 1
+  };
   const handleSearch = () => {
     if (searchTerm === "") {
       setFilteredProducts(products);
@@ -138,115 +145,124 @@ function AllProduct() {
         </span>
       </div>
       <div className="w-full overflow-x-auto">
-      <table
-        className="w-full text-left rounded  "
-        cellspacing="0"
-      >
-        <tbody>
-          <tr>
-            <th
-              scope="col"
-              className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
-            >
-              No{" "}
-            </th>
-            <th
-              scope="col"
-              className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
-            >
-              Image
-            </th>
-            <th
-              scope="col"
-              className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
-            >
-              Name
-            </th>
-            <th
-              scope="col"
-              className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
-            >
-              Pieces Price
-            </th>
-            <th
-              scope="col"
-              className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
-            >
-              stock
-            </th>
-            <th
-              scope="col"
-              className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
-            >
-              categories
-            </th>
-            <th
-              scope="col"
-              className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
-            >
-              status
-            </th>
-            <th
-              scope="col"
-              className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
-            >
-              Action
-            </th>
-          </tr>
-          {/* Map through the filtered products instead of all products */}
-          {filteredProducts.map((product, index) => (
-            <tr key={product._id} className="shadow">
-              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                {index + 1}
-              </td>
-              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                <img
-                  className="w-12 border p-1 rounded-md shadow"
-                  src={product?.img}
-                  alt="img"
-                ></img>
-              </td>
-
-              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                {product?.name}
-              </td>
-              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                {product?.onePiecePrice}
-              </td>
-              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                {product?.stock}
-              </td>
-              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                {product?.category}
-              </td>
-              <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                {product?.status}
-              </td>
-              <td className="h-16 px-6  transition duration-300 border-slate-200  text-secondary text-lg flex gap-2 items-center cursor-pointer">
-                <div
-                  onClick={() => {
-                    DeleteHook({
-                      refetch,
-                      setRefetch,
-                      url: `http://localhost:5000/api/v1/product/deleteProducts/${product?._id}`,
-                    });
-                  }}
-                  className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300"
-                >
-                  <Icon icon="material-symbols:delete-outline" />
-                </div>
-
-                <Link to={`/adminDashboard/updateProducts/${product._id}`}>
-                  <div className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300">
-                    <Icon icon="uil:edit"></Icon>
-                  </div>
-                </Link>
-              </td>
+        <table className="w-full text-left rounded  " cellspacing="0">
+          <tbody>
+            <tr>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                No{" "}
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Image
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Name
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Price
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                stock
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                categories
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                status
+              </th>
+              <th
+                scope="col"
+                className="h-16 px-6 text-sm font-medium stroke-slate-700 text-slate-700 bg-slate-100"
+              >
+                Action
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+            {/* Map through the filtered products instead of all products */}
+            {filteredProducts?.map((product, index) => (
+              <tr key={product._id} className="shadow">
+                <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
+                  {page * size + index + 1}
+                </td>
+                <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
+                  <img
+                    className="w-12 border p-1 rounded-md shadow"
+                    src={product?.img}
+                    alt="img"
+                  ></img>
+                </td>
+
+                <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
+                  {product?.name}
+                </td>
+                <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
+                  {product?.onePiecePrice}
+                </td>
+                <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
+                  {product?.stock}
+                </td>
+                <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
+                  {product?.category}
+                </td>
+                <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
+                  {product?.status}
+                </td>
+                <td className="h-16 px-6  transition duration-300 border-slate-200  text-secondary text-lg flex gap-2 items-center cursor-pointer">
+                  <div
+                    onClick={() => {
+                      DeleteHook({
+                        refetch,
+                        setRefetch,
+                        url: `http://localhost:5000/api/v1/product/deleteProducts/${product?._id}`,
+                      });
+                    }}
+                    className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300"
+                  >
+                    <Icon icon="material-symbols:delete-outline" />
+                  </div>
+                  <Link to={`/adminDashboard/product-faq/${product._id}`}>
+                    <div className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300">
+                      <Icon icon="flat-color-icons:faq"></Icon>
+                    </div>
+                  </Link>
+                  <Link to={`/adminDashboard/updateProducts/${product._id}`}>
+                    <div className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300">
+                      <Icon icon="uil:edit"></Icon>
+                    </div>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {/* paginaion */}
+        <div className="text-center">
+          <Pagination
+            currentPage={page + 1} // Pagination component starts from page 1
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      </div>
     </div>
   );
 }

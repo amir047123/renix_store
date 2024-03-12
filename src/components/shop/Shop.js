@@ -18,6 +18,7 @@ import PartnersCarousel from "../PartnersCarousel/PartnersCarousel";
 import Pagination from "../shared/Pagination";
 import useGetSeo from "../../Hooks/useGetSeo";
 import DynamicTitle from "../shared/DynamicTitle";
+import HomeContent from "../Home Description/HomeContent";
 const Shop = () => {
   const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);
@@ -26,6 +27,7 @@ const Shop = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categorys, setCategorys] = useState([]);
+  const [categorysById, setCategorysBYId] = useState({});
   const [category, setCategory] = useState([]);
   const { id } = useParams();
   const [product, setProduct] = useState([]);
@@ -43,7 +45,7 @@ const Shop = () => {
         .then((res) => res.json())
         .then((data) => {
           setData(data?.data);
-          console.log(data, 37);
+
           setQuantity(data?.total);
           setLoading(false);
         });
@@ -53,9 +55,16 @@ const Shop = () => {
   }, [page, size]);
   const totalPages = Math.ceil(quantity / size);
 
-  const handlePageChange = (pageNumber) => {
-    setPage(pageNumber - 1); // Pagination component starts from page 1
-  };
+ const handlePageChange = (pageNumber) => {
+   setPage(pageNumber - 1); // Pagination component starts from page 1
+
+   // Scroll to the top of the page
+   window.scrollTo({
+     top: 0,
+     behavior: "smooth", // Optional: Adds smooth scrolling behavior
+   });
+ };
+
   useEffect(() => {
     async function fetchCategorys() {
       try {
@@ -70,6 +79,22 @@ const Shop = () => {
     }
     fetchCategorys();
   }, []);
+
+  useEffect(() => {
+    async function fetchCategorys() {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:5000/api/v1/category/specific?fieldName=name&fieldValue=${id}`
+        );
+        setCategorysBYId(data?.data[0]);
+
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    }
+    fetchCategorys();
+  }, [id]);
 
   useEffect(() => {
     fetch(
@@ -154,7 +179,15 @@ const Shop = () => {
                 {categorys?.length && (
                   <>
                     {categorys?.map((category) => (
-                      <CategroyItems className="" category={category?.name} />
+                      <>
+                        {" "}
+                        <CategroyItems
+                          key={category._id}
+                          className=""
+                          category={category?.name}
+                        />
+                        <DynamicTitle metaTitle={category.metaTitle} />
+                      </>
                     ))}
                   </>
                 )}
@@ -275,22 +308,30 @@ const Shop = () => {
                   </div>
 
                   {isGrid ? (
-                    <div className="grid   grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
-                      {id
-                        ? filterByPrice?.length > 0
-                          ? filterByPrice?.map((product, index) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                      {id ? (
+                        filterByPrice?.length > 0 ? (
+                          <>
+                            {filterByPrice?.map((product, index) => (
                               <ProductCardGrid key={index} product={product} />
-                            ))
-                          : product?.map((product, index) => (
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            {product?.map((product, index) => (
                               <ProductCardGrid key={index} product={product} />
-                            ))
-                        : filterByPrice?.length > 0
-                        ? filterByPrice?.map((product, index) => (
-                            <ProductCardGrid key={index} product={product} />
-                          ))
-                        : data?.map((product, index) => (
-                            <ProductCardGrid key={index} product={product} />
-                          ))}
+                            ))}
+                          </>
+                        )
+                      ) : filterByPrice?.length > 0 ? (
+                        filterByPrice?.map((product, index) => (
+                          <ProductCardGrid key={index} product={product} />
+                        ))
+                      ) : (
+                        data?.map((product, index) => (
+                          <ProductCardGrid key={index} product={product} />
+                        ))
+                      )}
                     </div>
                   ) : (
                     <div className=" py-4">
@@ -319,11 +360,25 @@ const Shop = () => {
         </div>
       </section>
       <PartnersCarousel />
-      <DynamicTitle
-        metaTitle={seoMetaData?.metaTitle}
-        metaImage={seoMetaData?.metaImage}
-        metaDescription={seoMetaData?.metaDescription}
-      />
+      <HomeContent></HomeContent>
+
+      {id ? (
+        <>
+          <DynamicTitle
+            metaTitle={categorysById?.metaTitle}
+            metaImage={categorysById?.metaImage}
+            metaDescription={categorysById?.metaDescription}
+            canonicalUrl={categorysById?.canonicalUrl}
+          />
+        </>
+      ) : (
+        <DynamicTitle
+          metaTitle={seoMetaData?.metaTitle}
+          metaImage={seoMetaData?.metaImage}
+          metaDescription={seoMetaData?.metaDescription}
+          canonicalUrl={seoMetaData?.canonicalUrl}
+        />
+      )}
     </div>
   );
 };

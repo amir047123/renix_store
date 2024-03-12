@@ -1,8 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import PageHeader from "../components/ui/PageHeader";
+import AuthUser from "../Hooks/authUser";
 
 const UserDashboardNav = ({ Outlet }) => {
   const location = useLocation();
+  const { userRole, logout } = AuthUser();
+
   return (
     <div>
       <div className="bg-[#f5f5f5]  overflow-hidden">
@@ -67,7 +70,7 @@ const UserDashboardNav = ({ Outlet }) => {
                       Wishlist
                     </Link>
                   </li>
-                  <li className="text-[#333] hover:text-black hover:ml-3 transition-all duration-200 capitalize cursor-pointer">
+                  <li onClick={logout} className="text-[#333] hover:text-black hover:ml-3 transition-all duration-200 capitalize cursor-pointer">
                     Logout
                   </li>
                 </ul>

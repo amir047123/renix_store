@@ -44,15 +44,12 @@ const Announcement = () => {
         if (res?.data?.data === null) {
           toast.error("already added a annoucment. Please delete previous one");
         }
-        console.log("Announcement added successfully:", res.data);
         toast.success("Announcement added successfully");
 
         setTitles([""]);
         fetchAnnouncements();
       }
-    } catch (error) {
-      console.log("Error adding announcement:", error.messages);
-    }
+    } catch (error) {}
   };
 
   const handleDeleteAnnouncement = async (id) => {

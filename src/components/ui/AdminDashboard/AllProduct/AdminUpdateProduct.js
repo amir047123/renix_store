@@ -72,7 +72,6 @@ const AdminUpdateProduct = () => {
           setImg(data?.data?.img);
           setTags(data?.data?.tags);
           setMetaImage(data?.data?.metaImage);
-          console.log(data.data);
         })
     );
   }, [id]);
@@ -184,12 +183,15 @@ const AdminUpdateProduct = () => {
         {/* price  */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+       
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="mb-1  w-full mr-0 md:mr-2">
             <label
               for="repeat-password"
-              class="block mb-2 text-[13px] font-normal text-gray-900 "
+              className="block mb-2 text-[13px] font-normal text-gray-900 "
             >
-              One Pieces
+              Price
             </label>
             <input
               type="number"
@@ -198,9 +200,27 @@ const AdminUpdateProduct = () => {
               onChange={handleChange}
               required
               className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none  block w-full p-2.5 focus:border-none"
-              placeholder="One pices price"
+              placeholder="Enter Price"
             />
           </div>
+          <div className="mb-1">
+            <label
+              htmlFor="product-code"
+              className="block mb-2 text-[13px] font-normal text-gray-900"
+            >
+              Product Secret  Code
+            </label>
+            <input
+              type="text"
+              id="product-code"
+              name="productCode"
+              value={formData.productCode}
+              onChange={handleChange}
+              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:border-blue-500"
+              placeholder="Enter Product Code"
+            />
+          </div>
+        </div>
 
           {/* {
             formData?.medicineType==="tablet"&&<><div className="mb-1  w-full mr-0 md:mr-2">
@@ -289,7 +309,7 @@ const AdminUpdateProduct = () => {
             className="block mb-2 text-[13px] font-normal text-gray-900 "
           >
             {" "}
-            Images
+            Feature Image
           </label>
           <input
             onChange={handleAdditionalImageUpload}

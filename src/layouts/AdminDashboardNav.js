@@ -593,6 +593,25 @@ const AdminDashboardNav = () => {
               <span className="ml-3">Update Partner</span>
             </NavLink>
           </li>
+
+          <li onClick={handleToggle}>
+            <NavLink
+              to={"add-home-content"}
+              className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              <span className="ml-3">Update Landing Content</span>
+            </NavLink>
+          </li>
+          <li onClick={handleToggle}>
+            <NavLink
+              to={"all-home-content"}
+              className="flex items-center p-2 text-[14px]  hover:bg-primary duration-300 font-normal  py-2.5 rounded-md  text-white"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              <span className="ml-3"> Landing Content</span>
+            </NavLink>
+          </li>
         </ul>
       </li>
 
