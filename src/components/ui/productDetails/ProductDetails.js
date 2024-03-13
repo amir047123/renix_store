@@ -19,7 +19,7 @@ import Description from "./Description";
 import { useParams, Link, useLocation } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 import RelatedProductCard from "../../shop/RelatedProductCard";
-import Loading from "../../../shared/Loading";
+import Loading from "../../../Shared/Loading";
 import DynamicTitle from "../../shared/DynamicTitle";
 import ProductFAQ from "./ProductFAQ";
 import axios from "axios";

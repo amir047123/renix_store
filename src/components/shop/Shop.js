@@ -17,7 +17,7 @@ import Pagination from "../shared/Pagination";
 import useGetSeo from "../../Hooks/useGetSeo";
 import DynamicTitle from "../shared/DynamicTitle";
 import HomeContent from "../Home Description/HomeContent";
-import Loading from "../../shared/Loading";
+import Loading from "../../Shared/Loading";
 const Shop = () => {
   const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);

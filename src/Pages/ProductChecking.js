@@ -5,7 +5,7 @@ import { IoIosStar } from "react-icons/io";
 import { FaRegStar } from "react-icons/fa6";
 import DynamicTitle from "../components/shared/DynamicTitle";
 import useGetSeo from "../Hooks/useGetSeo";
-import SharedLoading from "../shared/SharedLoading";
+import SharedLoading from "../Shared/SharedLoading";
 
 const ProductChecking = () => {
   const seoMetaData = useGetSeo("product_checking_page");

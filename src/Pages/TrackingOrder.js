@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DynamicTitle from "../components/shared/DynamicTitle";
 import useGetSeo from "../Hooks/useGetSeo";
-import Loading from "../shared/Loading";
+import Loading from "../Shared/Loading";
 
 const TrackingOrder = () => {
   const seoMetaData = useGetSeo("traking_order_page");
