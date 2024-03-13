@@ -33,6 +33,7 @@ const ProductDetails = () => {
   const [count, setCount] = useState(1);
   const [activeTab, setActiveTab] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [selectedVariationIndex, setSelectedVariationIndex] = useState("index");
   const [allFaqs, setAllFaqs] = useState([]);
   const productQuantity = cartProducts?.find(
     (item) => item?._id === product?._id
@@ -44,6 +45,10 @@ const ProductDetails = () => {
   }));
 
   //
+
+  const handleSelectVariation = (index) => {
+    setSelectedVariationIndex(index);
+  };
 
   const fetchUpdatedFaqs = useCallback(async () => {
     try {
@@ -81,7 +86,7 @@ const ProductDetails = () => {
 
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
-
+  const selectedVariation = product?.variations[selectedVariationIndex] || {}; // Get the selected
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
@@ -329,14 +334,47 @@ const ProductDetails = () => {
           <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5">
             {product?.discount ? (
               <>
-                <span className="line-through">৳ {product?.onePiecePrice}</span>{" "}
-                ৳ {discountedPrice}
+                {selectedVariationIndex === "index" && (
+                  <span className="line-through">
+                    ৳ {product?.onePiecePrice}
+                  </span>
+                )}{" "}
+                ৳{" "}
+                {selectedVariationIndex === "index"
+                  ? discountedPrice
+                  : selectedVariation?.price}
               </>
             ) : (
               <>৳ {product?.onePiecePrice}</>
             )}
           </h2>
 
+          {/* Product variations */}
+          <div className="flex gap-3 flex-wrap">
+            <button
+              className={`text-white rounded-lg px-2 py-1 ${
+                selectedVariationIndex === "index"
+                  ? "bg-green-500"
+                  : "bg-black/80"
+              }`}
+              onClick={() => handleSelectVariation("index")}
+            >
+              {product?.strength}
+            </button>
+            {product?.variations?.map((variation, index) => (
+              <button
+                key={index}
+                className={`text-white rounded-lg px-2 py-1 ${
+                  selectedVariationIndex === index
+                    ? "bg-green-500"
+                    : "bg-black/80"
+                }`}
+                onClick={() => handleSelectVariation(index)}
+              >
+                {variation?.strength}
+              </button>
+            ))}
+          </div>
           <div className="flex md:flex-row flex-col gap-5">
             <div className="flex w-[150px]  items-center border border-solid border-borderColor rounded-full ">
               <div

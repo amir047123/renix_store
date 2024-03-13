@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UpdateHooks from "../../../../Hooks/UpdateHooks";
 import { toast } from "react-toastify";
-
+import { SlClose } from "react-icons/sl";
 const GenericCategories = ["AllopathicL", "Herbal", "Airobotics", "Unani"];
 
 const AdminUpdateProduct = () => {
@@ -42,11 +42,33 @@ const AdminUpdateProduct = () => {
     metaTitle: "",
     metaDescription: "",
     slug: "",
+    variations: [{ strength: "", price: 0 }],
   });
   const handleTagsChange = (index, e) => {
     const newTags = [...tags];
     newTags[index] = e.target.value;
     setTags(newTags);
+  };
+  const addVariation = () => {
+    setFormData({
+      ...formData,
+      variations: [
+        ...formData.variations,
+        {
+          strength: "",
+          price: 0,
+        },
+      ],
+    });
+  };
+
+  const handleVariationChange = (index, key, value) => {
+    const updatedVariations = [...formData.variations];
+    updatedVariations[index][key] = value;
+    setFormData({
+      ...formData,
+      variations: updatedVariations,
+    });
   };
   const handleAddTagField = () => {
     setTags([...tags, ""]);
@@ -121,6 +143,15 @@ const AdminUpdateProduct = () => {
     }
     multipleImageUpload(formData, setSelectedFiles);
   };
+  const handleRemoveVariation = (indexToRemove) => {
+    const updatedVariations = formData.variations.filter(
+      (_, index) => index !== indexToRemove
+    );
+    setFormData({
+      ...formData,
+      variations: updatedVariations,
+    });
+  };
   return (
     <div>
       <div class=" ">
@@ -183,44 +214,42 @@ const AdminUpdateProduct = () => {
         {/* price  */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-       
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="mb-1  w-full mr-0 md:mr-2">
-            <label
-              for="repeat-password"
-              className="block mb-2 text-[13px] font-normal text-gray-900 "
-            >
-              Price
-            </label>
-            <input
-              type="number"
-              name="onePiecePrice"
-              value={formData?.onePiecePrice}
-              onChange={handleChange}
-              required
-              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none  block w-full p-2.5 focus:border-none"
-              placeholder="Enter Price"
-            />
+            <div className="mb-1  w-full mr-0 md:mr-2">
+              <label
+                for="repeat-password"
+                className="block mb-2 text-[13px] font-normal text-gray-900 "
+              >
+                Price
+              </label>
+              <input
+                type="number"
+                name="onePiecePrice"
+                value={formData?.onePiecePrice}
+                onChange={handleChange}
+                required
+                className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:outline-none  block w-full p-2.5 focus:border-none"
+                placeholder="Enter Price"
+              />
+            </div>
+            <div className="mb-1">
+              <label
+                htmlFor="product-code"
+                className="block mb-2 text-[13px] font-normal text-gray-900"
+              >
+                Product Code
+              </label>
+              <input
+                type="text"
+                id="product-code"
+                name="productCode"
+                value={formData.productCode}
+                onChange={handleChange}
+                className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:border-blue-500"
+                placeholder="Enter Product Code"
+              />
+            </div>
           </div>
-          <div className="mb-1">
-            <label
-              htmlFor="product-code"
-              className="block mb-2 text-[13px] font-normal text-gray-900"
-            >
-              Product Code
-            </label>
-            <input
-              type="text"
-              id="product-code"
-              name="productCode"
-              value={formData.productCode}
-              onChange={handleChange}
-              className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:border-blue-500"
-              placeholder="Enter Product Code"
-            />
-          </div>
-        </div>
 
           {/* {
             formData?.medicineType==="tablet"&&<><div className="mb-1  w-full mr-0 md:mr-2">
@@ -413,7 +442,53 @@ const AdminUpdateProduct = () => {
             placeholder="Medicine strength"
           />
         </div>
+        {/*  Variations */}
+        <div>
+          <h3 className="border-b border-solid border-slate-400 inline-block my-1">
+            {" "}
+            Add product Variations:
+          </h3>
+          {formData.variations.map((variation, index) => (
+            <div key={index} className="flex gap-5 items-center text-sm">
+              <div className="basis-1/2">
+                <label>Strength:</label>
+                <input
+                  className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5    focus:border-blue-500"
+                  type="text"
+                  value={variation.strength}
+                  onChange={(e) =>
+                    handleVariationChange(index, "strength", e.target.value)
+                  }
+                />
+              </div>
+              <div className="basis-1/2">
+                <label>Price:</label>
+                <input
+                  className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5    focus:border-blue-500"
+                  type="text"
+                  value={variation.price}
+                  onChange={(e) =>
+                    handleVariationChange(index, "price", e.target.value)
+                  }
+                />
+              </div>{" "}
+              <div>
+                <button onClick={() => handleRemoveVariation(index)}>
+                  <SlClose />
+                </button>
+              </div>
+            </div>
+          ))}
 
+          <button
+            className="bg-primary text-white px-3 py-2 rounded-full text-sm mt-2"
+            type="button"
+            onClick={addVariation}
+          >
+            Add Variation
+          </button>
+        </div>
+        {/* end variatins */}
         {/* company name start */}
 
         <div className="mb-1">

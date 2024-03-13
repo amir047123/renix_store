@@ -4,6 +4,7 @@ import { useRef } from "react";
 import JoditEditor from "jodit-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { SlClose } from "react-icons/sl";
 import {
   multipleImageUpload,
   singleImageUpload,
@@ -41,8 +42,29 @@ const AddProducts = () => {
     metaTitle: "",
     metaDescription: "",
     slug: "",
+    variations: [{ strength: "", price: 0 }],
   });
+  const addVariation = () => {
+    setFormData({
+      ...formData,
+      variations: [
+        ...formData.variations,
+        {
+          strength: "",
+          price: 0,
+        },
+      ],
+    });
+  };
 
+  const handleVariationChange = (index, key, value) => {
+    const updatedVariations = [...formData.variations];
+    updatedVariations[index][key] = value;
+    setFormData({
+      ...formData,
+      variations: updatedVariations,
+    });
+  };
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/category/getCategorys")
       .then((res) => res.json())
@@ -81,6 +103,7 @@ const AddProducts = () => {
         "http://localhost:5000/api/v1/product/addProducts",
         data
       );
+      console.log(response.data.data);
       toast.success("Medicine data posted!");
       setFormData({
         name: "",
@@ -100,6 +123,7 @@ const AddProducts = () => {
         metaTitle: "",
         metaDescription: "",
         slug: "",
+        variations: [{ strength: "", price: "" }],
       });
       setTags([""]);
       setProductCode("");
@@ -145,6 +169,15 @@ const AddProducts = () => {
     }
     multipleImageUpload(formData, setSelectedFiles);
   };
+  const handleRemoveVariation = (indexToRemove) => {
+    const updatedVariations = formData.variations.filter(
+      (_, index) => index !== indexToRemove
+    );
+    setFormData({
+      ...formData,
+      variations: updatedVariations,
+    });
+  };
   return (
     <div>
       <div className=" ">
@@ -153,7 +186,6 @@ const AddProducts = () => {
         </h1>
       </div>
 
-    
       <form
         onSubmit={handleSubmit}
         className=" shadow-gray-300 px-8 py-10 rounded flex flex-col gap-4 text-left"
@@ -187,7 +219,7 @@ const AddProducts = () => {
               for="repeat-password"
               className="block mb-2 text-[13px] font-normal text-gray-900 "
             >
-              Price
+              Primary Price
             </label>
             <input
               type="number"
@@ -330,7 +362,7 @@ const AddProducts = () => {
         <div className="mb-1">
           <label className="block mb-2 text-[13px] font-normal text-gray-900 ">
             {" "}
-            Strength
+            Primary Strength
           </label>
           <input
             type="text"
@@ -341,7 +373,53 @@ const AddProducts = () => {
             placeholder="Medicine strength"
           />
         </div>
+        {/*  Variations */}
+        <div>
+          <h3 className="border-b border-solid border-slate-400 inline-block my-1">
+            {" "}
+            Add product Variations:
+          </h3>
+          {formData.variations.map((variation, index) => (
+            <div key={index} className="flex gap-5 items-center text-sm">
+              <div className="basis-1/2">
+                <label>Strength:</label>
+                <input
+                  className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5    focus:border-blue-500"
+                  type="text"
+                  value={variation.strength}
+                  onChange={(e) =>
+                    handleVariationChange(index, "strength", e.target.value)
+                  }
+                />
+              </div>
+              <div className="basis-1/2">
+                <label>Price:</label>
+                <input
+                  className="bg-[#F0FDF4] text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5    focus:border-blue-500"
+                  type="text"
+                  value={variation.price}
+                  onChange={(e) =>
+                    handleVariationChange(index, "price", e.target.value)
+                  }
+                />
+              </div>{" "}
+              <div>
+                <button onClick={() => handleRemoveVariation(index)}>
+                  <SlClose />
+                </button>
+              </div>
+            </div>
+          ))}
 
+          <button
+            className="bg-primary text-white px-3 py-2 rounded-full text-sm mt-2"
+            type="button"
+            onClick={addVariation}
+          >
+            Add Variation
+          </button>
+        </div>
+        {/* end variatins */}
         {/* company name start */}
 
         <div className="mb-1">
