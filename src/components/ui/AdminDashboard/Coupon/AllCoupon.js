@@ -18,7 +18,7 @@ function AllCoupon() {
     async function fetchCoupons() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/coupon/getCoupons"
+          "http://63.250.41.158:5000/api/v1/coupon/getCoupons"
         );
         setCoupons(response?.data?.data);
         setFilteredCoupons(response?.data?.data);
@@ -162,7 +162,7 @@ function AllCoupon() {
                     DeleteHook({
                       refetch,
                       setRefetch,
-                      url: `http://localhost:5000/api/v1/coupon/deleteCoupons/${coupon?._id}`,
+                      url: `http://63.250.41.158:5000/api/v1/coupon/deleteCoupons/${coupon?._id}`,
                     });
                   }}
                   className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300"

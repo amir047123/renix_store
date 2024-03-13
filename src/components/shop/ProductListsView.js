@@ -15,7 +15,7 @@ const ProductListsView = ({ product }) => {
   useEffect(() => {
     const getReviews = async () => {
       const response = await fetch(
-        `http://localhost:5000/api/v1/reviews/specific?fieldName=productId&fieldValue=${product?._id}`
+        `http://63.250.41.158:5000/api/v1/reviews/specific?fieldName=productId&fieldValue=${product?._id}`
       );
       const res = await response.json();
       setReviews(res.data);

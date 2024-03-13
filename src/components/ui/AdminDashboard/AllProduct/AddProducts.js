@@ -44,7 +44,7 @@ const AddProducts = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/category/getCategorys")
+    fetch("http://63.250.41.158:5000/api/v1/category/getCategorys")
       .then((res) => res.json())
       .then((data) => setCategory(data?.data));
   }, []);
@@ -78,7 +78,7 @@ const AddProducts = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/product/addProducts",
+        "http://63.250.41.158:5000/api/v1/product/addProducts",
         data
       );
       toast.success("Medicine data posted!");

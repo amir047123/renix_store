@@ -123,7 +123,7 @@ const CheckOutPage = () => {
         displayName: data.userName,
       };
       const response = await fetch(
-        "http://localhost:5000/api/v1/order/addOrders",
+        "http://63.250.41.158:5000/api/v1/order/addOrders",
         {
           method: "POST",
           headers: {
@@ -133,7 +133,7 @@ const CheckOutPage = () => {
         }
       );
       const userResponse = await fetch(
-        `http://localhost:5000/api/v1/user/updateUsers/${userInfo?._id}`,
+        `http://63.250.41.158:5000/api/v1/user/updateUsers/${userInfo?._id}`,
         {
           method: "PATCH",
           headers: {
@@ -180,7 +180,7 @@ const CheckOutPage = () => {
 
   const handleCouponApply = () => {
     const response = fetch(
-      `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
+      `http://63.250.41.158:5000/api/v1/coupon/veryfiCoupon/${coupon}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -207,7 +207,7 @@ const CheckOutPage = () => {
   useEffect(() => {
     const fetchShippingData = async () => {
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/shipping/getShippings"
+        "http://63.250.41.158:5000/api/v1/shipping/getShippings"
       );
       const res = data?.data;
       const shippingDetails = res?.map((item) => setShippingInfo(item));

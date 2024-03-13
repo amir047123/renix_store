@@ -48,7 +48,7 @@ const ProductDetails = () => {
   const fetchUpdatedFaqs = useCallback(async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/api/v1/productFAQs/getProductFAQById/${product?._id}`
+        `http://63.250.41.158:5000/api/v1/productFAQs/getProductFAQById/${product?._id}`
       );
       setAllFaqs(data?.data?.faqs);
     } catch (error) {
@@ -63,7 +63,7 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `http://localhost:5000/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`
+      `http://63.250.41.158:5000/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -220,7 +220,7 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     try {
-      fetch(`http://localhost:5000/api/v1/product/getProducts`)
+      fetch(`http://63.250.41.158:5000/api/v1/product/getProducts`)
         .then((res) => res.json())
         .then((data) => {
           setRelatedProducts(data?.data);

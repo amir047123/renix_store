@@ -39,7 +39,7 @@ const AdminSeo = () => {
 
     try {
       const { data: seoData } = await axios.post(
-        "http://localhost:5000/api/v1/seo/createSeo",
+        "http://63.250.41.158:5000/api/v1/seo/createSeo",
         data
       );
       if (seoData.status === "error") {
