@@ -5,7 +5,7 @@ import { IoIosStar } from "react-icons/io";
 import { FaRegStar } from "react-icons/fa6";
 import DynamicTitle from "../components/shared/DynamicTitle";
 import useGetSeo from "../Hooks/useGetSeo";
-import Loading from "../shared/Loading";
+import SharedLoading from "../shared/SharedLoading";
 
 const ProductChecking = () => {
   const seoMetaData = useGetSeo("product_checking_page");
@@ -88,7 +88,7 @@ const ProductChecking = () => {
           </button>
         </div>
 
-        {loading && <Loading />}
+        {loading && <SharedLoading />}
 
         {searched && myOrder.length > 0 && !loading && (
           <div className="mt-8">

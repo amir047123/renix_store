@@ -1,7 +1,7 @@
 import React from "react";
 import { DNA } from "react-loader-spinner";
 
-const Loading = () => {
+const SharedLoading = () => {
   return (
     <div className="h-screen flex justify-center items-center w-full">
       <DNA
@@ -15,4 +15,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default SharedLoading;
