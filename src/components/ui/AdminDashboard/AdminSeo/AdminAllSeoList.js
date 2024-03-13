@@ -13,7 +13,7 @@ const AdminAllSeoList = () => {
   useEffect(() => {
     const fetchAllSeo = async () => {
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/seo/getAllSeo"
+        "http://63.250.41.158:5000/api/v1/seo/getAllSeo"
       );
       setAllSeo(data?.data);
     };
@@ -120,7 +120,7 @@ const AdminAllSeoList = () => {
                         setRefetch,
                         setAllData: setAllSeo,
                         id: seo?._id,
-                        url: `http://localhost:5000/api/v1/seo/deleteSeo/${seo?._id}`,
+                        url: `http://63.250.41.158:5000/api/v1/seo/deleteSeo/${seo?._id}`,
                       });
                     }}
                     className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300"

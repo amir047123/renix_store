@@ -12,7 +12,7 @@ const AdminDashboardSliderImg = () => {
   const [refresh, setRefresh] = useState(false);
   const [img, setImg] = useState("");
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/slider/getSliders`)
+    fetch(`http://63.250.41.158:5000/api/v1/slider/getSliders`)
       .then((res) => res.json())
       .then((data) => setSliders(data?.data));
   }, [refresh]);
@@ -25,7 +25,7 @@ const AdminDashboardSliderImg = () => {
   const addSliderImage = async () => {
     if (img) {
       await PostHooks(
-        "http://localhost:5000/api/v1/slider/addSliders",
+        "http://63.250.41.158:5000/api/v1/slider/addSliders",
         { sliderImg: img },
         "Your slider image successfully posted"
       );
@@ -50,7 +50,7 @@ const AdminDashboardSliderImg = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/api/v1/slider/deleteSliders/${id}`, {
+        fetch(`http://63.250.41.158:5000/api/v1/slider/deleteSliders/${id}`, {
           method: "DELETE",
         }).then((res) => {
           if (res.status === 200) {

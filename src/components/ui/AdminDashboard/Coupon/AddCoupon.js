@@ -33,7 +33,7 @@ endDate:"",
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/coupon/addCoupons",
+        "http://63.250.41.158:5000/api/v1/coupon/addCoupons",
         formData
       );
       toast.success("Coupon posted!");

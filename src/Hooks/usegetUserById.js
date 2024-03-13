@@ -10,7 +10,7 @@ const UsegetUserById = () => {
       try {
         if (userInfo) {
           const response = await fetch(
-            `http://localhost:5000/api/v1/user/getUsersById/${userInfo?._id}`
+            `http://63.250.41.158:5000/api/v1/user/getUsersById/${userInfo?._id}`
           );
           const resData = await response.json();
           setUser(resData);

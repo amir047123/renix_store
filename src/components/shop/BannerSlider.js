@@ -16,7 +16,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 const BannerSlider = () => {
   const [images,setImages]=useState([]);
   const fetchData = async()=>{
-   await fetch(`http://localhost:5000/api/v1/slider/getSliders`)
+   await fetch(`http://63.250.41.158:5000/api/v1/slider/getSliders`)
     .then((res) => res.json())
     .then((data) => setImages(data?.data));
   }
