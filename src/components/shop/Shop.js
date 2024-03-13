@@ -1,6 +1,5 @@
 import { FaList } from "react-icons/fa6";
-import { categoryData } from "../../utils/categoryData";
-import BannerSlider from "./BannerSlider";
+
 import CategroyItems from "./CategroyItems";
 import ProductCaousel from "./ProductCaousel";
 import TopRelatedProducts from "./TopRelatedProducts";
@@ -8,7 +7,6 @@ import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import ProductCardGrid from "./ProductCardGrid";
 import { useEffect, useState } from "react";
 import ProductListsView from "./ProductListsView";
-import Loading from "../../shared/Loading";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -19,6 +17,7 @@ import Pagination from "../shared/Pagination";
 import useGetSeo from "../../Hooks/useGetSeo";
 import DynamicTitle from "../shared/DynamicTitle";
 import HomeContent from "../Home Description/HomeContent";
+import Loading from "../../shared/Loading";
 const Shop = () => {
   const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);
