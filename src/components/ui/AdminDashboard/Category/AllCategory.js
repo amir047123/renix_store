@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import AllCategoryWithDetails from "./AllCategoryWithDetails";
 import DeleteHook from "../../../../Hooks/DeleteHook";
-import Loading from "../../../../shared/Loading";
+import Loading from "../../../../Shared/Loading";
 
 function AllCategory() {
   const [categorys, setCategorys] = useState([]);

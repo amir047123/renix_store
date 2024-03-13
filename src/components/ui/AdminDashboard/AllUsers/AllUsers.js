@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
-import Loading from "../../../../shared/Loading";
+import Loading from "../../../../Shared/Loading";
 import DeleteHook from "../../../../Hooks/DeleteHook";
-import Pagination from "../../../../shared/Pagination";
+import Pagination from "../../../../Shared/Pagination";
 
 function AllUsers() {
   const [users, setUsers] = useState([]);
