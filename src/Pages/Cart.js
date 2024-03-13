@@ -106,7 +106,7 @@ const Cart = ({
                     <p className="flex items-center gap-1">
                       {cartItem.quantity} <IoMdClose />{" "}
                       <span className="text-secondary">
-                        {cartItem.discountedPrice}
+                        {cartItem?.variants.price}
                       </span>
                     </p>
                     <p className="text-[13px] hover:text-secondary">

@@ -92,6 +92,10 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
+    const mainVariants = {
+      strength: product?.strength,
+      price: discountedPrice,
+    };
     // Retrieve existing cart items from local storage
     let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
@@ -108,7 +112,13 @@ const ProductDetails = () => {
       }
     } else {
       // If the product is not already in the cart, add it with quantity 1
-      existingCartItems.push({ ...product, quantity: 1, discountedPrice });
+      existingCartItems.push({
+        ...product,
+        quantity: 1,
+        discountedPrice,
+        variants:
+          selectedVariationIndex === "index" ? mainVariants : selectedVariation,
+      });
     }
     setCartProducts([...existingCartItems]);
 
@@ -270,7 +280,7 @@ const ProductDetails = () => {
   if (loading) {
     return <Loading />;
   }
-
+  console.log(selectedVariation);
   return (
     <div className=" mt-12 container ">
       <DynamicTitle

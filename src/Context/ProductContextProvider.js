@@ -15,9 +15,8 @@ const ProductContextProvider = ({ children }) => {
 
    useEffect(() => {
      // Calculate the total using reduce
-     const grandTotal = cartProducts.reduce(
-       (accumulator, item) =>
-         accumulator + item.quantity * item.discountedPrice,
+     const grandTotal = cartProducts?.reduce(
+       (accumulator, item) => accumulator + item.quantity * item.variants.price,
        0
      );
     const toFixedTotal = grandTotal.toFixed(2);
