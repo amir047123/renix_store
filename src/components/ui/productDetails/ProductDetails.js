@@ -350,7 +350,7 @@ const ProductDetails = () => {
           </h2>
 
           {/* Product variations */}
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-3 flex-wrap mb-5">
             <button
               className={`text-white rounded-lg px-2 py-1 ${
                 selectedVariationIndex === "index"
