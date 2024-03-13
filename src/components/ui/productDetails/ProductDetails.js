@@ -84,8 +84,10 @@ const ProductDetails = () => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
 
-  const discountedPrice =
-    product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
+  const discountedPrice = (
+    product?.onePiecePrice -
+    (product?.onePiecePrice * product?.discount) / 100
+  ).toFixed(2);
   const selectedVariation = product?.variations[selectedVariationIndex] || {}; // Get the selected
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
@@ -280,7 +282,6 @@ const ProductDetails = () => {
   if (loading) {
     return <Loading />;
   }
-  console.log(selectedVariation);
   return (
     <div className=" mt-12 container ">
       <DynamicTitle
