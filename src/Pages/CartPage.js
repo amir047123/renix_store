@@ -27,7 +27,7 @@ const CartPage = () => {
   //a apply coupon
   const handleCouponApply = () => {
     const response = fetch(
-      `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
+      `https://apistore.renixlaboratories.com.bd/api/v1/coupon/veryfiCoupon/${coupon}`
     )
       .then((res) => res.json())
       .then((data) => {

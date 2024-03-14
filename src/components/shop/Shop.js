@@ -39,7 +39,7 @@ const Shop = () => {
     setLoading(true);
     try {
       fetch(
-        `http://localhost:5000/api/v1/product/specific?page=${page}&size=${size}`
+        `https://apistore.renixlaboratories.com.bd/api/v1/product/specific?page=${page}&size=${size}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -68,7 +68,7 @@ const Shop = () => {
     async function fetchCategorys() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/category/getCategorys"
+          "https://apistore.renixlaboratories.com.bd/api/v1/category/getCategorys"
         );
         setCategorys(response?.data?.data);
         setLoading(false);
@@ -83,7 +83,7 @@ const Shop = () => {
     async function fetchCategorys() {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/v1/category/specific?fieldName=name&fieldValue=${id}`
+          `https://apistore.renixlaboratories.com.bd/api/v1/category/specific?fieldName=name&fieldValue=${id}`
         );
         setCategorysBYId(data?.data[0]);
 
@@ -97,7 +97,7 @@ const Shop = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:5000/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`
+      `https://apistore.renixlaboratories.com.bd/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -113,7 +113,7 @@ const Shop = () => {
   useEffect(() => {
     try {
       fetch(
-        `http://localhost:5000/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}`
+        `https://apistore.renixlaboratories.com.bd/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -153,7 +153,7 @@ const Shop = () => {
   // product get for max min price
   const handleFilterPrice = async () => {
     const response = await fetch(
-      `http://localhost:5000/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`
+      `https://apistore.renixlaboratories.com.bd/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`
     );
     const { data } = await response.json();
     setFilterByPrice(data);
