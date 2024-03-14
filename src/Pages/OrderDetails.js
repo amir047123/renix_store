@@ -7,7 +7,7 @@ const OrderDetails = () => {
   useEffect(() => {
     const getMyOrder = async () => {
       const response = await fetch(
-        `https://apistore.renixlaboratories.com.bd/api/v1/order/getOrdersById/${id}`
+        `http://localhost:5000/api/v1/order/getOrdersById/${id}`
       );
       const res = await response.json();
       setOrderDetails(res.data);

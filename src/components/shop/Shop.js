@@ -38,7 +38,7 @@ const Shop = () => {
   useEffect(() => {
     setLoading(true);
     // Fetch specific data
-    fetch(`https://apistore.renixlaboratories.com.bd/api/v1/product/specific?page=${page}&size=${size}`)
+    fetch(`http://localhost:5000/api/v1/product/specific?page=${page}&size=${size}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data?.data);
@@ -51,7 +51,7 @@ const Shop = () => {
   useEffect(() => {
     async function fetchCategorys() {
       try {
-        const response = await axios.get("https://apistore.renixlaboratories.com.bd/api/v1/category/getCategorys");
+        const response = await axios.get("http://localhost:5000/api/v1/category/getCategorys");
         setCategorys(response?.data?.data);
         setLoading(false);
       } catch (err) {
@@ -66,7 +66,7 @@ const Shop = () => {
   useEffect(() => {
     async function fetchCategoryById() {
       try {
-        const { data } = await axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/category/specific?fieldName=name&fieldValue=${id}`);
+        const { data } = await axios.get(`http://localhost:5000/api/v1/category/specific?fieldName=name&fieldValue=${id}`);
         setCategorysBYId(data?.data[0]);
         setLoading(false);
       } catch (err) {
@@ -77,7 +77,7 @@ const Shop = () => {
   }, [id]);
 
   useEffect(() => {
-    fetch(`https://apistore.renixlaboratories.com.bd/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`)
+    fetch(`http://localhost:5000/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.data?.length) {
@@ -91,7 +91,7 @@ const Shop = () => {
 
   useEffect(() => {
     try {
-      fetch(`https://apistore.renixlaboratories.com.bd/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}&page=${page}&size=${size}`)
+      fetch(`http://localhost:5000/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}&page=${page}&size=${size}`)
         .then((res) => res.json())
         .then((data) => {
           setProduct(data?.data);
@@ -121,7 +121,7 @@ const Shop = () => {
   };
 
   const handleFilterPrice = async () => {
-    const response = await fetch(`https://apistore.renixlaboratories.com.bd/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`);
+    const response = await fetch(`http://localhost:5000/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`);
     const { data } = await response.json();
     setFilterByPrice(data);
   };

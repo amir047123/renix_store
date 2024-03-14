@@ -27,7 +27,7 @@ const AdminOrders = () => {
   const [size, setSize] = useState(50);
 
   useEffect(() => {
-    fetch(`https://apistore.renixlaboratories.com.bd/api/v1/user/getUsersByNum/${userInfo?._id}`)
+    fetch(`http://localhost:5000/api/v1/user/getUsersByNum/${userInfo?._id}`)
       .then((res) => res.json())
       .then((data) => {
         setU(data?.data);
@@ -36,7 +36,7 @@ const AdminOrders = () => {
 
   useEffect(() => {
     setLoading(true);
-    const url = `https://apistore.renixlaboratories.com.bd/api/v1/order/specific?fieldName=${"status"}&&fieldValue=${nav}&&size=${size}&&page=${page}`;
+    const url = `http://localhost:5000/api/v1/order/specific?fieldName=${"status"}&&fieldValue=${nav}&&size=${size}&&page=${page}`;
     try {
       fetch(url)
         .then((res) => res.json())
