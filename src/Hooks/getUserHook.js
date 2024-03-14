@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { server_url } from "../Config/API";
 
 export const getUserHook = (id, setUser) => {

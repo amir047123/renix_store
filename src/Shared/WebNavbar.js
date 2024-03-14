@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { FaAngleDown, FaBars, FaSearch } from "react-icons/fa";
+import { FaAngleDown, FaBars, } from "react-icons/fa";
 import { IoIosBasket, IoMdClose } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import { IoClose, IoSearchOutline } from "react-icons/io5";
 import Cart from "../Pages/Cart";
 import axios from "axios";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
-import logo from "../../src/Assets/logo renix store.svg";
 const WebNavbar = () => {
   const [isSticky, setIsSticky] = useState(false);
   const [isHidden, setIsHidden] = useState(false);

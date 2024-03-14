@@ -62,12 +62,9 @@ const ProductDetails = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(
-      `https://apistore.renixlaboratories.com.bd/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setProduct(data?.data[0]);
+    axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`)
+      .then((response) => {
+        setProduct(response.data.data[0]);
         setLoading(false);
       })
       .catch((error) => {
@@ -75,6 +72,9 @@ const ProductDetails = () => {
         setLoading(false);
       });
   }, [id]);
+
+
+
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
@@ -220,13 +220,17 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     try {
-      fetch(`https://apistore.renixlaboratories.com.bd/api/v1/product/getProducts`)
-        .then((res) => res.json())
-        .then((data) => {
-          setRelatedProducts(data?.data);
+      axios.get('https://apistore.renixlaboratories.com.bd/api/v1/product/getProducts')
+        .then((response) => {
+          setRelatedProducts(response.data.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
           setLoading(false);
         });
-    } catch (err) {
+    } catch (error) {
+      console.error('Error:', error);
       setLoading(false);
     }
   }, []);

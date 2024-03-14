@@ -9,7 +9,6 @@ import UsegetUserById from "../Hooks/usegetUserById";
 import axios from "axios";
 import useGetSeo from "../Hooks/useGetSeo";
 import DynamicTitle from "../components/shared/DynamicTitle";
-import { HiClipboardDocumentList } from "react-icons/hi2";
 import { IoBagCheck } from "react-icons/io5";
 const CheckOutPage = () => {
   const seoMetaData = useGetSeo("checkOut_page");
