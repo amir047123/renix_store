@@ -24,7 +24,7 @@ function AllProduct() {
     async function fetchProducts() {
       try {
         const response = await axios.get(
-          `http://63.250.41.158:5000/api/v1/product/specific?page=${page}&size=${size}`
+          `http://localhost:5000/api/v1/product/specific?page=${page}&size=${size}`
         );
         setProducts(response?.data?.data);
         setFilteredProducts(response?.data?.data);
@@ -232,7 +232,7 @@ function AllProduct() {
                       DeleteHook({
                         refetch,
                         setRefetch,
-                        url: `http://63.250.41.158:5000/api/v1/product/deleteProducts/${product?._id}`,
+                        url: `http://localhost:5000/api/v1/product/deleteProducts/${product?._id}`,
                       });
                     }}
                     className="border border-secondary py-2 px-3 rounded-md hover:bg-secondary/10 duration-300"

@@ -43,7 +43,7 @@ const AddCategory = () => {
   
     try {
       const response = await axios.post(
-        "http://63.250.41.158:5000/api/v1/category/addCategorys",
+        "http://localhost:5000/api/v1/category/addCategorys",
         data
       );
       toast.success("Category posted!");

@@ -6,7 +6,7 @@ const AdminAllBlog = () => {
     const [refetch, setRefetch] = useState(false);
 
     useEffect(() => {
-        fetch(`http://63.250.41.158:5000/api/v1/homeContents/getHomeContents`)
+        fetch(`http://localhost:5000/api/v1/homeContents/getHomeContents`)
             .then((res) => res.json())
             .then((data) => {
                 if (data?.data.length) {
