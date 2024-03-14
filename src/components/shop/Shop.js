@@ -5,7 +5,7 @@ import ProductCaousel from "./ProductCaousel";
 import TopRelatedProducts from "./TopRelatedProducts";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import ProductCardGrid from "./ProductCardGrid";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ProductListsView from "./ProductListsView";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -37,68 +37,47 @@ const Shop = () => {
   // get specific data
   useEffect(() => {
     setLoading(true);
-    try {
-      fetch(
-        `https://apistore.renixlaboratories.com.bd/api/v1/product/specific?page=${page}&size=${size}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setData(data?.data);
-
-          setQuantity(data?.total);
-          setLoading(false);
-        });
-    } catch (err) {
-      setLoading(false);
-    }
+    // Fetch specific data
+    fetch(`https://apistore.renixlaboratories.com.bd/api/v1/product/specific?page=${page}&size=${size}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data?.data);
+        setQuantity(data?.total);
+        setLoading(false);
+      })
+      .catch((err) => setLoading(false));
   }, [page, size]);
-  const totalPages = Math.ceil(quantity / size);
-
- const handlePageChange = (pageNumber) => {
-   setPage(pageNumber - 1); // Pagination component starts from page 1
-
-   // Scroll to the top of the page
-   window.scrollTo({
-     top: 0,
-     behavior: "smooth", // Optional: Adds smooth scrolling behavior
-   });
- };
 
   useEffect(() => {
     async function fetchCategorys() {
       try {
-        const response = await axios.get(
-          "https://apistore.renixlaboratories.com.bd/api/v1/category/getCategorys"
-        );
+        const response = await axios.get("https://apistore.renixlaboratories.com.bd/api/v1/category/getCategorys");
         setCategorys(response?.data?.data);
         setLoading(false);
       } catch (err) {
         setLoading(false);
+        toast.error("Failed to fetch categories. Please try again later.");
       }
     }
+
     fetchCategorys();
   }, []);
 
   useEffect(() => {
-    async function fetchCategorys() {
+    async function fetchCategoryById() {
       try {
-        const { data } = await axios.get(
-          `https://apistore.renixlaboratories.com.bd/api/v1/category/specific?fieldName=name&fieldValue=${id}`
-        );
+        const { data } = await axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/category/specific?fieldName=name&fieldValue=${id}`);
         setCategorysBYId(data?.data[0]);
-
         setLoading(false);
       } catch (err) {
         setLoading(false);
       }
     }
-    fetchCategorys();
+    fetchCategoryById();
   }, [id]);
 
   useEffect(() => {
-    fetch(
-      `https://apistore.renixlaboratories.com.bd/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`
-    )
+    fetch(`https://apistore.renixlaboratories.com.bd/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.data?.length) {
@@ -112,9 +91,7 @@ const Shop = () => {
 
   useEffect(() => {
     try {
-      fetch(
-        `https://apistore.renixlaboratories.com.bd/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}`
-      )
+      fetch(`https://apistore.renixlaboratories.com.bd/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}&page=${page}&size=${size}`)
         .then((res) => res.json())
         .then((data) => {
           setProduct(data?.data);
@@ -123,24 +100,17 @@ const Shop = () => {
       setLoading(false);
       toast.error("something wrong");
     }
-  }, [id, category]);
+  }, [id, category,page,size]);
 
-  // silder range
-
-  // Function to validate range and update the fill color on slider
   useEffect(() => {
+    // Validate range and update the fill color on slider
     const rangeFill = document.querySelector(".range-fill");
-
-    // Calculate the percentage position for min and max values
     const minPercentage = ((minPrice - 10) / 1990) * 100;
     const maxPercentage = ((maxPrice - 10) / 1990) * 100;
-
-    // Set the position and width of the fill color element to represent the selected range
     rangeFill.style.left = minPercentage + "%";
     rangeFill.style.width = maxPercentage - minPercentage + "%";
   }, [minPrice, maxPrice]);
 
-  // Event handler for input change
   const handleInputChange = (e, type) => {
     const newValue = parseInt(e.target.value);
     if (type === "min") {
@@ -150,14 +120,21 @@ const Shop = () => {
     }
   };
 
-  // product get for max min price
   const handleFilterPrice = async () => {
-    const response = await fetch(
-      `https://apistore.renixlaboratories.com.bd/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`
-    );
+    const response = await fetch(`https://apistore.renixlaboratories.com.bd/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`);
     const { data } = await response.json();
     setFilterByPrice(data);
   };
+
+  const handlePageChange = (pageNumber) => {
+    setPage(pageNumber - 1);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const totalPages = Math.ceil(quantity / size);
 
   if (loading) {
     return <Loading />;
@@ -305,44 +282,51 @@ const Shop = () => {
                     </select>
                   </div> */}
                   </div>
-
-                  {isGrid ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                      {id ? (
-                        filterByPrice?.length > 0 ? (
-                          <>
-                            {filterByPrice?.map((product, index) => (
-                              <ProductCardGrid key={index} product={product} />
-                            ))}
-                          </>
-                        ) : (
-                          <>
-                            {product?.map((product, index) => (
-                              <ProductCardGrid key={index} product={product} />
-                            ))}
-                          </>
-                        )
-                      ) : filterByPrice?.length > 0 ? (
-                        filterByPrice?.map((product, index) => (
-                          <ProductCardGrid key={index} product={product} />
-                        ))
-                      ) : (
-                        data?.map((product, index) => (
-                          <ProductCardGrid key={index} product={product} />
-                        ))
-                      )}
-                    </div>
-                  ) : (
-                    <div className=" py-4">
-                      {filterByPrice?.length > 0
-                        ? filterByPrice?.map((product, index) => (
-                            <ProductListsView key={index} product={product} />
+                  <Suspense fallback={<div>Loading...</div>}>
+                    {isGrid ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        {id ? (
+                          filterByPrice?.length > 0 ? (
+                            <>
+                              {filterByPrice?.map((product, index) => (
+                                <ProductCardGrid
+                                  key={index}
+                                  product={product}
+                                />
+                              ))}
+                            </>
+                          ) : (
+                            <>
+                              {product?.map((product, index) => (
+                                <ProductCardGrid
+                                  key={index}
+                                  product={product}
+                                />
+                              ))}
+                            </>
+                          )
+                        ) : filterByPrice?.length > 0 ? (
+                          filterByPrice?.map((product, index) => (
+                            <ProductCardGrid key={index} product={product} />
                           ))
-                        : data?.map((product, index) => (
-                            <ProductListsView key={index} product={product} />
-                          ))}
-                    </div>
-                  )}
+                        ) : (
+                          data?.map((product, index) => (
+                            <ProductCardGrid key={index} product={product} />
+                          ))
+                        )}
+                      </div>
+                    ) : (
+                      <div className=" py-4">
+                        {filterByPrice?.length > 0
+                          ? filterByPrice?.map((product, index) => (
+                              <ProductListsView key={index} product={product} />
+                            ))
+                          : data?.map((product, index) => (
+                              <ProductListsView key={index} product={product} />
+                            ))}
+                      </div>
+                    )}
+                  </Suspense>
                 </div>
               </div>
 
