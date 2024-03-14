@@ -48,7 +48,7 @@ const ProductDetails = () => {
   const fetchUpdatedFaqs = useCallback(async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/api/v1/productFAQs/getProductFAQById/${product?._id}`
+        `https://apistore.renixlaboratories.com.bd/api/v1/productFAQs/getProductFAQById/${product?._id}`
       );
       setAllFaqs(data?.data?.faqs);
     } catch (error) {
@@ -62,7 +62,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5000/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`)
+    axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`)
       .then((response) => {
         setProduct(response.data.data[0]);
         setLoading(false);
@@ -220,7 +220,7 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     try {
-      axios.get('http://localhost:5000/api/v1/product/getProducts')
+      axios.get('https://apistore.renixlaboratories.com.bd/api/v1/product/getProducts')
         .then((response) => {
           setRelatedProducts(response.data.data);
           setLoading(false);

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { FaAngleDown, FaBars, FaSearch } from "react-icons/fa";
+import { FaAngleDown, FaBars, } from "react-icons/fa";
 import { IoIosBasket, IoMdClose } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import { IoClose, IoSearchOutline } from "react-icons/io5";
 import Cart from "../Pages/Cart";
 import axios from "axios";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
-import logo from "../../src/Assets/logo renix store.svg";
 const WebNavbar = () => {
   const [isSticky, setIsSticky] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
@@ -98,7 +97,7 @@ const WebNavbar = () => {
     async function fetchCategorys() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/category/getCategorys"
+          "https://apistore.renixlaboratories.com.bd/api/v1/category/getCategorys"
         );
         setCategorys(response?.data?.data);
         setLoading(false);
@@ -122,7 +121,7 @@ const WebNavbar = () => {
   useEffect(() => {
     const getProducts = async () => {
       const response = await fetch(
-        `http://localhost:5000/api/v1/product/getProducts`
+        `https://apistore.renixlaboratories.com.bd/api/v1/product/getProducts`
       );
       const res = await response.json();
       setProduct(res.data);
@@ -179,7 +178,7 @@ const WebNavbar = () => {
     const fetchAnnouncements = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:5000/api/v1/announcements/getAnnouncements"
+          "https://apistore.renixlaboratories.com.bd/api/v1/announcements/getAnnouncements"
         );
 
         const title = data?.data;

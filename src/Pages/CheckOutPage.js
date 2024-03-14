@@ -9,7 +9,6 @@ import UsegetUserById from "../Hooks/usegetUserById";
 import axios from "axios";
 import useGetSeo from "../Hooks/useGetSeo";
 import DynamicTitle from "../components/shared/DynamicTitle";
-import { HiClipboardDocumentList } from "react-icons/hi2";
 import { IoBagCheck } from "react-icons/io5";
 const CheckOutPage = () => {
   const seoMetaData = useGetSeo("checkOut_page");
@@ -123,7 +122,7 @@ const CheckOutPage = () => {
         displayName: data.userName,
       };
       const response = await fetch(
-        "http://localhost:5000/api/v1/order/addOrders",
+        "https://apistore.renixlaboratories.com.bd/api/v1/order/addOrders",
         {
           method: "POST",
           headers: {
@@ -133,7 +132,7 @@ const CheckOutPage = () => {
         }
       );
       const userResponse = await fetch(
-        `http://localhost:5000/api/v1/user/updateUsers/${userInfo?._id}`,
+        `https://apistore.renixlaboratories.com.bd/api/v1/user/updateUsers/${userInfo?._id}`,
         {
           method: "PATCH",
           headers: {
@@ -180,7 +179,7 @@ const CheckOutPage = () => {
 
   const handleCouponApply = () => {
     const response = fetch(
-      `http://localhost:5000/api/v1/coupon/veryfiCoupon/${coupon}`
+      `https://apistore.renixlaboratories.com.bd/api/v1/coupon/veryfiCoupon/${coupon}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -207,7 +206,7 @@ const CheckOutPage = () => {
   useEffect(() => {
     const fetchShippingData = async () => {
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/shipping/getShippings"
+        "https://apistore.renixlaboratories.com.bd/api/v1/shipping/getShippings"
       );
       const res = data?.data;
       const shippingDetails = res?.map((item) => setShippingInfo(item));
