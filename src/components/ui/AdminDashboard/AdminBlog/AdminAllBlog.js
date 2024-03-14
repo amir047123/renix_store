@@ -6,7 +6,7 @@ const AdminAllBlog = () => {
     const [refetch, setRefetch] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/v1/homeContents/getHomeContents`)
+        fetch(`https://apistore.renixlaboratories.com.bd/api/v1/homeContents/getHomeContents`)
             .then((res) => res.json())
             .then((data) => {
                 if (data?.data.length) {

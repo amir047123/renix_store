@@ -12,7 +12,7 @@ const AdminPartner = () => {
   const [refresh, setRefresh] = useState(false);
   const [img, setImg] = useState("");
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/partners/getPartners`)
+    fetch(`https://apistore.renixlaboratories.com.bd/api/v1/partners/getPartners`)
       .then((res) => res.json())
       .then((data) => setSliders(data?.data));
   }, [refresh]);
@@ -25,7 +25,7 @@ const AdminPartner = () => {
   const addSliderImage = async () => {
     if (img) {
       await PostHooks(
-        "http://localhost:5000/api/v1/partners/addPartners",
+        "https://apistore.renixlaboratories.com.bd/api/v1/partners/addPartners",
         { sliderImg: img },
         "Your slider image successfully posted"
       );
@@ -50,7 +50,7 @@ const AdminPartner = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/api/v1/partners/deletePartners/${id}`, {
+        fetch(`https://apistore.renixlaboratories.com.bd/api/v1/partners/deletePartners/${id}`, {
           method: "DELETE",
         }).then((res) => {
           if (res.status === 200) {

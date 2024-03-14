@@ -35,7 +35,7 @@ const AddProductFaq = () => {
       // Add your conditionally rendered JSX inside this block
       if (!updateFaq) {
         const response = await axios.post(
-          "http://localhost:5000/api/v1/productFAQs/addProductFAQ",
+          "https://apistore.renixlaboratories.com.bd/api/v1/productFAQs/addProductFAQ",
           {
             productId: id,
             faqs: faqs.map(({ question, answer }) => ({ question, answer })),
@@ -54,7 +54,7 @@ const AddProductFaq = () => {
         fetchUpdatedFaqs();
       } else {
         const response = await axios.patch(
-          `http://localhost:5000/api/v1/productFAQs/updateProductFAQ/${id}`,
+          `https://apistore.renixlaboratories.com.bd/api/v1/productFAQs/updateProductFAQ/${id}`,
           {
             faqs: faqs.map(({ question, answer }) => ({ question, answer })),
           }
@@ -74,7 +74,7 @@ const AddProductFaq = () => {
   const fetchUpdatedFaqs = useCallback(async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/api/v1/productFAQs/getProductFAQById/${id}`
+        `https://apistore.renixlaboratories.com.bd/api/v1/productFAQs/getProductFAQById/${id}`
       );
       setAllFaqs(data?.data?.faqs);
     } catch (error) {
@@ -96,7 +96,7 @@ const AddProductFaq = () => {
   const handleDeleteFaq = async (idToDelete) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:5000/api/v1/productFAQs/deleteProductFAQ/${idToDelete}`
+        `https://apistore.renixlaboratories.com.bd/api/v1/productFAQs/deleteProductFAQ/${idToDelete}`
       );
 
       if (data.status === "success") {
