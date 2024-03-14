@@ -37,15 +37,16 @@ const Shop = () => {
   // get specific data
   useEffect(() => {
     setLoading(true);
-    // Fetch specific data
-    fetch(`http://localhost:5000/api/v1/product/specific?page=${page}&size=${size}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data?.data);
-        setQuantity(data?.total);
+    axios.get(`http://localhost:5000/api/v1/product/specific?page=${page}&size=${size}`)
+      .then((response) => {
+        setData(response.data.data);
+        setQuantity(response.data.total);
         setLoading(false);
       })
-      .catch((err) => setLoading(false));
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
   }, [page, size]);
 
   useEffect(() => {
@@ -77,30 +78,34 @@ const Shop = () => {
   }, [id]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/category/specific/?fieldName=${"name"}&&fieldValue=${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.data?.length) {
-          setCategory(data?.data[0]);
+    axios.get(`http://localhost:5000/api/v1/category/specific/?fieldName=${encodeURIComponent("name")}&fieldValue=${id}`)
+      .then((response) => {
+        if (response.data.data.length > 0) {
+          setCategory(response.data.data[0]);
         } else {
           setCategory([]);
-          setLoading(false);
         }
+      })
+      .catch((error) => {
+        console.error("Error fetching category:", error);
       });
   }, [id]);
 
   useEffect(() => {
     try {
-      fetch(`http://localhost:5000/api/v1/product/specific/?fieldName=${"category"}&&fieldValue=${id}&page=${page}&size=${size}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setProduct(data?.data);
+      axios.get(`http://localhost:5000/api/v1/product/specific/?fieldName=${encodeURIComponent("category")}&fieldValue=${id}&page=${page}&size=${size}`)
+        .then((response) => {
+          setProduct(response.data.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching product:", error);
+          toast.error("Something went wrong");
         });
-    } catch (crr) {
+    } catch (error) {
       setLoading(false);
-      toast.error("something wrong");
+      toast.error("Something went wrong");
     }
-  }, [id, category,page,size]);
+  }, [id, category, page, size]);
 
   useEffect(() => {
     // Validate range and update the fill color on slider
@@ -121,9 +126,19 @@ const Shop = () => {
   };
 
   const handleFilterPrice = async () => {
-    const response = await fetch(`http://localhost:5000/api/v1/product/filterProducts?minPrice=${minPrice}&maxPrice=${maxPrice}`);
-    const { data } = await response.json();
-    setFilterByPrice(data);
+    try {
+      const response = await axios.get(`http://localhost:5000/api/v1/product/filterProducts`, {
+        params: {
+          minPrice: minPrice,
+          maxPrice: maxPrice
+        }
+      });
+      const { data } = response.data;
+      setFilterByPrice(data);
+    } catch (error) {
+      console.error("Error filtering products:", error);
+      // Handle error, e.g., display a message to the user
+    }
   };
 
   const handlePageChange = (pageNumber) => {
