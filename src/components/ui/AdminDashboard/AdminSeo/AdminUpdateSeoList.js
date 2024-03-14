@@ -31,7 +31,7 @@ const AdminUpdateSeoList = () => {
   useEffect(() => {
     const fetchSingleSeo = async () => {
       const { data } = await axios.get(
-        `http://63.250.41.158:5000/api/v1/seo/getSeoById/${id}`
+        `http://localhost:5000/api/v1/seo/getSeoById/${id}`
       );
       setSeo(data?.data);
       setFormData({
@@ -59,7 +59,7 @@ const AdminUpdateSeoList = () => {
 
     try {
       const { data: seoData } = await axios.patch(
-        `http://63.250.41.158:5000/api/v1/seo/updateSeo/${id}`,
+        `http://localhost:5000/api/v1/seo/updateSeo/${id}`,
         data
       );
       if (seoData.status === "error") {

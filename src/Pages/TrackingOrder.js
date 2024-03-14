@@ -17,7 +17,7 @@ const TrackingOrder = () => {
       setLoading(true); // Set loading to true before making the fetch request
       try {
         const response = await fetch(
-          `http://63.250.41.158:5000/api/v1/order/specific?fieldName=tracking_id&fieldValue=${trackingId}`
+          `http://localhost:5000/api/v1/order/specific?fieldName=tracking_id&fieldValue=${trackingId}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch order data");
