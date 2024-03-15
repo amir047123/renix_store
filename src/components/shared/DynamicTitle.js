@@ -6,6 +6,9 @@ const DynamicTitle = ({
   metaImage,
   canonicalUrl,
 }) => {
+
+
+  console.log(metaDescription)
   return (
     <Helmet>
       <title>{metaTitle}</title>

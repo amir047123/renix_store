@@ -20,7 +20,7 @@ const ProductChecking = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://apistore.renixlaboratories.com.bd/api/v1/product/specific?fieldName=productCode&fieldValue=${trackingId}`
+        `http://localhost:5000/api/v1/product/specific?fieldName=productCode&fieldValue=${trackingId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch order data");
