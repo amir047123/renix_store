@@ -39,10 +39,11 @@ const ProductDetails = () => {
     (item) => item?._id === product?._id
   );
 
-  const images = product?.images?.map((image) => ({
-    original: image,
-    thumbnail: image,
-  }));
+  const images =
+    product?.images?.map((image) => ({
+      original: image,
+      thumbnail: image,
+    })) || [];
 
   //
 
