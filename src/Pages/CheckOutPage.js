@@ -504,7 +504,11 @@ const CheckOutPage = () => {
                             {item.name} × {item.quantity}
                           </div>
                           <div className="col-span-1 p-3">
-                            ৳ {item.variants.price * item.quantity}
+                            {item?.variants ? (
+                              <p>৳ {item?.variants?.price * item?.quantity}</p>
+                            ) : (
+                              item?.discountedPrice
+                            )}
                           </div>
                         </div>
                       ))}
