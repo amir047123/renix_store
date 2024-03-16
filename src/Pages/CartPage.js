@@ -49,6 +49,7 @@ const CartPage = () => {
         }
       });
   };
+  console.log(cartProducts, "52");
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <PageHeader title="Cart" />
@@ -74,8 +75,11 @@ const CartPage = () => {
                 {/* Table header */}
                 <div className="grid grid-cols-12 border-b border-borderColor pb-3 place-items-center font-rubic font-medium text-sm uppercase text-[#222]">
                   <div className="invisible col-span-1">image</div>
-                  <div className="col-span-4">
+                  <div className="col-span-3">
                     <p>PRODUCT</p>
+                  </div>
+                  <div className="col-span-1">
+                    <p className="uppercase">strength</p>
                   </div>
                   <div className="col-span-2">
                     <p>PRICE</p>
@@ -100,7 +104,7 @@ const CartPage = () => {
                       <div className=" col-span-1">
                         <img src={item.img} alt="" />
                       </div>
-                      <div className="col-span-4 font-rubic">
+                      <div className="col-span-3 font-rubic">
                         <Link
                           className="hover:text-secondary transition-all duration-300 text-[#333]"
                           to={""}
@@ -108,8 +112,11 @@ const CartPage = () => {
                           {item.name}
                         </Link>
                       </div>
+                      <div className="col-span-1 font-openSans">
+                        <p> {item.variants.strength}</p>
+                      </div>
                       <div className="col-span-2 font-openSans">
-                        <p> ৳ {item.discountedPrice}</p>
+                        <p> ৳ {item.variants.price}</p>
                       </div>
                       <div className="col-span-2 font-openSans">
                         <p className="border border-borderColor rounded-full w-4 h-4 p-5 leading-4 flex justify-center items-center">
@@ -117,7 +124,7 @@ const CartPage = () => {
                         </p>
                       </div>
                       <div className="col-span-2 font-openSans">
-                        <p>৳ {item.discountedPrice * item.quantity}</p>
+                        <p>৳ {item.variants.price * item.quantity}</p>
                       </div>
                       <div className=" col-span-1 font-openSans">
                         <div className="border border-borderColor rounded-full w-12 h-12  leading-4 flex justify-center items-center">

@@ -102,6 +102,10 @@ const CheckOutPage = () => {
           img: product.img,
           discountPrice: product.discountedPrice,
           orginalPrice: product.onePiecePrice,
+          variants: {
+            strength: product?.variants.strength,
+            price: product?.variants.price,
+          },
         })),
         // Add other fields
       };
@@ -143,6 +147,7 @@ const CheckOutPage = () => {
       );
 
       const responseData = await response.json();
+      console.log(responseData, "147");
       toast.success("  Order place successfully ");
       setCartProducts([]);
       localStorage.removeItem("appliedCoupons");
@@ -498,7 +503,7 @@ const CheckOutPage = () => {
                             {item.name} × {item.quantity}
                           </div>
                           <div className="col-span-1 p-3">
-                            ৳ {item.discountedPrice * item.quantity}
+                            ৳ {item.variants.price * item.quantity}
                           </div>
                         </div>
                       ))}
