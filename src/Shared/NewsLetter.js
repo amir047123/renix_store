@@ -10,7 +10,7 @@ const NewsLetter = () => {
     const email = e.target.email.value;
 
     try {
-      const response = await fetch("https://apistore.renixlaboratories.com.bd/api/v1/newsLatter/addNewsLatter", {
+      const response = await fetch("http://localhost:5000/api/v1/newsLatter/addNewsLatter", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

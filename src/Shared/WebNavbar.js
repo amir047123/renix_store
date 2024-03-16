@@ -97,7 +97,7 @@ const WebNavbar = () => {
     async function fetchCategorys() {
       try {
         const response = await axios.get(
-          "https://apistore.renixlaboratories.com.bd/api/v1/category/getCategorys"
+          "http://localhost:5000/api/v1/category/getCategorys"
         );
         setCategorys(response?.data?.data);
         setLoading(false);
@@ -121,7 +121,7 @@ const WebNavbar = () => {
   useEffect(() => {
     const getProducts = async () => {
       const response = await fetch(
-        `https://apistore.renixlaboratories.com.bd/api/v1/product/getProducts`
+        `http://localhost:5000/api/v1/product/getProducts`
       );
       const res = await response.json();
       setProduct(res.data);
@@ -178,7 +178,7 @@ const WebNavbar = () => {
     const fetchAnnouncements = async () => {
       try {
         const { data } = await axios.get(
-          "https://apistore.renixlaboratories.com.bd/api/v1/announcements/getAnnouncements"
+          "http://localhost:5000/api/v1/announcements/getAnnouncements"
         );
 
         const title = data?.data;

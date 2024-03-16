@@ -6,7 +6,7 @@ const useGetSeo = (pageName) => {
   useEffect(() => {
     const fetchSeo = async () => {
       const { data } = await axios.get(
-        `https://apistore.renixlaboratories.com.bd/api/v1/seo/specific?fieldName=page&fieldValue=${pageName}`
+        `http://localhost:5000/api/v1/seo/specific?fieldName=page&fieldValue=${pageName}`
       );
       setGetSeo(data?.data[0]);
     };
