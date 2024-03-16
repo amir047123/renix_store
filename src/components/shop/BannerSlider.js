@@ -14,7 +14,7 @@ const BannerSlider = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/v1/slider/getSliders');
+      const response = await axios.get('https://apistore.renixlaboratories.com.bd/api/v1/slider/getSliders');
       setImages(response.data.data);
       setLoading(false);
     } catch (error) {
