@@ -375,7 +375,7 @@ const AddProducts = () => {
         </div>
         {/*  Variations */}
         <div>
-          <h3 className="border-b border-solid border-slate-400 inline-block my-1">
+          <h3 className="border-b border-solid border-slate-400  my-1">
             {" "}
             Add product Variations:
           </h3>
