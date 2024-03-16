@@ -37,16 +37,9 @@ const ProductCardGrid = ({ product }) => {
     // Push data to DataLayer
     window.dataLayer.push({
       event: "add_to_cart",
-<<<<<<< HEAD
-      product_id: product._id,
-      product_name: product.name,
-      product_price: product.onePiecePrice,
-      currencyCode: "BDT",
-=======
       product_id: product?._id,
       product_name: product?.name,
       product_price: product?.onePiecePrice,
->>>>>>> 6c68e8ef6caa359d47561dbd991df9d6a28e3e15
       product_quantity: 1, // Since it's added to cart
     });
   };

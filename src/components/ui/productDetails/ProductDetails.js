@@ -42,7 +42,8 @@ const ProductDetails = () => {
   const images = product?.images?.map((image) => ({
     original: image,
     thumbnail: image,
-  }));
+  })) || [];
+
 
   //
 
