@@ -90,7 +90,7 @@ const Cart = ({
                 </p>
               </div>
               {/* Cart items */}
-              {cartProducts.map((cartItem, index) => (
+              {cartProducts?.map((cartItem, index) => (
                 <div
                   key={index}
                   className="flex justify-between px-3 gap-3 border-solid border-b border-borderColor py-2"
@@ -106,7 +106,7 @@ const Cart = ({
                     <p className="flex items-center gap-1">
                       {cartItem.quantity} <IoMdClose />{" "}
                       <span className="text-secondary">
-                        {cartItem.discountedPrice}
+                        {cartItem?.variants?.price}
                       </span>
                     </p>
                     <p className="text-[13px] hover:text-secondary">

@@ -33,22 +33,28 @@ const ProductDetails = () => {
   const [count, setCount] = useState(1);
   const [activeTab, setActiveTab] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [selectedVariationIndex, setSelectedVariationIndex] = useState("index");
   const [allFaqs, setAllFaqs] = useState([]);
   const productQuantity = cartProducts?.find(
     (item) => item?._id === product?._id
   );
 
-  const images = product?.images?.map((image) => ({
-    original: image,
-    thumbnail: image,
-  }));
+  const images =
+    product?.images?.map((image) => ({
+      original: image,
+      thumbnail: image,
+    })) || [];
 
   //
+
+  const handleSelectVariation = (index) => {
+    setSelectedVariationIndex(index);
+  };
 
   const fetchUpdatedFaqs = useCallback(async () => {
     try {
       const { data } = await axios.get(
-        `https://apistore.renixlaboratories.com.bd/api/v1/productFAQs/getProductFAQById/${product?._id}`
+        `http://localhost:5000/api/v1/productFAQs/getProductFAQById/${product?._id}`
       );
       setAllFaqs(data?.data?.faqs);
     } catch (error) {
@@ -62,9 +68,12 @@ const ProductDetails = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`)
-      .then((response) => {
-        setProduct(response.data.data[0]);
+    fetch(
+      `http://localhost:5000/api/v1/product/specific/?fieldName=slug&&fieldValue=${id}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data?.data[0]);
         setLoading(false);
       })
       .catch((error) => {
@@ -72,21 +81,35 @@ const ProductDetails = () => {
         setLoading(false);
       });
   }, [id]);
-
-
-
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
 
-  const discountedPrice =
-    product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
+  const discountedPrice = (
+    product?.onePiecePrice -
+    (product?.onePiecePrice * product?.discount) / 100
+  ).toFixed(2);
 
+
+
+  const selectedVariation = product?.variations[selectedVariationIndex] || {}; // Get the selected
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
 
+  const discountForVariation = (
+    selectedVariation?.price -
+    (selectedVariation?.price * product?.discount) / 100
+  ).toFixed(2);
   const handleAddToCart = () => {
+    const mainVariants = {
+      strength: product?.strength,
+      price: discountedPrice,
+    };
+    const selectedVariants = {
+      strength: selectedVariation?.strength,
+      price: discountForVariation,
+    };
     // Retrieve existing cart items from local storage
     let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
@@ -103,7 +126,13 @@ const ProductDetails = () => {
       }
     } else {
       // If the product is not already in the cart, add it with quantity 1
-      existingCartItems.push({ ...product, quantity: 1, discountedPrice });
+      existingCartItems.push({
+        ...product,
+        quantity: 1,
+        discountedPrice,
+        variants:
+          selectedVariationIndex === "index" ? mainVariants : selectedVariants,
+      });
     }
     setCartProducts([...existingCartItems]);
 
@@ -220,17 +249,13 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     try {
-      axios.get('https://apistore.renixlaboratories.com.bd/api/v1/product/getProducts')
-        .then((response) => {
-          setRelatedProducts(response.data.data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
+      fetch(`http://localhost:5000/api/v1/product/getProducts`)
+        .then((res) => res.json())
+        .then((data) => {
+          setRelatedProducts(data?.data);
           setLoading(false);
         });
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (err) {
       setLoading(false);
     }
   }, []);
@@ -243,7 +268,6 @@ const ProductDetails = () => {
         product_id: product._id,
         product_name: product.name,
         product_category: product.category,
-        currencyCode: "BDT",
         product_price: product.onePiecePrice,
         product_discounted_price: discountedPrice,
         product_quantity: productQuantity?.quantity || 1,
@@ -270,7 +294,6 @@ const ProductDetails = () => {
   if (loading) {
     return <Loading />;
   }
-
   return (
     <div className=" mt-12 container ">
       <DynamicTitle
@@ -332,16 +355,48 @@ const ProductDetails = () => {
           </p>
 
           <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5">
-            {product?.discount ? (
-              <>
-                <span className="line-through">৳ {product?.onePiecePrice}</span>{" "}
-                ৳ {discountedPrice}
-              </>
-            ) : (
-              <>৳ {product?.onePiecePrice}</>
-            )}
+            <>
+              {product?.discount !== 0 && (
+                <span className="line-through text-[#808080] mr-3 text-2xl">
+                  ৳{" "}
+                  {selectedVariationIndex === "index"
+                    ? product?.onePiecePrice
+                    : selectedVariation.price}
+                </span>
+              )}
+              ৳{" "}
+              {selectedVariationIndex === "index"
+                ? discountedPrice
+                : discountForVariation}
+            </>
           </h2>
 
+          {/* Product variations */}
+          <div className="flex gap-3 flex-wrap mb-5">
+            <button
+              className={`text-white rounded-lg px-2 py-1 ${
+                selectedVariationIndex === "index"
+                  ? "bg-green-500"
+                  : "bg-black/80"
+              }`}
+              onClick={() => handleSelectVariation("index")}
+            >
+              {product?.strength}
+            </button>
+            {product?.variations?.map((variation, index) => (
+              <button
+                key={index}
+                className={`text-white rounded-lg px-2 py-1 ${
+                  selectedVariationIndex === index
+                    ? "bg-green-500"
+                    : "bg-black/80"
+                }`}
+                onClick={() => handleSelectVariation(index)}
+              >
+                {variation?.strength}
+              </button>
+            ))}
+          </div>
           <div className="flex md:flex-row flex-col gap-5">
             <div className="flex w-[150px]  items-center border border-solid border-borderColor rounded-full ">
               <div
