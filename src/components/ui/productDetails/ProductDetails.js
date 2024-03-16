@@ -88,15 +88,26 @@ const ProductDetails = () => {
     product?.onePiecePrice -
     (product?.onePiecePrice * product?.discount) / 100
   ).toFixed(2);
+
+
+
   const selectedVariation = product?.variations[selectedVariationIndex] || {}; // Get the selected
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
 
+  const discountForVariation = (
+    selectedVariation?.price -
+    (selectedVariation?.price * product?.discount) / 100
+  ).toFixed(2);
   const handleAddToCart = () => {
     const mainVariants = {
       strength: product?.strength,
       price: discountedPrice,
+    };
+    const selectedVariants = {
+      strength: selectedVariation?.strength,
+      price: discountForVariation,
     };
     // Retrieve existing cart items from local storage
     let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
@@ -119,7 +130,7 @@ const ProductDetails = () => {
         quantity: 1,
         discountedPrice,
         variants:
-          selectedVariationIndex === "index" ? mainVariants : selectedVariation,
+          selectedVariationIndex === "index" ? mainVariants : selectedVariants,
       });
     }
     setCartProducts([...existingCartItems]);
@@ -343,21 +354,20 @@ const ProductDetails = () => {
           </p>
 
           <h2 className="font-openSans text-[32px] text-[#333e48] font-medium py-5">
-            {product?.discount ? (
-              <>
-                {selectedVariationIndex === "index" && (
-                  <span className="line-through">
-                    ৳ {product?.onePiecePrice}
-                  </span>
-                )}{" "}
-                ৳{" "}
-                {selectedVariationIndex === "index"
-                  ? discountedPrice
-                  : selectedVariation?.price}
-              </>
-            ) : (
-              <>৳ {product?.onePiecePrice}</>
-            )}
+            <>
+              {product?.discount !== 0 && (
+                <span className="line-through text-[#808080] mr-3 text-2xl">
+                  ৳{" "}
+                  {selectedVariationIndex === "index"
+                    ? product?.onePiecePrice
+                    : selectedVariation.price}
+                </span>
+              )}
+              ৳{" "}
+              {selectedVariationIndex === "index"
+                ? discountedPrice
+                : discountForVariation}
+            </>
           </h2>
 
           {/* Product variations */}
