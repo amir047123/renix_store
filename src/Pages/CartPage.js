@@ -96,7 +96,7 @@ const CartPage = () => {
                 </div>
                 {/* Table body */}
                 <div>
-                  {cartProducts.map((item) => (
+                  {cartProducts?.map((item) => (
                     <div
                       key={item._id}
                       className="grid grid-cols-12 place-items-center border-b text-[#333] border-borderColor pb-3"
@@ -109,22 +109,26 @@ const CartPage = () => {
                           className="hover:text-secondary transition-all duration-300 text-[#333]"
                           to={""}
                         >
-                          {item.name}
+                          {item?.name}
                         </Link>
                       </div>
                       <div className="col-span-1 font-openSans">
-                        <p> {item.variants.strength}</p>
+                        <p> {item?.variants?.strength}</p>
                       </div>
                       <div className="col-span-2 font-openSans">
-                        <p> ৳ {item.variants.price}</p>
+                        <p> ৳ {item?.variants?.price}</p>
                       </div>
                       <div className="col-span-2 font-openSans">
                         <p className="border border-borderColor rounded-full w-4 h-4 p-5 leading-4 flex justify-center items-center">
-                          {item.quantity}
+                          {item?.quantity}
                         </p>
                       </div>
                       <div className="col-span-2 font-openSans">
-                        <p>৳ {item.variants.price * item.quantity}</p>
+                        {item?.variants ? (
+                          <p>৳ {item?.variants?.price * item?.quantity}</p>
+                        ) : (
+                          item?.discountedPrice
+                        )}
                       </div>
                       <div className=" col-span-1 font-openSans">
                         <div className="border border-borderColor rounded-full w-12 h-12  leading-4 flex justify-center items-center">

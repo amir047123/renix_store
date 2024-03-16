@@ -14,7 +14,7 @@ const ProductCardGrid = ({ product }) => {
   const [isInWishlist, setIsInWishlist] = useState(() => {
     const wishlistItems =
       JSON.parse(localStorage.getItem("wishlistItems")) || [];
-    return wishlistItems.some((item) => item._id === product._id);
+    return wishlistItems?.some((item) => item._id === product._id);
   });
 
   const discountedPrice =
@@ -22,7 +22,7 @@ const ProductCardGrid = ({ product }) => {
 
   const handleAddToCart = () => {
     let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const existingProductIndex = existingCartItems.findIndex(
+    const existingProductIndex = existingCartItems?.findIndex(
       (item) => item._id === product._id
     );
 
@@ -37,10 +37,16 @@ const ProductCardGrid = ({ product }) => {
     // Push data to DataLayer
     window.dataLayer.push({
       event: "add_to_cart",
+<<<<<<< HEAD
       product_id: product._id,
       product_name: product.name,
       product_price: product.onePiecePrice,
       currencyCode: "BDT",
+=======
+      product_id: product?._id,
+      product_name: product?.name,
+      product_price: product?.onePiecePrice,
+>>>>>>> 6c68e8ef6caa359d47561dbd991df9d6a28e3e15
       product_quantity: 1, // Since it's added to cart
     });
   };
@@ -67,7 +73,7 @@ const ProductCardGrid = ({ product }) => {
         product_name: product.name,
       });
     } else {
-      wishlistItems = wishlistItems.filter((item) => item._id !== product._id);
+      wishlistItems = wishlistItems?.filter((item) => item._id !== product._id);
       setIsInWishlist(false);
       toast.info("Product removed from wishlist");
 
