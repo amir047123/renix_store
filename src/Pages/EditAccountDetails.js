@@ -21,7 +21,7 @@ const EditAccountDetails = () => {
       displayName: data.displayName,
     };
     const response = await fetch(
-      `http://localhost:5000/api/v1/user/updateUsers/${userInfo._id}`,
+      `https://apistore.renixlaboratories.com.bd/api/v1/user/updateUsers/${userInfo._id}`,
       {
         method: "PATCH",
         headers: {

@@ -20,7 +20,7 @@ const AdminBlog = () => {
 
   // load data
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/homeContents/getHomeContentById/${id}`)
+    fetch(`https://apistore.renixlaboratories.com.bd/api/v1/homeContents/getHomeContentById/${id}`)
       .then((res) => res.json())
       .then((data) => setFormData(data?.data));
   }, [id]);
@@ -32,13 +32,13 @@ const AdminBlog = () => {
     try {
       if (formData?._id) {
         await UpdateHooks(
-          `http://localhost:5000/api/v1/homeContents/updateHomeContents/${formData?._id}`,
+          `https://apistore.renixlaboratories.com.bd/api/v1/homeContents/updateHomeContents/${formData?._id}`,
           { ...formData, img: img ? img : formData?.img }
         );
         toast.success(`Blog section Updated !`);
       } else {
         await PostHooks(
-          `http://localhost:5000/api/v1/homeContents/addHomeContents`,
+          `https://apistore.renixlaboratories.com.bd/api/v1/homeContents/addHomeContents`,
           { ...formData,  date: moment().format("MMM Do YY") },
           `Blog data posted`
         );
