@@ -10,7 +10,7 @@ const UsegetUserById = () => {
       try {
         if (userInfo) {
           const response = await fetch(
-            `https://apistore.renixlaboratories.com.bd/api/v1/user/getUsersById/${userInfo?._id}`
+            `http://localhost:5000/api/v1/user/getUsersById/${userInfo?._id}`
           );
           const resData = await response.json();
           setUser(resData);
