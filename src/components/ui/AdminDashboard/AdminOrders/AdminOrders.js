@@ -27,7 +27,7 @@ const AdminOrders = () => {
   const [size, setSize] = useState(50);
 
   useEffect(() => {
-    fetch(`https://apistore.renixlaboratories.com.bd/api/v1/user/getUsersByNum/${userInfo?._id}`)
+    fetch(`http://localhost:5000/api/v1/user/getUsersByNum/${userInfo?._id}`)
       .then((res) => res.json())
       .then((data) => {
         setU(data?.data);
@@ -36,7 +36,7 @@ const AdminOrders = () => {
 
   useEffect(() => {
     setLoading(true);
-    const url = `https://apistore.renixlaboratories.com.bd/api/v1/order/specific?fieldName=${"status"}&&fieldValue=${nav}&&size=${size}&&page=${page}`;
+    const url = `http://localhost:5000/api/v1/order/specific?fieldName=${"status"}&&fieldValue=${nav}&&size=${size}&&page=${page}`;
     try {
       fetch(url)
         .then((res) => res.json())
@@ -61,28 +61,22 @@ const AdminOrders = () => {
   };
 
   const handleSearch = (e) => {
-    e.preventDefault();
-    const n = e.target.name.value;
-    const fromDate = e.target.formDate.value;
-    const toDate = e.target.toDate.value;
-
-    const results = data?.filter((d) => {
-      return (
-        (d?.user?.name
-          ? d?.user?.name.toLowerCase()?.includes(n?.toLowerCase())
-          : true) &&
-        (fromDate && fromDate
-          ? moment(d?.date).isBetween(fromDate, toDate)
-          : true)
-      );
+    const name = e.target.value.toLowerCase();
+  
+    const results = data.filter((item) => {
+      const userName = `${item?.user?.firstName} ${item?.user?.lastName}`.toLowerCase();
+      return userName.includes(name);
     });
+  
     setFilterData(results);
   };
+  
 
   // Calculate total pending order amount
   const totalPendingOrderAmount = data
     .filter((item) => item.status === "pending")
     .reduce((acc, item) => acc + item.totalAmount, 0);
+ 
 
   // Calculate total confirm order amount
   const totalConfirmOrderAmount = data
@@ -289,10 +283,10 @@ const AdminOrders = () => {
 
       <div className="pt-5">
         <form
-          onSubmit={handleSearch}
+          // onSubmit={handleSearch}
           className="flex flex-wrap items-center   gap-3 mb-6"
         >
-          <div>
+          {/* <div>
             <label className="block mb-1">Form Date</label>
             <input
               name="formDate"
@@ -307,7 +301,7 @@ const AdminOrders = () => {
               type="date"
               className="border focus:outline-none bg-[#F0FDF4] px-3 py-2 rounded-md"
             ></input>
-          </div>
+          </div> */}
 
           <div>
             <label className="block mb-1">Name</label>
@@ -323,15 +317,17 @@ const AdminOrders = () => {
                 className="bg-[#F0FDF4] border text-gray-900 text-sm rounded-lg  block w-full pl-10 px-2.5 py-3  focus:outline-none"
                 placeholder="Search by name"
                 required
+                onChange={handleSearch}
+
               />
             </div>
           </div>
-          <button
+          {/* <button
             type="submit"
             className="text-white bg-primary px-3 py-2 rounded-md mt-6"
           >
             Search
-          </button>
+          </button> */}
         </form>
 
         <div className="relative overflow-x-auto">
