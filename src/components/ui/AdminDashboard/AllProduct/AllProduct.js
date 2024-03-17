@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import AllProductWithDetails from "./AllProductWithDetails";
 import DeleteHook from "../../../../Hooks/DeleteHook";
-import Loading from "../../../../shared/Loading";
+import Loading from "../../../../Shared/Loading";
 import Pagination from "../../../shared/Pagination";
 
 function AllProduct() {

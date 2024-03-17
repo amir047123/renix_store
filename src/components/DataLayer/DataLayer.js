@@ -8,7 +8,7 @@ const DataLayer = ({ data }) => {
       window.dataLayer.push(data);
     }
   }, [data]);
-
+  
   return null;
 };
 

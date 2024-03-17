@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Loading from '../../shared/Loading';
+import Loading from '../../Shared/Loading';
 
 const HomeContent = () => {
     // State to hold the fetched data and loading state

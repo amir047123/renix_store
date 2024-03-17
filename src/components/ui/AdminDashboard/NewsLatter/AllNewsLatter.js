@@ -3,7 +3,7 @@ import axios from "axios";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import DeleteHook from "../../../../Hooks/DeleteHook";
-import Loading from "../../../../shared/Loading";
+import Loading from "../../../../Shared/Loading";
 
 
 function AllNewsLatter() {

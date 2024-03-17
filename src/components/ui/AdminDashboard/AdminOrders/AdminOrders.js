@@ -8,9 +8,9 @@ import { server_url } from "../../../../Config/API";
 import { Icon } from "@iconify/react";
 import AuthUser from "../../../../Hooks/authUser";
 import UpdateHooks from "../../../../Hooks/UpdateHooks";
-import Loading from "../../../../shared/Loading";
+import Loading from "../../../../Shared/Loading";
 import { capitalize } from "@mui/material/utils";
-import Pagination from "../../../../shared/Pagination";
+import Pagination from "../../../../Shared/Pagination";
 
 const AdminOrders = () => {
   const [nav, setNav] = useState("pending");

@@ -19,7 +19,7 @@ import Description from "./Description";
 import { useParams, Link, useLocation } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 import RelatedProductCard from "../../shop/RelatedProductCard";
-import Loading from "../../../shared/Loading";
+import Loading from "../../../Shared/Loading";
 import DynamicTitle from "../../shared/DynamicTitle";
 import ProductFAQ from "./ProductFAQ";
 import axios from "axios";
@@ -35,6 +35,8 @@ const ProductDetails = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedVariationIndex, setSelectedVariationIndex] = useState("index");
   const [allFaqs, setAllFaqs] = useState([]);
+  const [viewItemPushed, setViewItemPushed] = useState(false); 
+
   const productQuantity = cartProducts?.find(
     (item) => item?._id === product?._id
   );
@@ -82,7 +84,7 @@ const ProductDetails = () => {
       });
   }, [id]);
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to top when component mounts
+    window.scrollTo(0, 0); 
   }, []);
 
   const discountedPrice = (
@@ -92,7 +94,7 @@ const ProductDetails = () => {
 
 
 
-  const selectedVariation = product?.variations[selectedVariationIndex] || {}; // Get the selected
+  const selectedVariation = product?.variations[selectedVariationIndex] || {}; 
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
@@ -262,7 +264,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     // Push data to dataLayer when product changes
-    if (product) {
+    if (product && !viewItemPushed) {
       window.dataLayer.push({
         event: "view_item",
         product_id: product._id,
@@ -272,8 +274,9 @@ const ProductDetails = () => {
         product_discounted_price: discountedPrice,
         product_quantity: productQuantity?.quantity || 1,
       });
+      setViewItemPushed(true); // Set viewItemPushed to true after pushing the event
     }
-  }, [product, discountedPrice, productQuantity]);
+  }, [product, discountedPrice, productQuantity, viewItemPushed]);
 
   useEffect(() => {
     // Check if the URL contains the FAQ hash fragment

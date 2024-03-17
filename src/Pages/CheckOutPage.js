@@ -9,7 +9,6 @@ import UsegetUserById from "../Hooks/usegetUserById";
 import axios from "axios";
 import useGetSeo from "../Hooks/useGetSeo";
 import DynamicTitle from "../components/shared/DynamicTitle";
-import { HiClipboardDocumentList } from "react-icons/hi2";
 import { IoBagCheck } from "react-icons/io5";
 const CheckOutPage = () => {
   const seoMetaData = useGetSeo("checkOut_page");
@@ -27,6 +26,8 @@ const CheckOutPage = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
   const [isOrder, setIsOrder] = useState(false);
+  const [isBeginCheckoutPushed, setIsBeginCheckoutPushed] = useState(false);
+  const [previousCart, setPreviousCart] = useState([]);
   console.log(cartProducts, "cartProducts");
   useEffect(() => {
     // Load applied coupons from localStorage
@@ -231,39 +232,42 @@ const CheckOutPage = () => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
 
+
+  
   useEffect(() => {
-    // Extract necessary data for products from cartProducts
-    const productsData = cartProducts.map((product) => ({
-      id: product._id,
-      name: product.name,
-      price: product?.variants
-        ? product?.variants?.price
-        : product.discountedPrice,
-      quantity: product.quantity,
+    // Consolidated logic for pushing data to GTM data layer
+    if (!isBeginCheckoutPushed && cartProducts.length > 0) {
+      const productsData = cartProducts.map((product) => ({
+        id: product._id,
+        name: product.name,
+        price: product?.variants ? product?.variants?.price : product.discountedPrice,
+        quantity: product.quantity,
+        strength: product?.variants?.strength,
+      }));
 
-      strength: product?.variants?.strength,
-    }));
+      const tax = (total * (+shippingInfo?.tax || 0)) / 100;
+      const totalAmount = tax + parseFloat(total) + parseFloat(shippingCharge);
 
-    // Calculate total amount including tax and shipping charge
-    const tax = (total * (+shippingInfo?.tax || 0)) / 100;
-    const totalAmount = tax + parseFloat(total) + parseFloat(shippingCharge);
-
-    // Push data to GTM Data Layer
-    window.dataLayer.push({
-      event: "begin_checkout",
-      ecommerce: {
-        currencyCode: "BDT", // Add currency code if needed
-        checkout: {
-          actionField: { step: 1 },
-          products: productsData,
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "begin_checkout",
+        ecommerce: {
+          currencyCode: "BDT",
+          checkout: {
+            actionField: { step: 1 },
+            products: productsData,
+          },
+          total: totalAmount.toFixed(2),
+          shipping: shippingCharge.toFixed(2),
+          tax: tax.toFixed(2),
         },
-        total: totalAmount.toFixed(2), // Total amount including tax and shipping charge
-        shipping: shippingCharge.toFixed(2), // Shipping charge
-        tax: tax.toFixed(2), // Tax
-      },
-    });
-  }, [cartProducts, total, shippingInfo, shippingCharge]); // Dependency array includes relevant state variables
+      });
 
+      setIsBeginCheckoutPushed(true);
+    }
+  }, [cartProducts, total, shippingInfo, shippingCharge, isBeginCheckoutPushed]);
+
+  
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <DynamicTitle

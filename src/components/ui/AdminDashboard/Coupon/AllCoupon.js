@@ -3,7 +3,7 @@ import axios from "axios";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import AllCouponWithDetails from "./AllCouponWithDetails";
-import Loading from "../../../../shared/Loading";
+import Loading from "../../../../Shared/Loading";
 import DeleteHook from "../../../../Hooks/DeleteHook";
 
 function AllCoupon() {

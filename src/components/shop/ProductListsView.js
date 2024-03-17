@@ -32,66 +32,75 @@ const ProductListsView = ({ product }) => {
     setIsInWishlist(found);
   }, [product._id]);
 
-  const handleAddToCart = () => {
-    let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-    const existingProductIndex = existingCartItems.findIndex(
-      (item) => item._id === product._id
-    );
 
-    if (existingProductIndex !== -1) {
-      existingCartItems[existingProductIndex].quantity += 1;
-    } else {
-      existingCartItems.push({ ...product, quantity: 1, discountedPrice });
-    }
-    setCartProducts([...existingCartItems]);
-    localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
-    
-    // Push data to DataLayer
+
+const handleAddToCart = () => {
+  let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+  const existingProductIndex = existingCartItems.findIndex(
+    (item) => item._id === product._id
+  );
+
+  if (existingProductIndex !== -1) {
+    existingCartItems[existingProductIndex].quantity += 1;
+  } else {
+    existingCartItems.push({ ...product, quantity: 1, discountedPrice });
+  }
+  setCartProducts([...existingCartItems]);
+  localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+  
+  // Push data to DataLayer only if the product is added to cart
+  if (existingProductIndex === -1) {
     window.dataLayer.push({
       event: "add_to_cart",
       product_id: product._id,
       product_name: product.name,
+      currencyCode: "BDT",
       product_price: product.onePiecePrice,
-      product_quantity: 1, // Since it's added to cart
+      product_quantity: 1, 
     });
-  };
+  }
+};
 
-  const handleAddToWishlist = () => {
-    let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
 
-    const existingProductIndex = wishlistItems.findIndex(
-      (item) => item._id === product._id
-    );
 
-    if (existingProductIndex === -1) {
-      wishlistItems.push(product);
-      setIsInWishlist(true);
-      toast.success("Product added to wishlist");
+const handleAddToWishlist = () => {
+  let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
 
-      // Push data to DataLayer
-      window.dataLayer.push({
-        event: "add_to_wishlist",
-        product_id: product._id,
-        product_name: product.name,
-      });
+  const existingProductIndex = wishlistItems.findIndex(
+    (item) => item._id === product._id
+  );
 
-    } else {
-      wishlistItems = wishlistItems.filter(item => item._id !== product._id);
-      setIsInWishlist(false);
-      toast.info("Product removed from wishlist");
+  if (existingProductIndex === -1) {
+    wishlistItems.push(product);
+    setIsInWishlist(true);
+    toast.success("Product added to wishlist");
 
-      // Push data to DataLayer
-      window.dataLayer.push({
-        event: "remove_from_wishlist",
-        product_id: product._id,
-        product_name: product.name,
-      });
+    // Push data to DataLayer only if the product is added to wishlist
+    window.dataLayer.push({
+      event: "add_to_wishlist",
+      product_id: product._id,
+      product_name: product.name,
+    });
 
-    }
-    
-    localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
-  };
+  } else {
+    wishlistItems = wishlistItems.filter(item => item._id !== product._id);
+    setIsInWishlist(false);
+    toast.info("Product removed from wishlist");
+
+    // Push data to DataLayer only if the product is removed from wishlist
+    window.dataLayer.push({
+      event: "remove_from_wishlist",
+      product_id: product._id,
+      product_name: product.name,
+    });
+
+  }
+  
+  localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
+};
+
 
   const cartQuantityNumber = cartProducts?.find(
     (item) => item._id === product._id

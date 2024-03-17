@@ -8,7 +8,7 @@ import {
   } from "react-icons/fa";
 const Bot = () => {
     const handleWhatsAppClick = () => {
-        const phoneNumber = encodeURIComponent("01884442022");
+        const phoneNumber = encodeURIComponent("01618883013");
         const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}`;
         window.open(whatsappURL, "_blank");
       };
@@ -16,7 +16,7 @@ const Bot = () => {
         <div>
               <div className="fixed bottom-5 sm:right-8 right-4 z-[999] cursor-pointer text-white text-4xl bg-primary w-16 h-16 flex items-center justify-center rounded-full animate-bounce">
           <a
-            href="https://api.whatsapp.com/send?phone=8801884442022"
+            href="https://api.whatsapp.com/send?phone=8801618883013"
             target="_blank"
             rel="noopener noreferrer"
           >
