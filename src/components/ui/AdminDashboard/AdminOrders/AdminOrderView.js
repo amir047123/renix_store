@@ -172,11 +172,13 @@ const AdminOrderView = () => {
                 </td>
                 <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
                   ৳{" "}
-                  {product?.variants?.price
-                    ? product?.variants?.price
-                    : product?.discountPrice
-                    ? product?.discountPrice
-                    : product?.orginalPrice}
+                  {(
+                    (product?.variants?.price
+                      ? product?.variants?.price
+                      : product?.discountPrice
+                      ? product?.discountPrice
+                      : product?.orginalPrice) || 0
+                  ).toFixed(2)}
                 </td>
 
                 <td className="h-16 px-6 text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
@@ -184,16 +186,14 @@ const AdminOrderView = () => {
                 </td>
               </tr>
             ))}
-
-         
           </tbody>
-        
         </table>
         <tr>
-              <td className="h-16  text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                Grand Total with shippingCharge: ৳ {data?.totalAmount?.toFixed(2)} BDT
-              </td>
-            </tr>
+          <td className="h-16  text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
+            Grand Total with shippingCharge: ৳ {data?.totalAmount?.toFixed(2)}{" "}
+            BDT
+          </td>
+        </tr>
       </div>
     </div>
   );
