@@ -241,7 +241,7 @@ const Shop = () => {
                   TOP RATED PRODUCTS
                 </h2>
                 <div className="px-3 lg:px-6 mt-4">
-                  {data?.slice(0, 7).map((product, index) => (
+                  {data?.slice(0, 8).map((product, index) => (
                     <TopRelatedProducts key={index} product={product} />
                   ))}
                 </div>
@@ -346,7 +346,7 @@ const Shop = () => {
               </div>
 
               {/* paginaion */}
-              <div className="text-center">
+              <div className="text-center ">
                 <Pagination
                   currentPage={page + 1} // Pagination component starts from page 1
                   totalPages={totalPages}
