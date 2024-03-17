@@ -185,7 +185,7 @@ const CheckOutPage = () => {
           },
           shippingCharge: shippingCharge,
 
-          totalOrderAmount: totalAmount,
+          totalOrderAmount: total,
         },
       });
     } catch (error) {
