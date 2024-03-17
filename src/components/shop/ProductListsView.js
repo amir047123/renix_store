@@ -34,35 +34,42 @@ const ProductListsView = ({ product }) => {
 
 
 
-
-const handleAddToCart = () => {
-  let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-
-  const existingProductIndex = existingCartItems.findIndex(
-    (item) => item._id === product._id
-  );
-
-  if (existingProductIndex !== -1) {
-    existingCartItems[existingProductIndex].quantity += 1;
-  } else {
-    existingCartItems.push({ ...product, quantity: 1, discountedPrice });
-  }
-  setCartProducts([...existingCartItems]);
-  localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+  const handleAddToCart = () => {
+    let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const existingProductIndex = existingCartItems.findIndex(
+      (item) => item._id === product._id
+    );
   
-  // Push data to DataLayer only if the product is added to cart
-  if (existingProductIndex === -1) {
-    window.dataLayer.push({
-      event: "add_to_cart",
-      product_id: product._id,
-      product_name: product.name,
-      currencyCode: "BDT",
-      product_price: product.onePiecePrice,
-      product_quantity: 1, 
-    });
-  }
-};
-
+    if (existingProductIndex !== -1) {
+      existingCartItems[existingProductIndex].quantity += 1;
+    } else {
+      existingCartItems.push({ ...product, quantity: 1, discountedPrice });
+    }
+    setCartProducts([...existingCartItems]);
+    localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+  
+    // Check if the add_to_cart event has been pushed before
+    const eventAlreadyPushed = window.dataLayer.some(
+      (event) => event.event === "add_to_cart"
+    );
+  
+    // Push the add_to_cart event only if it hasn't been pushed before in this session
+    if (!eventAlreadyPushed) {
+      window.dataLayer.push({
+        event: "add_to_cart",
+        products: existingCartItems.map((item) => ({
+          product_id: item._id,
+          product_name: item.name,
+          currencyCode: "BDT",
+          product_price: item.onePiecePrice,
+          product_selling_price: item.discountedPrice || item.onePiecePrice, // Use discountedPrice if available, otherwise use onePiecePrice
+          product_quantity: item.quantity,
+        })),
+      });
+    }
+  };
+  
+  
 
 
 const handleAddToWishlist = () => {
@@ -71,6 +78,7 @@ const handleAddToWishlist = () => {
   const existingProductIndex = wishlistItems.findIndex(
     (item) => item._id === product._id
   );
+
 
   if (existingProductIndex === -1) {
     wishlistItems.push(product);
@@ -147,11 +155,11 @@ const handleAddToWishlist = () => {
           <div className="font-medium font-rubic text-sm">
             {product.discount ? (
               <>
-                <span className="line-through">৳ {product?.onePiecePrice}</span>{" "}
-                ৳ {discountedPrice}
+                <span className="line-through">৳ {product?.onePiecePrice?.toFixed(2)}</span>{" "}
+                ৳ {discountedPrice?.toFixed(2)}
               </>
             ) : (
-              <>৳ {product?.onePiecePrice}</>
+              <>৳ {product?.onePiecePrice?.toFixed(2)}</>
             )}
           </div>
           <div className="mt-6 flex flex-col md:flex-row items-center gap-4">

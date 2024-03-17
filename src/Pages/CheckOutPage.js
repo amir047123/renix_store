@@ -26,9 +26,7 @@ const CheckOutPage = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
   const [isOrder, setIsOrder] = useState(false);
-  const [isBeginCheckoutPushed, setIsBeginCheckoutPushed] = useState(false);
-  const [previousCart, setPreviousCart] = useState([]);
-  console.log(cartProducts, "cartProducts");
+
   useEffect(() => {
     // Load applied coupons from localStorage
     const storedCoupons = localStorage.getItem("appliedCoupons");
@@ -52,6 +50,7 @@ const CheckOutPage = () => {
 
     calculateTotalAmount();
   }, [selectedDeliveryArea, total, shippingInfo]);
+
   const handlePaymentOnChange = (event) => {
     setSelectedPayment(event.target.id);
   };
@@ -70,17 +69,17 @@ const CheckOutPage = () => {
   // order data submit
   const onSubmit = async (data) => {
     try {
-      // Calculate total amount
-      const totalAmount = cartProducts?.reduce((acc, product) => {
-        const discountedPrice =
-          product.onePiecePrice * (1 - product.discount / 100);
-        return acc + discountedPrice;
-      }, 0);
-
+      if (cartProducts.length === 0) {
+        // Display a message indicating that the cart is empty
+        toast.error("Your cart is empty. Please add items to your cart before placing an order.");
+        return;
+      }
+  
       const orderData = {
         userId: userInfo?._id, // auth id
         userPhone: userInfo?.phone, // auth num
-        totalAmount: totalAmount.toFixed(2), // grand total with tax and shipping charge
+        totalAmount: totalAmount,
+        shippingCharge: shippingCharge,
         onlinePay: selectedPayment === "bank",
         user: {
           firstName: data.firstName,
@@ -106,6 +105,7 @@ const CheckOutPage = () => {
           img: product.img,
           discountPrice: product.discountedPrice,
           orginalPrice: product.onePiecePrice,
+          strength: product.strength,
           variants: {
             strength: product?.variants?.strength,
             price: product?.variants?.price,
@@ -151,7 +151,6 @@ const CheckOutPage = () => {
       );
 
       const responseData = await response.json();
-      console.log(responseData, "147");
       setIsOrder(true);
       // Scroll to the top of the page
       window.scrollTo({
@@ -161,6 +160,7 @@ const CheckOutPage = () => {
       toast.success("  Order place successfully ");
       setCartProducts([]);
       localStorage.removeItem("appliedCoupons");
+      localStorage.removeItem("cartItems"); 
       if (selectedPayment === "bank") {
         window.location.href = responseData.url;
       } else {
@@ -176,14 +176,16 @@ const CheckOutPage = () => {
             products: cartProducts.map((product) => ({
               id: product._id,
               name: product.name,
-              price: product.discountedPrice,
+              price: product?.variants
+                ? product?.variants?.price
+                : product.discountedPrice,
               quantity: product.quantity,
+              strength: product?.variants?.strength,
             })),
           },
-          currencyCode: "BDT", // Add currency code if needed
-          total: totalAmount.toFixed(2), // Total amount including tax and shipping charge
-          shipping: shippingCharge.toFixed(2), // Shipping charge
-          tax: ((total * (+shippingInfo?.tax || 0)) / 100).toFixed(2), // Tax
+          shippingCharge: shippingCharge,
+
+          totalOrderAmount: totalAmount,
         },
       });
     } catch (error) {
@@ -191,7 +193,6 @@ const CheckOutPage = () => {
     }
   };
   // apply coupon
-
   const handleCouponApply = () => {
     const response = fetch(
       `https://apistore.renixlaboratories.com.bd/api/v1/coupon/veryfiCoupon/${coupon}`
@@ -239,14 +240,16 @@ const CheckOutPage = () => {
       const productsData = cartProducts.map((product) => ({
         id: product._id,
         name: product.name,
-        price: product?.variants ? product?.variants?.price : product.discountedPrice,
+        price: product?.variants
+          ? product?.variants?.price
+          : product.discountedPrice,
         quantity: product.quantity,
         strength: product?.variants?.strength,
       }));
-  
+
       const tax = (total * (+shippingInfo?.tax || 0)) / 100;
       const totalAmount = tax + parseFloat(total) + parseFloat(shippingCharge);
-  
+
       // Push data to GTM data layer only if it hasn't been pushed before
       if (!isBeginCheckoutPushedRef.current) {
         window.dataLayer = window.dataLayer || [];
@@ -258,17 +261,17 @@ const CheckOutPage = () => {
               actionField: { step: 1 },
               products: productsData,
             },
-            total: totalAmount.toFixed(2),
-            shipping: shippingCharge.toFixed(2),
             tax: tax.toFixed(2),
+            shipping: shippingCharge.toFixed(2),
+            total: totalAmount.toFixed(2),
           },
         });
-  
+
         // Set the flag to indicate that the checkout process has been initiated
         isBeginCheckoutPushedRef.current = true;
       }
     };
-  
+
     // Call handleBeginCheckout when the component mounts
     handleBeginCheckout();
   }, [cartProducts, total, shippingInfo, shippingCharge]);

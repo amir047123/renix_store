@@ -20,38 +20,46 @@ const ProductCardGrid = ({ product }) => {
   const discountedPrice =
     product?.onePiecePrice - (product?.onePiecePrice * product?.discount) / 100;
 
-  const handleAddToCart = () => {
-    let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const existingProductIndex = existingCartItems?.findIndex(
-      (item) => item._id === product._id
-    );
-
-    if (existingProductIndex !== -1) {
-      existingCartItems[existingProductIndex].quantity += 1;
-    } else {
-      existingCartItems.push({ ...product, quantity: 1, discountedPrice });
-    }
-    setCartProducts([...existingCartItems]);
-    localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
-
-    // Check if the DataLayer event has already been pushed
-    if (
-      !window.dataLayer.some(
-        (event) =>
-          event.event === "add_to_cart" && event.product_id === product._id
-      )
-    ) {
-      // Push data to DataLayer
-      window.dataLayer.push({
-        event: "add_to_cart",
-        product_id: product._id,
-        product_name: product.name,
-        product_price: product.onePiecePrice,
-        product_quantity: 1, // Since it's added to cart
-      });
-    }
-  };
-
+    const handleAddToCart = () => {
+      let existingCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      let existingProduct = existingCartItems.find((item) => item._id === product._id);
+    
+      if (existingProduct) {
+        // If the product already exists in the cart, update its quantity
+        existingProduct.quantity += 1;
+      } else {
+        // If the product is not in the cart, add it with a quantity of 1
+        existingProduct = { ...product, quantity: 1, discountedPrice };
+        existingCartItems.push(existingProduct);
+      }
+    
+      // Update the cart items in local storage
+      localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
+      setCartProducts([...existingCartItems]);
+    
+      // Check if the add_to_cart event has already been pushed
+      const eventAlreadyPushed = window.dataLayer.some(
+        (event) => event.event === "add_to_cart"
+      );
+    
+      // Push the add_to_cart event to the data layer if it hasn't been pushed before
+      if (!eventAlreadyPushed) {
+        window.dataLayer.push({
+          event: "add_to_cart",
+          products: existingCartItems.map((item) => ({
+            product_id: item._id,
+            product_name: item.name,
+            currencyCode: "BDT",
+            product_price: item.onePiecePrice,
+            product_selling_price: item.discountedPrice || item.onePiecePrice,
+            product_quantity: item.quantity,
+          })),
+        });
+      }
+    };
+    
+    
+    
   const cartQuantityNumber = cartProducts?.find(
     (item) => item?._id === product?._id
   );
@@ -145,13 +153,13 @@ const ProductCardGrid = ({ product }) => {
           {product.discount ? (
             <>
               <span className="line-through mr-2">
-                ৳ {product?.onePiecePrice}
+                ৳ {product?.onePiecePrice?.toFixed(2)}
               </span>
-              ৳ {discountedPrice} <br />
-              <span className="text-green-500 ">{product?.discount}% off</span>
+              ৳ {discountedPrice.toFixed(2)} <br />
+              <span className="text-green-500 ">{product?.discount?.toFixed(2)}% off</span>
             </>
           ) : (
-            <span className=" inline-block">৳ {product?.onePiecePrice}</span>
+            <span className=" inline-block">৳ {product?.onePiecePrice?.toFixed(2)}</span>
           )}
         </p>
       </div>
