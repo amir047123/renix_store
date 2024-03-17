@@ -190,7 +190,7 @@ const Footer = () => {
 
         {/* <!-- Subfooter --> */}
         <div className="py-4 text-sm bg-[#252932]">
-          <div className="container px-6 mx-auto">
+          <div className="container px-3 md:px-6 mx-auto">
             <div className=" flex justify-between flex-col gap-y-3 lg:flex-row items-center">
               <nav
                 aria-labelledby="footer-social-links"
@@ -239,8 +239,14 @@ const Footer = () => {
                 </ul>
               </nav>
 
-              <div className="col-span-2 md:col-span-4 lg:col-span-6">
-                © 2024-2025 Renix. All Rights Reserved.
+              <div className="col-span-2 text-xs md:text-base md:col-span-4 lg:col-span-6">
+                © 2024 all rights reserved by{" "}
+                <Link
+                  target="_blank"
+                  to={"https://www.renixlaboratories.com.bd"}
+                >
+                  Renix unani laboratories limited{" "}
+                </Link>
               </div>
 
               <div className="flex items-center gap-4">

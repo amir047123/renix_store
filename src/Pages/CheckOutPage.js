@@ -25,6 +25,8 @@ const CheckOutPage = () => {
   const [selectedDeliveryArea, setSelectedDeliveryArea] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
+  const [isOrder, setIsOrder] = useState(false);
+  console.log(cartProducts, "cartProducts");
   useEffect(() => {
     // Load applied coupons from localStorage
     const storedCoupons = localStorage.getItem("appliedCoupons");
@@ -103,8 +105,8 @@ const CheckOutPage = () => {
           discountPrice: product.discountedPrice,
           orginalPrice: product.onePiecePrice,
           variants: {
-            strength: product?.variants.strength,
-            price: product?.variants.price,
+            strength: product?.variants?.strength,
+            price: product?.variants?.price,
           },
         })),
         // Add other fields
@@ -148,6 +150,12 @@ const CheckOutPage = () => {
 
       const responseData = await response.json();
       console.log(responseData, "147");
+      setIsOrder(true);
+      // Scroll to the top of the page
+      window.scrollTo({
+        top: 300,
+        behavior: "smooth", // Optional: Adds smooth scrolling behavior
+      });
       toast.success("  Order place successfully ");
       setCartProducts([]);
       localStorage.removeItem("appliedCoupons");
@@ -227,8 +235,12 @@ const CheckOutPage = () => {
     const productsData = cartProducts.map((product) => ({
       id: product._id,
       name: product.name,
-      price: product.discountedPrice,
+      price: product?.variants
+        ? product?.variants?.price
+        : product.discountedPrice,
       quantity: product.quantity,
+
+      strength: product?.variants?.strength,
     }));
 
     // Calculate total amount including tax and shipping charge
@@ -259,7 +271,7 @@ const CheckOutPage = () => {
         metaDescription={seoMetaData?.metaDescription}
       />
       <PageHeader title="CheckOut" />
-      {cartProducts.length === 0 ? (
+      {cartProducts.length === 0 && isOrder ? (
         <div className="bg-white p-8 shadow-custom container lg:mt-10">
           <div>
             <>
@@ -611,7 +623,10 @@ const CheckOutPage = () => {
 
                   {/* button order */}
                   <div>
-                    <button className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-8">
+                    <button
+                      type="submit"
+                      className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-8"
+                    >
                       অর্ডার করুন
                     </button>
                   </div>
