@@ -32,7 +32,7 @@ const Shop = () => {
   const [product, setProduct] = useState([]);
   const [filterByPrice, setFilterByPrice] = useState([]);
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(6);
+  const [size, setSize] = useState(9);
   const [quantity, setQuantity] = useState(0);
   // get specific data
   useEffect(() => {
@@ -241,7 +241,7 @@ const Shop = () => {
                   TOP RATED PRODUCTS
                 </h2>
                 <div className="px-3 lg:px-6 mt-4">
-                  {data?.slice(0, 10).map((product, index) => (
+                  {data?.slice(0, 7).map((product, index) => (
                     <TopRelatedProducts key={index} product={product} />
                   ))}
                 </div>

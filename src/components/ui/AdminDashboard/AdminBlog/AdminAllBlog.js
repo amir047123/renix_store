@@ -18,7 +18,7 @@ const AdminAllBlog = () => {
     return (
         <div className="px-4 py-4 -mx-4 overflow-x-scroll sm:-mx-8 sm:px-8 ">
             <div className='w-fit mb-5'>
-                <h1 className='text-lg font-semibold'> Home Content</h1>
+                <h2 className='text-lg font-semibold'> Home Content</h2>
                 <div className='h-1 w-[50%] bg-primary'></div>
             </div>
             <div className="inline-block min-w-full rounded-lg shadow">

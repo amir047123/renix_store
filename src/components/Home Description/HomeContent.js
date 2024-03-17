@@ -33,7 +33,7 @@ const HomeContent = () => {
         <div className=" pb-5 pt-8">
           {contents.map((content, index) => (
             <div key={index}>
-              <h2 className="text-2xl font-bold">{content.title}</h2>
+              <h1 className="text-2xl font-bold">{content.title}</h1>
               <p
                 className="text-justify py-2"
                 dangerouslySetInnerHTML={{ __html: content?.description }}
