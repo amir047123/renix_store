@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageHeader from "../components/ui/PageHeader";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -232,11 +232,10 @@ const CheckOutPage = () => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
 
+  const isBeginCheckoutPushedRef = useRef(false);
 
-  
   useEffect(() => {
-    // Consolidated logic for pushing data to GTM data layer
-    if (!isBeginCheckoutPushed && cartProducts.length > 0) {
+    const handleBeginCheckout = () => {
       const productsData = cartProducts.map((product) => ({
         id: product._id,
         name: product.name,
@@ -244,30 +243,35 @@ const CheckOutPage = () => {
         quantity: product.quantity,
         strength: product?.variants?.strength,
       }));
-
+  
       const tax = (total * (+shippingInfo?.tax || 0)) / 100;
       const totalAmount = tax + parseFloat(total) + parseFloat(shippingCharge);
-
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "begin_checkout",
-        ecommerce: {
-          currencyCode: "BDT",
-          checkout: {
-            actionField: { step: 1 },
-            products: productsData,
-          },
-          total: totalAmount.toFixed(2),
-          shipping: shippingCharge.toFixed(2),
-          tax: tax.toFixed(2),
-        },
-      });
-
-      setIsBeginCheckoutPushed(true);
-    }
-  }, [cartProducts, total, shippingInfo, shippingCharge, isBeginCheckoutPushed]);
-
   
+      // Push data to GTM data layer only if it hasn't been pushed before
+      if (!isBeginCheckoutPushedRef.current) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "begin_checkout",
+          ecommerce: {
+            currencyCode: "BDT",
+            checkout: {
+              actionField: { step: 1 },
+              products: productsData,
+            },
+            total: totalAmount.toFixed(2),
+            shipping: shippingCharge.toFixed(2),
+            tax: tax.toFixed(2),
+          },
+        });
+  
+        // Set the flag to indicate that the checkout process has been initiated
+        isBeginCheckoutPushedRef.current = true;
+      }
+    };
+  
+    // Call handleBeginCheckout when the component mounts
+    handleBeginCheckout();
+  }, [cartProducts, total, shippingInfo, shippingCharge]);
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <DynamicTitle
