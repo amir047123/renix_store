@@ -34,14 +34,22 @@ const ProductCardGrid = ({ product }) => {
     setCartProducts([...existingCartItems]);
     localStorage.setItem("cartItems", JSON.stringify(existingCartItems));
 
-    // Push data to DataLayer
-    window.dataLayer.push({
-      event: "add_to_cart",
-      product_id: product?._id,
-      product_name: product?.name,
-      product_price: product?.onePiecePrice,
-      product_quantity: 1, // Since it's added to cart
-    });
+    // Check if the DataLayer event has already been pushed
+    if (
+      !window.dataLayer.some(
+        (event) =>
+          event.event === "add_to_cart" && event.product_id === product._id
+      )
+    ) {
+      // Push data to DataLayer
+      window.dataLayer.push({
+        event: "add_to_cart",
+        product_id: product._id,
+        product_name: product.name,
+        product_price: product.onePiecePrice,
+        product_quantity: 1, // Since it's added to cart
+      });
+    }
   };
 
   const cartQuantityNumber = cartProducts?.find(

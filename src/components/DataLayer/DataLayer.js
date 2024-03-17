@@ -6,7 +6,7 @@ const DataLayer = ({ data }) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(data);
   }, [data]);
-
+  
   return null;
 };
 
