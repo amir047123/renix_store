@@ -191,7 +191,7 @@ const AdminOrderView = () => {
         </table>
         <tr>
               <td className="h-16  text-sm transition duration-300 border-slate-200 stroke-slate-500 text-slate-500">
-                Grand Total with shippingCharge: ৳ {grandTotal.toFixed(2)} BDT
+                Grand Total with shippingCharge: ৳ {data?.totalAmount?.toFixed(2)} BDT
               </td>
             </tr>
       </div>
