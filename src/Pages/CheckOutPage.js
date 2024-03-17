@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageHeader from "../components/ui/PageHeader";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -25,6 +25,10 @@ const CheckOutPage = () => {
   const [selectedDeliveryArea, setSelectedDeliveryArea] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
+  const [isOrder, setIsOrder] = useState(false);
+  const [isBeginCheckoutPushed, setIsBeginCheckoutPushed] = useState(false);
+  const [previousCart, setPreviousCart] = useState([]);
+  console.log(cartProducts, "cartProducts");
   useEffect(() => {
     // Load applied coupons from localStorage
     const storedCoupons = localStorage.getItem("appliedCoupons");
@@ -103,8 +107,8 @@ const CheckOutPage = () => {
           discountPrice: product.discountedPrice,
           orginalPrice: product.onePiecePrice,
           variants: {
-            strength: product?.variants.strength,
-            price: product?.variants.price,
+            strength: product?.variants?.strength,
+            price: product?.variants?.price,
           },
         })),
         // Add other fields
@@ -148,6 +152,12 @@ const CheckOutPage = () => {
 
       const responseData = await response.json();
       console.log(responseData, "147");
+      setIsOrder(true);
+      // Scroll to the top of the page
+      window.scrollTo({
+        top: 300,
+        behavior: "smooth", // Optional: Adds smooth scrolling behavior
+      });
       toast.success("  Order place successfully ");
       setCartProducts([]);
       localStorage.removeItem("appliedCoupons");
@@ -222,35 +232,46 @@ const CheckOutPage = () => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
 
+  const isBeginCheckoutPushedRef = useRef(false);
+
   useEffect(() => {
-    // Extract necessary data for products from cartProducts
-    const productsData = cartProducts.map((product) => ({
-      id: product._id,
-      name: product.name,
-      price: product.discountedPrice,
-      quantity: product.quantity,
-    }));
-
-    // Calculate total amount including tax and shipping charge
-    const tax = (total * (+shippingInfo?.tax || 0)) / 100;
-    const totalAmount = tax + parseFloat(total) + parseFloat(shippingCharge);
-
-    // Push data to GTM Data Layer
-    window.dataLayer.push({
-      event: "begin_checkout",
-      ecommerce: {
-        currencyCode: "BDT", // Add currency code if needed
-        checkout: {
-          actionField: { step: 1 },
-          products: productsData,
-        },
-        total: totalAmount.toFixed(2), // Total amount including tax and shipping charge
-        shipping: shippingCharge.toFixed(2), // Shipping charge
-        tax: tax.toFixed(2), // Tax
-      },
-    });
-  }, [cartProducts, total, shippingInfo, shippingCharge]); // Dependency array includes relevant state variables
-
+    const handleBeginCheckout = () => {
+      const productsData = cartProducts.map((product) => ({
+        id: product._id,
+        name: product.name,
+        price: product?.variants ? product?.variants?.price : product.discountedPrice,
+        quantity: product.quantity,
+        strength: product?.variants?.strength,
+      }));
+  
+      const tax = (total * (+shippingInfo?.tax || 0)) / 100;
+      const totalAmount = tax + parseFloat(total) + parseFloat(shippingCharge);
+  
+      // Push data to GTM data layer only if it hasn't been pushed before
+      if (!isBeginCheckoutPushedRef.current) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "begin_checkout",
+          ecommerce: {
+            currencyCode: "BDT",
+            checkout: {
+              actionField: { step: 1 },
+              products: productsData,
+            },
+            total: totalAmount.toFixed(2),
+            shipping: shippingCharge.toFixed(2),
+            tax: tax.toFixed(2),
+          },
+        });
+  
+        // Set the flag to indicate that the checkout process has been initiated
+        isBeginCheckoutPushedRef.current = true;
+      }
+    };
+  
+    // Call handleBeginCheckout when the component mounts
+    handleBeginCheckout();
+  }, [cartProducts, total, shippingInfo, shippingCharge]);
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <DynamicTitle
@@ -259,7 +280,7 @@ const CheckOutPage = () => {
         metaDescription={seoMetaData?.metaDescription}
       />
       <PageHeader title="CheckOut" />
-      {cartProducts.length === 0 ? (
+      {cartProducts.length === 0 && isOrder ? (
         <div className="bg-white p-8 shadow-custom container lg:mt-10">
           <div>
             <>
@@ -611,7 +632,10 @@ const CheckOutPage = () => {
 
                   {/* button order */}
                   <div>
-                    <button className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-8">
+                    <button
+                      type="submit"
+                      className="hover:bg-secondary bg-primary transition-all duration-300 text-white  px-4 py-3 rounded-full uppercase font-rubic font-medium text-sm mt-8"
+                    >
                       অর্ডার করুন
                     </button>
                   </div>
