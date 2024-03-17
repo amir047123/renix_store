@@ -1,7 +1,7 @@
 import { FaBars, FaSearch } from "react-icons/fa";
 import { IoIosBasket, IoMdClose } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
-import DynamicTitle from "../components/shared/DynamicTitle";
+import DynamicTitle from "../components/Shared/DynamicTitle";
 import useGetSeo from "../Hooks/useGetSeo";
 import { IoSearchOutline } from "react-icons/io5";
 

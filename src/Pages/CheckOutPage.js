@@ -8,7 +8,7 @@ import AuthUser from "../Hooks/authUser";
 import UsegetUserById from "../Hooks/usegetUserById";
 import axios from "axios";
 import useGetSeo from "../Hooks/useGetSeo";
-import DynamicTitle from "../components/shared/DynamicTitle";
+import DynamicTitle from "../components/Shared/DynamicTitle";
 import { IoBagCheck } from "react-icons/io5";
 const CheckOutPage = () => {
   const seoMetaData = useGetSeo("checkOut_page");
@@ -28,6 +28,7 @@ const CheckOutPage = () => {
   const [isOrder, setIsOrder] = useState(false);
   const [isBeginCheckoutPushed, setIsBeginCheckoutPushed] = useState(false);
   const [previousCart, setPreviousCart] = useState([]);
+  const [isDataPushed, setIsDataPushed] = useState(false);
   console.log(cartProducts, "cartProducts");
   useEffect(() => {
     // Load applied coupons from localStorage
@@ -232,15 +233,57 @@ const CheckOutPage = () => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
 
+  // useEffect(() => {
+  //   // Consolidated logic for pushing data to GTM data layer
 
-  
+  //   if (!isBeginCheckoutPushed && cartProducts.length > 0) {
+  //     const productsData = cartProducts.map((product) => ({
+  //       id: product._id,
+  //       name: product.name,
+  //       price: product?.variants
+  //         ? product?.variants?.price
+  //         : product.discountedPrice,
+  //       quantity: product.quantity,
+  //       strength: product?.variants?.strength,
+  //     }));
+
+  //     const tax = (total * (+shippingInfo?.tax || 0)) / 100;
+  //     const totalAmount = tax + parseFloat(total) + parseFloat(shippingCharge);
+
+  //     window.dataLayer = window.dataLayer || [];
+  //     window.dataLayer.push({
+  //       event: "begin_checkout",
+  //       ecommerce: {
+  //         currencyCode: "BDT",
+  //         checkout: {
+  //           actionField: { step: 1 },
+  //           products: productsData,
+  //         },
+  //         total: totalAmount.toFixed(2),
+  //         shipping: shippingCharge.toFixed(2),
+  //         tax: tax.toFixed(2),
+  //       },
+  //     });
+
+  //     setIsBeginCheckoutPushed(true);
+  //   }
+  // }, [
+  //   cartProducts,
+  //   total,
+  //   shippingInfo,
+  //   shippingCharge,
+  //   isBeginCheckoutPushed,
+  // ]);
   useEffect(() => {
+    console.log("useEffect called");
     // Consolidated logic for pushing data to GTM data layer
-    if (!isBeginCheckoutPushed && cartProducts.length > 0) {
+    if (!isDataPushed && cartProducts.length > 0) {
       const productsData = cartProducts.map((product) => ({
         id: product._id,
         name: product.name,
-        price: product?.variants ? product?.variants?.price : product.discountedPrice,
+        price: product?.variants
+          ? product?.variants?.price
+          : product.discountedPrice,
         quantity: product.quantity,
         strength: product?.variants?.strength,
       }));
@@ -263,11 +306,10 @@ const CheckOutPage = () => {
         },
       });
 
-      setIsBeginCheckoutPushed(true);
+      setIsDataPushed(true);
     }
-  }, [cartProducts, total, shippingInfo, shippingCharge, isBeginCheckoutPushed]);
+  }, [cartProducts, total, shippingInfo, shippingCharge, isDataPushed]);
 
-  
   return (
     <div className="bg-[#f5f5f5] overflow-hidden">
       <DynamicTitle

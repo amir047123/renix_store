@@ -20,7 +20,7 @@ import { useParams, Link, useLocation } from "react-router-dom";
 import useGetCartsProduct from "../../../Hooks/useGetCartsProduct";
 import RelatedProductCard from "../../shop/RelatedProductCard";
 import Loading from "../../../Shared/Loading";
-import DynamicTitle from "../../shared/DynamicTitle";
+import DynamicTitle from "../../Shared/DynamicTitle";
 import ProductFAQ from "./ProductFAQ";
 import axios from "axios";
 import { toast } from "react-toastify";

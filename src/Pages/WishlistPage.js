@@ -4,7 +4,7 @@ import { FaFacebook, FaTwitch } from "react-icons/fa";
 import PageHeader from "../components/ui/PageHeader";
 import useGetCartsProduct from "../Hooks/useGetCartsProduct";
 import useGetSeo from "../Hooks/useGetSeo";
-import DynamicTitle from "../components/shared/DynamicTitle";
+import DynamicTitle from "../components/Shared/DynamicTitle";
 
 const WishlistPage = () => {
   const seoMetaData = useGetSeo("wishlist_page");

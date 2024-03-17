@@ -4,7 +4,7 @@ import AuthUser from "../Hooks/authUser";
 import { toast } from "react-toastify";
 import UsegetUserById from "../Hooks/usegetUserById";
 import useGetSeo from "../Hooks/useGetSeo";
-import DynamicTitle from "../components/shared/DynamicTitle";
+import DynamicTitle from "../components/Shared/DynamicTitle";
 
 const MyAccount = () => {
   const seoMetaData = useGetSeo("my_account");

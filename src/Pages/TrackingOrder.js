@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DynamicTitle from "../components/shared/DynamicTitle";
+import DynamicTitle from "../components/Shared/DynamicTitle";
 import useGetSeo from "../Hooks/useGetSeo";
 import Loading from "../Shared/Loading";
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Rating from "react-rating";
 import { IoIosStar } from "react-icons/io";
 import { FaRegStar } from "react-icons/fa6";
-import DynamicTitle from "../components/shared/DynamicTitle";
+import DynamicTitle from "../components/Shared/DynamicTitle";
 import useGetSeo from "../Hooks/useGetSeo";
 import SharedLoading from "../Shared/SharedLoading";
 

@@ -13,9 +13,9 @@ import { toast } from "react-toastify";
 import PageHeader from "../ui/PageHeader";
 import "./priceRange.css";
 import PartnersCarousel from "../PartnersCarousel/PartnersCarousel";
-import Pagination from "../shared/Pagination";
+import Pagination from "../Shared/Pagination";
 import useGetSeo from "../../Hooks/useGetSeo";
-import DynamicTitle from "../shared/DynamicTitle";
+import DynamicTitle from "../Shared/DynamicTitle";
 import HomeContent from "../Home Description/HomeContent";
 import Loading from "../../Shared/Loading";
 const Shop = () => {
