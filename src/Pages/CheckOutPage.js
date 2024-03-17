@@ -232,6 +232,8 @@ const CheckOutPage = () => {
     window.scrollTo(0, 0); // Scroll to top when component mounts
   }, []);
 
+
+  
   useEffect(() => {
     // Consolidated logic for pushing data to GTM data layer
     if (!isBeginCheckoutPushed && cartProducts.length > 0) {
