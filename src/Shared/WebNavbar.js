@@ -426,7 +426,7 @@ const WebNavbar = () => {
               </button>
               {/* Cart dropdown */}
               <div
-                className={`absolute top-full right-0 bg-white w-[370px] border-t-[3px] border-solid border-primary px-5 py-4 duration-200 transform ${
+                className={`absolute top-full  -right-3 bg-white w-[336px] border-t-[3px] border-solid border-primary px-5 py-4 duration-200 transform ${
                   openCartMenu ? "scale-100 visible" : "scale-0 invisible"
                 }rotate-0 shadow-custom `}
               >
@@ -524,6 +524,7 @@ const WebNavbar = () => {
             <ul className="flex flex-col items-start  gap-7">
               {mobileMenuItems.map((item, i) => (
                 <li
+                  onClick={() => setIsOpen(false)}
                   key={i}
                   className="font-rubic  font-medium uppercase text-sm w-full pr-10"
                 >

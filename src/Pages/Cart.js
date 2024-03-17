@@ -79,7 +79,7 @@ const Cart = ({
           <IoIosBasket size={24} />
         </Link>
         {/* Cart dropdown */}
-        <div className="absolute top-full right-0 bg-white w-[370px] border-t-[3px] border-solid border-primary px-5 py-4 opacity-0 invisible group-hover:visible group-hover:opacity-100 duration-200 transform scale-0 group-hover:scale-100 rotate-0 shadow-custom">
+        <div className="absolute top-full right-0 bg-white w-full md:w-[370px] border-t-[3px] border-solid border-primary px-5 py-4 opacity-0 invisible group-hover:visible group-hover:opacity-100 duration-200 transform scale-0 group-hover:scale-100 rotate-0 shadow-custom">
           {cartProducts.length ? (
             <div>
               <div className="flex justify-between border-b border-solid px-5 border-borderColor pb-3">
