@@ -20,7 +20,9 @@ import HomeContent from "../Home Description/HomeContent";
 import Loading from "../../Shared/Loading";
 import useLoadProducts from "../../Hooks/useLoadProducts";
 const Shop = () => {
-  const { data, quantity, error } = useLoadProducts();
+  const [page, setPage] = useState(0); // Initialize page state here
+  const [size, setSize] = useState(9);
+  const { data, quantity, error } = useLoadProducts(page,size);
 
   const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);
@@ -33,8 +35,7 @@ const Shop = () => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [filterByPrice, setFilterByPrice] = useState([]);
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(9);
+
   // get specific data
 
 

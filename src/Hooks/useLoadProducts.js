@@ -37,11 +37,12 @@ const useLoadProducts = (page, size) => {
 
     fetchData();
 
-    // Cleanup function to cancel the request (if needed)
-    return () => {
-      // cleanup logic here
-    };
-  }, [page, size]);
+    // Setup interval to fetch data every 5 seconds
+    const intervalId = setInterval(fetchData, 5000);
+
+    // Cleanup function to clear interval
+    return () => clearInterval(intervalId);
+  }, [page, size, data]); // Include data in the dependency array to trigger the effect on data change
 
   // Utility function to check if two arrays are equal
   const arraysAreEqual = (array1, array2) => {
