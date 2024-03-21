@@ -20,9 +20,8 @@ const useLoadProducts = (page, size) => {
         );
         const newData = response.data.data;
 
-        // Check if the fetched data is different from the existing data
+        // Update the local storage if the fetched data is different
         if (!arraysAreEqual(data, newData)) {
-          // If different, update the local storage and state
           setData(newData);
           localStorage.setItem("productsData", JSON.stringify(newData));
         }
@@ -37,12 +36,11 @@ const useLoadProducts = (page, size) => {
 
     fetchData();
 
-    // Setup interval to fetch data every 5 seconds
-    const intervalId = setInterval(fetchData, 5000);
-
-    // Cleanup function to clear interval
-    return () => clearInterval(intervalId);
-  }, [page, size, data]); // Include data in the dependency array to trigger the effect on data change
+    // Cleanup function to cancel the request (if needed)
+    return () => {
+      // cleanup logic here
+    };
+  }, [page, size]);
 
   // Utility function to check if two arrays are equal
   const arraysAreEqual = (array1, array2) => {

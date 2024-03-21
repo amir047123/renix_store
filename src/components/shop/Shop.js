@@ -20,7 +20,7 @@ import HomeContent from "../Home Description/HomeContent";
 import Loading from "../../Shared/Loading";
 import useLoadProducts from "../../Hooks/useLoadProducts";
 const Shop = () => {
-  const [page, setPage] = useState(0); // Initialize page state here
+  const [page, setPage] = useState(0);
   const [size, setSize] = useState(9);
   const { data, quantity, error } = useLoadProducts(page,size);
 
