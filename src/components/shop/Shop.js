@@ -20,7 +20,7 @@ import HomeContent from "../Home Description/HomeContent";
 import Loading from "../../Shared/Loading";
 import useLoadProducts from "../../Hooks/useLoadProducts";
 const Shop = () => {
-  const { data, quantity, error } = useLoadProducts(0, 9);
+  const { data, quantity, error } = useLoadProducts();
 
   const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);
