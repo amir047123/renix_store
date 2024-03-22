@@ -42,7 +42,7 @@ const Shop = () => {
   useEffect(() => {
     async function fetchCategorys() {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/category/getCategorys");
+        const response = await axios.get("https://apistore.renixlaboratories.com.bd/api/v1/category/getCategorys");
         setCategorys(response?.data?.data);
         setLoading(false);
       } catch (err) {
@@ -57,7 +57,7 @@ const Shop = () => {
   useEffect(() => {
     async function fetchCategoryById() {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/v1/category/specific?fieldName=name&fieldValue=${id}`);
+        const { data } = await axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/category/specific?fieldName=name&fieldValue=${id}`);
         setCategorysBYId(data?.data[0]);
         setLoading(false);
       } catch (err) {
@@ -68,7 +68,7 @@ const Shop = () => {
   }, [id]);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/v1/category/specific/?fieldName=${encodeURIComponent("name")}&fieldValue=${id}`)
+    axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/category/specific/?fieldName=${encodeURIComponent("name")}&fieldValue=${id}`)
       .then((response) => {
         if (response.data.data.length > 0) {
           setCategory(response.data.data[0]);
@@ -83,7 +83,7 @@ const Shop = () => {
 
   useEffect(() => {
     try {
-      axios.get(`http://localhost:5000/api/v1/product/specific/?fieldName=${encodeURIComponent("category")}&fieldValue=${id}&page=${page}&size=${size}`)
+      axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/product/specific/?fieldName=${encodeURIComponent("category")}&fieldValue=${id}&page=${page}&size=${size}`)
         .then((response) => {
           setProduct(response.data.data);
         })
@@ -117,7 +117,7 @@ const Shop = () => {
 
   const handleFilterPrice = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/product/filterProducts`, {
+      const response = await axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/product/filterProducts`, {
         params: {
           minPrice: minPrice,
           maxPrice: maxPrice

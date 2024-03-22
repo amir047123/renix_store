@@ -17,7 +17,7 @@ const useLoadProducts = (page, size) => {
         // Fetch data from the server only if no cached data exists or if page or size changes
         if (cachedData.length === 0 || cachedData.page !== page || cachedData.size !== size) {
           const response = await axios.get(
-            `http://localhost:5000/api/v1/product/specific?page=${page}&size=${size}`
+            `https://apistore.renixlaboratories.com.bd/api/v1/product/specific?page=${page}&size=${size}`
           );
           const newData = response.data.data;
           setData(newData);
