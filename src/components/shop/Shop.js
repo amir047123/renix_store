@@ -22,7 +22,7 @@ import useLoadProducts from "../../Hooks/useLoadProducts";
 const Shop = () => {
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(9);
-  const { data, quantity, error } = useLoadProducts(page,size);
+  const { data, quantity, error, } = useLoadProducts(page,size);
 
   const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);

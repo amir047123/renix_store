@@ -11,24 +11,24 @@ const useLoadProducts = (page, size) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Fetch cached data from local storage
-        const cachedData = JSON.parse(localStorage.getItem("productsData")) || [];
-
-        // Fetch data from the server only if no cached data exists or if page or size changes
-        if (cachedData.length === 0 || cachedData.page !== page || cachedData.size !== size) {
-          const response = await axios.get(
-            `https://apistore.renixlaboratories.com.bd/api/v1/product/specific?page=${page}&size=${size}`
-          );
-          const newData = response.data.data;
-          setData(newData);
-          localStorage.setItem("productsData", JSON.stringify({ data: newData, page, size }));
-          setQuantity(response.data.total);
-        } else {
-          // Use cached data if it's available and up-to-date
-          setData(cachedData.data);
-          setQuantity(cachedData.quantity);
+        const storedData = localStorage.getItem("productsData");
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          if (parsedData.page === page && parsedData.size === size) {
+            setData(parsedData.data);
+            setQuantity(parsedData.quantity);
+            setLoading(false);
+            return;
+          }
         }
-
+        
+        const response = await axios.get(
+          `https://apistore.renixlaboratories.com.bd/api/v1/product/specific?page=${page}&size=${size}`
+        );
+        const newData = response.data.data;
+        setData(newData);
+        localStorage.setItem("productsData", JSON.stringify({ data: newData, page, size, quantity: response.data.total }));
+        setQuantity(response.data.total);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -38,10 +38,16 @@ const useLoadProducts = (page, size) => {
 
     fetchData();
 
-    // Cleanup function to cancel the request (if needed)
+    const intervalId = setInterval(fetchData, 5000);
+
     return () => {
-      // cleanup logic here
+      clearInterval(intervalId);
     };
+  }, [page, size]);
+
+  useEffect(() => {
+    // Clear local storage when page or size changes
+    localStorage.removeItem("productsData");
   }, [page, size]);
 
   return { data, quantity, loading, error };
