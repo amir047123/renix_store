@@ -18,12 +18,16 @@ import useGetSeo from "../../Hooks/useGetSeo";
 import DynamicTitle from "../shared/DynamicTitle";
 import HomeContent from "../Home Description/HomeContent";
 import Loading from "../../Shared/Loading";
+import useLoadProducts from "../../Hooks/useLoadProducts";
 const Shop = () => {
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(9);
+  const { data, quantity, error } = useLoadProducts(page,size);
+
   const seoMetaData = useGetSeo("shop_page");
   const [minPrice, setMinPrice] = useState(50);
   const [maxPrice, setMaxPrice] = useState(250);
   const [isGrid, setIsGrid] = useState(true);
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categorys, setCategorys] = useState([]);
   const [categorysById, setCategorysBYId] = useState({});
@@ -31,23 +35,9 @@ const Shop = () => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [filterByPrice, setFilterByPrice] = useState([]);
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(9);
-  const [quantity, setQuantity] = useState(0);
+
   // get specific data
-  useEffect(() => {
-    setLoading(true);
-    axios.get(`https://apistore.renixlaboratories.com.bd/api/v1/product/specific?page=${page}&size=${size}`)
-      .then((response) => {
-        setData(response.data.data);
-        setQuantity(response.data.total);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      });
-  }, [page, size]);
+
 
   useEffect(() => {
     async function fetchCategorys() {
