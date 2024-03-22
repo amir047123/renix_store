@@ -15,7 +15,10 @@ const BannerSlider = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('https://apistore.renixlaboratories.com.bd/api/v1/slider/getSliders');
-      setImages(response.data.data);
+      const newData = response.data.data;
+      setImages(newData);
+      // Update local storage with new data
+      localStorage.setItem('sliderImages', JSON.stringify(newData));
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -23,15 +26,27 @@ const BannerSlider = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
-    fetchData();
+    // Check if data exists in local storage
+    const storedData = localStorage.getItem('sliderImages');
+    if (storedData) {
+      setImages(JSON.parse(storedData));
+      setLoading(false);
+    } else {
+      fetchData();
+    }
+
+    // Periodically check for updates every 5 seconds
+    const interval = setInterval(fetchData, 5000);
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
   return (
     <div className="pt-[140px] md:pt-[200px] xl:pt-[112px]">
       {loading ? (
-        <Loading/>
+        <Loading />
       ) : (
         <Swiper
           spaceBetween={30}
