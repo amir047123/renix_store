@@ -6,7 +6,6 @@ import Rating from "react-rating";
 import useGetCartsProduct from "../../Hooks/useGetCartsProduct";
 import AuthUser from "../../Hooks/authUser";
 import { toast } from "react-toastify";
-import LazyLoad from "react-lazyload";
 
 const ProductCardGrid = ({ product }) => {
   const { userInfo } = AuthUser();
@@ -104,14 +103,14 @@ const ProductCardGrid = ({ product }) => {
         <div className="relative overflow-hidden">
           <div>
             <Link to={`/product/${product?.slug}`}>
-            <LazyLoad height={200} once>
+           
               <img
                 className="mx-auto max-h-96 h-full  group-hover:scale-125 transition-all duration-200"
                 src={product?.img}
                 alt=""
               
               />
-              </LazyLoad>
+             
 
             </Link>
           </div>
